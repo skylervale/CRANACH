@@ -3,7 +3,7 @@
 ## Project setup
 Run 
 ```
-docker-composer up -d --bulid 
+docker-compose up -d --bulid 
 ```
 the client is running on http://localhost:3000/ 
 
