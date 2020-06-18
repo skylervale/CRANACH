@@ -5,7 +5,8 @@ WORKDIR /server
 # copy package.json into the container at /server
 COPY package*.json /server/
 # install dependencies
-RUN npm install
+RUN    npm install \
+    && npm install --save-dev nodemon
 # Copy the current directory contents into the container at /server
 COPY ./ /server/
 
