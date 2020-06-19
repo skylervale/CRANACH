@@ -13,7 +13,7 @@ let graphicSchema = new mongoose.Schema({
         },
         role: {
             type: String,
-            enum: [JSON.stringify(["Inventor", "Drucker"]), JSON.stringify(["Inventor", "Drucker", "Künstler", "Formschneider"])]
+            enum: ['Inventor', 'Drucker', 'Künstler', 'Formschneider', ''],
         },
         name: {
             type: String,
@@ -26,7 +26,7 @@ let graphicSchema = new mongoose.Schema({
         suffix: String,
         nameType: {
             type: String,
-            enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
+            enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name', ""]
         },
         alternativeName: {
             type: String,
@@ -45,7 +45,7 @@ let graphicSchema = new mongoose.Schema({
     }],
     involvedPersonsNames: [{
         constituentId: String,
-        details: [String],
+        details: Array,
         name: String,
         nameType: {
             type: String,
@@ -97,7 +97,7 @@ let graphicSchema = new mongoose.Schema({
         historicEventInformations: [{
             eventType: {
                 type: String,
-                enum: ['Datierung', 'Dating']
+                enum: ['Datierung', 'Dating', 'Auflage']
             },
             text: String,
             begin: {
@@ -174,7 +174,7 @@ let graphicSchema = new mongoose.Schema({
     additionalTextInformation: [{
         type: {
             type: String,
-            enum: ['Beschreibung', 'Interpretation', 'Kommentare', 'not assigned']
+            enum: ['Beschreibung', 'Interpretation', 'Kommentare', 'Beschreibung/ Interpretation/ Kommentare', '(not assigned)']
         },
         text: String,
         date: {
@@ -247,52 +247,54 @@ let graphicSchema = new mongoose.Schema({
         }
     },
     images: {
-        info: {
-            maxDimensions: {
-                width: Number,
-                height: Number
-            }
+        type: {
+            info: {
+                maxDimensions: {
+                    width: Number,
+                    height: Number
+                }
+            },
+            sizes: {
+                xs: {
+                    dimensions: {
+                        width: Number,
+                        height: Number
+                    },
+                    src: String
+                },
+                s: {
+                    dimensions: {
+                        width: Number,
+                        height: Number
+                    },
+                    src: String
+                },
+                m: {
+                    dimensions: {
+                        width: Number,
+                        height: Number
+                    },
+                    src: String
+                },
+                l: {
+                    dimensions: {
+                        width: Number,
+                        height: Number
+                    },
+                    src: String
+                },
+                xl: {
+                    dimensions: {
+                        width: Number,
+                        height: Number
+                    },
+                    src: String
+                },
+            },
         },
-        sizes: {
-            xs: {
-                dimensions: {
-                    width: Number,
-                    height: Number
-                },
-                src: String
-            },
-            s: {
-                dimensions: {
-                    width: Number,
-                    height: Number
-                },
-                src: String
-            },
-            m: {
-                dimensions: {
-                    width: Number,
-                    height: Number
-                },
-                src: String
-            },
-            l: {
-                dimensions: {
-                    width: Number,
-                    height: Number
-                },
-                src: String
-            },
-            xl: {
-                dimensions: {
-                    width: Number,
-                    height: Number
-                },
-                src: String
-            },
-        }
+        required: false,
+        default: null,
     }
-
-
 })
 
 module.exports = mongoose.model('Graphic', graphicSchema)
