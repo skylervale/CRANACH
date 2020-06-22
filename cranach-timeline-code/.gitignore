@@ -9,7 +9,10 @@ node_modules/
 /coverage
 
 # production
-/build
+/cleint/build/
+/cleint/build/static/js
+
+
 
 # misc
 .DS_Store

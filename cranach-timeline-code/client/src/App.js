@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+
+//Custom Components
+import {Timeline} from './components/timeline/timeline.component';
+import {Copyright} from './components/copyright/copyright.component';
 
 
 /*import HorizontalTimeline from 'react-horizontal-timeline';
@@ -34,18 +38,6 @@ function Timeline(){
   )
 }*/
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Lucas Cranach Digital Archive
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -98,7 +90,7 @@ export default function Main() {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="lg">
-
+            <Timeline/>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
