@@ -1,43 +1,19 @@
-import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
+import React from 'react';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 
 //Custom Components
 import {Timeline} from './components/timeline/timeline.component';
 import {Copyright} from './components/copyright/copyright.component';
-
-
-/*import HorizontalTimeline from 'react-horizontal-timeline';
-import { useState } from 'react';
-
-const [value, setValue] = useState(0);
-const [previous, setPrevious] = useState(0);
-function Timeline(){
-  const VALUES = ['04/20/1991'];
-  return(
-    <div>
-        <HorizontalTimeline values={VALUES} 
-            indexClick={(index) => {
-                setValue(index);
-            }} 
-        />
-        <div> {this.state.value} </div>
-    </div>
-  )
-}*/
-
+import {HeaderBar} from './components/appbar/appbar.component';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -78,14 +54,7 @@ export default function Main() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <CameraIcon className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Album layout
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <HeaderBar name={classes} />
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
