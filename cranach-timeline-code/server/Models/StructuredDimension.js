@@ -15,4 +15,4 @@ const structuredDimensionSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('structuredDimension', structuredDimensionSchema)
+module.exports = mongoose.model('StructuredDimension', structuredDimensionSchema)

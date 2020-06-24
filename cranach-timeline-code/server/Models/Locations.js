@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const locationsSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['Standort Cranach Objekt', 'Location Cranach Object']
     },
     term: String,
     path: {
@@ -12,4 +11,4 @@ const locationsSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('locations', locationsSchema)
+module.exports = mongoose.model('Locations', locationsSchema)

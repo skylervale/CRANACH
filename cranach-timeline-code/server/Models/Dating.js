@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-const historicEventInformations = require('./SubCollections/historicEventInformations')
 
 const datingSchema = new mongoose.Schema({
     dated: {
@@ -40,4 +39,4 @@ const datingSchema = new mongoose.Schema({
     }]
 })
 
-module.exports = mongoose.model('dating', datingSchema)
+module.exports = mongoose.model('Dating', datingSchema)

@@ -1,17 +1,16 @@
 let mongoose = require('mongoose')
-let involvedPersons = require('./Collections/involvedPersons')
-let involvedPersonsNames = require('./Collections/involvedPersonsNames')
-let titles = require('./Collections/titles')
-let classification = require('./Collections/classification')
-let dating = require('./Collections/dating')
-let reprints = require('./Collections/SubCollections/reprints')
-let relatedWorks = require('./Collections/SubCollections/relatedWorks')
-let additionalTextInformation = require('./Collections/additionalTextInformation')
-let publications = require('./Collections/publications')
-let locations = require('./Collections/locations')
-let catalogWorkReferences = require('./Collections/catalogWorkReferences')
-let structuredDimension = require('./Collections/structuredDimension')
-let image = require('./Collections/image')
+let involvedPersons = require('./InvolvedPersons')
+let involvedPersonsNames = require('./InvolvedPersonsNames')
+let Titles = require('./Titles')
+let Classification = require('./Classification')
+let Dating = require('./Dating')
+let additionalTextInformation = require('./AdditionalTextInformation')
+let Publications = require('./Publications')
+let Locations = require('./Locations')
+let catalogWorkReferences = require('./CatalogWorkReferences')
+let StructuredDimension = require('./StructuredDimension')
+let Images = require('./Images')
+let References = require('./References')
 
 let graphicSchema = new mongoose.Schema({
     langCode: {
@@ -21,15 +20,15 @@ let graphicSchema = new mongoose.Schema({
     },
     involvedPersons: [involvedPersons],
     involvedPersonsNames: [involvedPersonsNames],
-    titles: [titles],
-    classification: {classification},
+    titles: [Titles],
+    classification: Classification,
     conditionLevel: Number,
     objectName: String,
     inventoryNumber: String,
     objectId: Number,
     isVirtual: Boolean,
     dimensions: String,
-    dating: {dating},
+    dating: Dating,
     description: {
         type: String,
         required: false
@@ -66,14 +65,11 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references: {
-        reprints: [reprints],
-        relatedWorks: [relatedWorks],
-    },
+    references: [References],
     additionalTextInformation: [additionalTextInformation],
-    publications: [publications],
+    publications: [Publications],
     keywords: Array,
-    locations: [locations],
+    locations: [Locations],
     owner: {
         type: String,
         default: "",
@@ -83,9 +79,9 @@ let graphicSchema = new mongoose.Schema({
         default: "",
     },
     catalogWorkReferences: [catalogWorkReferences],
-    structuredDimension: {structuredDimension},
+    structuredDimension: StructuredDimension,
     images: {
-        type: {image},
+        type: Images,
         required: false,
         default: null,
     }

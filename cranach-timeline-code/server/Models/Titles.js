@@ -12,4 +12,4 @@ const titlesSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('titles', titlesSchema)
+module.exports = mongoose.model('Titles', titlesSchema)

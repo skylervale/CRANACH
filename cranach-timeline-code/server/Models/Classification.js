@@ -4,7 +4,8 @@ const classificationSchema = new mongoose.Schema({
     
     classification: {
         type: String,
-        default: "Druckgrafik"
+        enum: ["Druckgrafik", "Malerei", "Gemälde"],
+        default: ""
     },
     condition: {
         type: String,
@@ -12,4 +13,4 @@ const classificationSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('classification', classificationSchema)
+module.exports = mongoose.model('Classification', classificationSchema)

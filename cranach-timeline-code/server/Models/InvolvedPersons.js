@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
 
 const involvedPersonsSchema = new mongoose.Schema({
-
         id: {
             type: String,
             required: false
         },
         role: {
             type: String,
-            enum: ['Inventor', 'Drucker', 'Künstler', 'Formschneider', 'Artist'],
+            enum: ['Inventor', 'Drucker', 'Künstler', 'Formschneider', 'Artist', ''],
         },
         name: {
             type: String,

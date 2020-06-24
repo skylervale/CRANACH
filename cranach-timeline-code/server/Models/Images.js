@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const imageSchema = new mongoose.Schema({
+const imagesSchema = new mongoose.Schema({
     info: {
         maxDimensions: {
             width: Number,
@@ -46,4 +46,4 @@ const imageSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('image', imageSchema)
+module.exports = mongoose.model('Images', imageSchema)

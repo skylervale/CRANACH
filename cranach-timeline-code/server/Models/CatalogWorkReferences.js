@@ -12,4 +12,4 @@ const catalogWorkReferencesSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('catalogWorkReferences', catalogWorkReferencesSchema)
+module.exports = mongoose.model('CatalogWorkReferences', catalogWorkReferencesSchema)

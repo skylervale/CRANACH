@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const additionalTextInformationSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['Beschreibung', 'Interpretation', 'Kommentare', 'Beschreibung/ Interpretation/ Kommentare', 'not assigned']
+        default: ""
     },
     text: String,
     date: {
@@ -20,4 +20,4 @@ const additionalTextInformationSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('additionalTextInformation', additionalTextInformationSchema)
+module.exports = mongoose.model('AdditionalTextInformation', additionalTextInformationSchema)
