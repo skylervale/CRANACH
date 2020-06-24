@@ -11,7 +11,7 @@ let publications = require('./Collections/publications')
 let locations = require('./Collections/locations')
 let catalogWorkReferences = require('./Collections/catalogWorkReferences')
 let structuredDimension = require('./Collections/structuredDimension')
-let typeImage = require('./Collections/typeImage')
+let image = require('./Collections/image')
 
 let graphicSchema = new mongoose.Schema({
     langCode: {
@@ -85,7 +85,7 @@ let graphicSchema = new mongoose.Schema({
     catalogWorkReferences: [catalogWorkReferences],
     structuredDimension: {structuredDimension},
     images: {
-        type: {typeImage},
+        type: {image},
         required: false,
         default: null,
     }

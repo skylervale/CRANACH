@@ -3,7 +3,13 @@ const details = require('./SubCollections/details')
 
 const involvedPersonsNamesSchema = new mongoose.Schema({
         constituentId: String,
-        details: [details]
+        details: [{
+                name: String,
+                nameType: {
+                        type: String,
+                        enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
+                }
+        }]
 })
 
 module.exports = mongoose.model('involvedPersonsNames', involvedPersonsNamesSchema)
