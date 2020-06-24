@@ -4,16 +4,15 @@ let involvedPersonsNames = require('./Collections/involvedPersonsNames')
 let titles = require('./Collections/titles')
 let classification = require('./Collections/classification')
 let dating = require('./Collections/dating')
-let reprints = require('./Collections/SubCollections/reprints')
-let relatedWorks = require('./Collections/SubCollections/relatedWorks')
+let references = require('./Collections/references')
 let additionalTextInformation = require('./Collections/additionalTextInformation')
+let secondaryReferences = require('./Collections/secondaryReferences')
 let publications = require('./Collections/publications')
 let locations = require('./Collections/locations')
 let catalogWorkReferences = require('./Collections/catalogWorkReferences')
 let structuredDimension = require('./Collections/structuredDimension')
-let typeImage = require('./Collections/typeImage')
 
-let graphicSchema = new mongoose.Schema({
+let paintingSchema = new mongoose.Schema({
     langCode: {
         type: String,
         enum    : ['de', 'en'],
@@ -23,7 +22,6 @@ let graphicSchema = new mongoose.Schema({
     involvedPersonsNames: [involvedPersonsNames],
     titles: [titles],
     classification: {classification},
-    conditionLevel: Number,
     objectName: String,
     inventoryNumber: String,
     objectId: Number,
@@ -66,14 +64,13 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references: {
-        reprints: [reprints],
-        relatedWorks: [relatedWorks],
-    },
+    references:[references],
+    secondaryReferences: [secondaryReferences],
     additionalTextInformation: [additionalTextInformation],
     publications: [publications],
     keywords: Array,
     locations: [locations],
+    repository: String,
     owner: {
         type: String,
         default: "",
@@ -84,11 +81,8 @@ let graphicSchema = new mongoose.Schema({
     },
     catalogWorkReferences: [catalogWorkReferences],
     structuredDimension: {structuredDimension},
-    images: {
-        type: {typeImage},
-        required: false,
-        default: null,
-    }
+    isBestOf: Boolean
+
 })
 
-module.exports = mongoose.model('Graphic', graphicSchema)
+module.exports = mongoose.model('Painting', paintingSchema)
