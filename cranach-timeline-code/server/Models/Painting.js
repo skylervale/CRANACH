@@ -1,16 +1,15 @@
 let mongoose = require('mongoose')
-let involvedPersons = require('./InvolvedPersons')
-let involvedPersonsNames = require('./InvolvedPersonsNames')
-let titles = require('./Titles')
-let classification = require('./Classification')
-let dating = require('./Dating')
-let references = require('./References')
-let additionalTextInformation = require('./AdditionalTextInformation')
-let secondaryReferences = require('./Collections/secondaryReferences')
-let publications = require('./Publications')
-let locations = require('./Locations')
-let catalogWorkReferences = require('./CatalogWorkReferences')
-let structuredDimension = require('./StructuredDimension')
+let InvolvedPersons = require('./InvolvedPersons')
+let InvolvedPersonsNames = require('./InvolvedPersonsNames')
+let Titles = require('./Titles')
+let Classification = require('./Classification')
+let Dating = require('./Dating')
+let References = require('./References')
+let AdditionalTextInformation = require('./AdditionalTextInformation')
+let Publications = require('./Publications')
+let Locations = require('./Locations')
+let CatalogWorkReferences = require('./CatalogWorkReferences')
+let StructuredDimension = require('./StructuredDimension')
 
 let paintingSchema = new mongoose.Schema({
     langCode: {
@@ -18,16 +17,16 @@ let paintingSchema = new mongoose.Schema({
         enum    : ['de', 'en'],
         default: 'de'
     },
-    involvedPersons: [involvedPersons],
-    involvedPersonsNames: [involvedPersonsNames],
-    titles: [titles],
-    classification: {classification},
+    involvedPersons: [InvolvedPersons],
+    involvedPersonsNames: [InvolvedPersonsNames],
+    titles: [Titles],
+    classification: Classification,
     objectName: String,
     inventoryNumber: String,
     objectId: Number,
     isVirtual: Boolean,
     dimensions: String,
-    dating: {dating},
+    dating: Dating,
     description: {
         type: String,
         required: false
@@ -64,12 +63,12 @@ let paintingSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references:[references],
-    secondaryReferences: [secondaryReferences],
-    additionalTextInformation: [additionalTextInformation],
-    publications: [publications],
+    references:[References],
+    secondaryReferences: [References],
+    additionalTextInformation: [AdditionalTextInformation],
+    publications: [Publications],
     keywords: Array,
-    locations: [locations],
+    locations: [Locations],
     repository: String,
     owner: {
         type: String,
@@ -79,8 +78,8 @@ let paintingSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    catalogWorkReferences: [catalogWorkReferences],
-    structuredDimension: {structuredDimension},
+    catalogWorkReferences: [CatalogWorkReferences],
+    structuredDimension: StructuredDimension,
     isBestOf: Boolean
 
 })

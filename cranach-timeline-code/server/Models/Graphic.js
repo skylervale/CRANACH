@@ -7,7 +7,7 @@ let Dating = require('./Dating')
 let additionalTextInformation = require('./AdditionalTextInformation')
 let Publications = require('./Publications')
 let Locations = require('./Locations')
-let catalogWorkReferences = require('./CatalogWorkReferences')
+let CatalogWorkReferences = require('./CatalogWorkReferences')
 let StructuredDimension = require('./StructuredDimension')
 let Images = require('./Images')
 let References = require('./References')
@@ -78,7 +78,7 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    catalogWorkReferences: [catalogWorkReferences],
+    catalogWorkReferences: [CatalogWorkReferences],
     structuredDimension: StructuredDimension,
     images: {
         type: Images,
