@@ -1,4 +1,4 @@
-let mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 let graphicSchema = new mongoose.Schema({
     langCode: {
@@ -45,22 +45,22 @@ let graphicSchema = new mongoose.Schema({
     }],
     involvedPersonsNames: [{
         constituentId: String,
-        details: Array,
-        name: String,
-        nameType: {
-            type: String,
-            enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
-        },
-        title: [{
-            type: String,
-            title: String,
-            remarks: {
+        details: [{
+            name: String,
+            nameType: {
                 type: String,
-                required: false
-            },
-        }]
+                enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
+            }
+        }],
     }],
-    titles: Array,
+    titles: [{
+    type: String,
+    title: String,
+    remarks: {
+        type: String,
+        required: false
+    },
+    }],
     classification: {
         classification: {
             type: String,
