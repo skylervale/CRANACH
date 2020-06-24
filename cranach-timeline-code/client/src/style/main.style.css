@@ -1,0 +1,9 @@
+.text-center{
+    text-align: center;
+}
+.title-spacing-top{
+    margin-top: 45px !important;
+}
+.title-spacing-bottom{
+    margin-bottom: 45px !important;
+}

@@ -7,66 +7,26 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 
-//Custom Components
-import {Timeline} from './components/timeline/timeline.component';
+//Style Components
+import './style/main.style.css';
+
+//Cofig Components
+import {theme} from './config/theme.config';
+import {useStyles} from './config/usestyles.config';
+
+//Html components
+import Timeline from './components/timeline/timeline.component';
 import {Copyright} from './components/copyright/copyright.component';
 import {HeaderBar} from './components/appbar/appbar.component';
+import {Videoplayer} from './components/videoplayer/videoplayer.component';
 
-//Config style
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#ffcd38',
-      main: '#ffc107',
-      dark: '#b28704',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    padding: theme.spacing(6),
-  },
-}));
+const cards = [1, 2, 3];
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Main() {
+function MainApp() {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -76,24 +36,27 @@ export default function Main() {
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
+            {/*** Timeline Container ***/}
             <Container maxWidth="lg">
-              <Timeline/>
-              <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
-                  <Grid item>
-                    <Button variant="contained" color="primary">
-                      Main call to action
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="outlined" color="primary">
-                      Secondary action
-                    </Button>
-                  </Grid>
-                </Grid>
-              </div>
+              <Timeline />
             </Container>
+            {/*** Timeline End ***/}
+            {/*** PromoVideo Container ***/}
+            <Container maxWidth="lg">
+                <Typography variant="h3" align="center" className="title-spacing-top">
+                  Besichtigung des Lucas Cranach Museums
+                </Typography>
+                <Typography variant="h4" align="center" className="title-spacing-bottom" gutterBottom>
+                  Die größte Online-Bibliothek zu Werken von Lucas Cranach
+                </Typography>
+              <Videoplayer url="https://www.youtube.com/watch?v=TzTFQqZVL5I"/>
+            </Container>
+            {/*** PromoVideo End ***/}
           </div>
+
+          <Typography variant="h3" align="center" className="title-spacing-top">
+            Kategorien
+          </Typography>
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
@@ -129,9 +92,6 @@ export default function Main() {
         </main>
         {/* Footer */}
         <footer className={classes.footer}>
-          <Typography variant="h6" align="center" gutterBottom>
-            Footer
-          </Typography>
           <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
             Something here to give the footer a purpose!
           </Typography>
@@ -142,3 +102,5 @@ export default function Main() {
     </React.Fragment>
   );
 }
+
+export default MainApp;
