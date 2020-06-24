@@ -1,28 +1,26 @@
 let mongoose = require('mongoose')
-let involvedPersons = require('./InvolvedPersons')
-let involvedPersonsNames = require('./InvolvedPersonsNames')
+let InvolvedPersons = require('./InvolvedPersons')
+let InvolvedPersonsNames = require('./InvolvedPersonsNames')
 let Titles = require('./Titles')
 let Classification = require('./Classification')
 let Dating = require('./Dating')
-let additionalTextInformation = require('./AdditionalTextInformation')
+let References = require('./References')
+let AdditionalTextInformation = require('./AdditionalTextInformation')
 let Publications = require('./Publications')
 let Locations = require('./Locations')
 let CatalogWorkReferences = require('./CatalogWorkReferences')
 let StructuredDimension = require('./StructuredDimension')
-let Images = require('./Images')
-let References = require('./References')
 
-let graphicSchema = new mongoose.Schema({
+let paintingSchema = new mongoose.Schema({
     langCode: {
         type: String,
         enum    : ['de', 'en'],
         default: 'de'
     },
-    involvedPersons: [involvedPersons],
-    involvedPersonsNames: [involvedPersonsNames],
+    involvedPersons: [InvolvedPersons],
+    involvedPersonsNames: [InvolvedPersonsNames],
     titles: [Titles],
     classification: Classification,
-    conditionLevel: Number,
     objectName: String,
     inventoryNumber: String,
     objectId: Number,
@@ -65,11 +63,13 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references: [References],
-    additionalTextInformation: [additionalTextInformation],
+    references:[References],
+    secondaryReferences: [References],
+    additionalTextInformation: [AdditionalTextInformation],
     publications: [Publications],
     keywords: Array,
     locations: [Locations],
+    repository: String,
     owner: {
         type: String,
         default: "",
@@ -80,11 +80,8 @@ let graphicSchema = new mongoose.Schema({
     },
     catalogWorkReferences: [CatalogWorkReferences],
     structuredDimension: StructuredDimension,
-    images: {
-        type: Images,
-        required: false,
-        default: null,
-    }
+    isBestOf: Boolean
+
 })
 
-module.exports = mongoose.model('Graphic', graphicSchema)
+module.exports = mongoose.model('Painting', paintingSchema)
