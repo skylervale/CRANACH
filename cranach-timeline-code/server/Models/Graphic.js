@@ -1,4 +1,17 @@
-const mongoose = require('mongoose')
+let mongoose = require('mongoose')
+let involvedPersons = require('./InvolvedPersons')
+let involvedPersonsNames = require('./InvolvedPersonsNames')
+let Titles = require('./Titles')
+let Classification = require('./Classification')
+let Dating = require('./Dating')
+let additionalTextInformation = require('./AdditionalTextInformation')
+let Publications = require('./Publications')
+let Locations = require('./Locations')
+let CatalogWorkReferences = require('./CatalogWorkReferences')
+let StructuredDimension = require('./StructuredDimension')
+let Images = require('./Images')
+let References = require('./References')
+
 
 let graphicSchema = new mongoose.Schema({
     langCode: {
@@ -6,6 +19,11 @@ let graphicSchema = new mongoose.Schema({
         enum    : ['de', 'en'],
         default: 'de'
     },
+
+    involvedPersons: [involvedPersons],
+    involvedPersonsNames: [involvedPersonsNames],
+    titles: [Titles],
+    classification: Classification,
     involvedPersons: [{
         id: {
             type: String,
@@ -77,43 +95,7 @@ let graphicSchema = new mongoose.Schema({
     objectId: Number,
     isVirtual: Boolean,
     dimensions: String,
-    dating: {
-        dated: {
-            type: String,
-            required: false
-        },
-        begin: {
-            type: Number,
-            default: 0
-        },
-        end: {
-            type: Number,
-            default: 0
-        },
-        remarks: {
-            type: String,
-            required: false
-        },
-        historicEventInformations: [{
-            eventType: {
-                type: String,
-                enum: ['Datierung', 'Dating', 'Auflage']
-            },
-            text: String,
-            begin: {
-                type: Number,
-                required: false
-            },
-            end: {
-                type: Number,
-                required: false
-            },
-            remarks: {
-                type: String,
-                required: false
-            }
-        }]
-    },
+    dating: Dating,
     description: {
         type: String,
         required: false
@@ -150,72 +132,11 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references: {
-        reprints: [{
-            text: {
-                type: String,
-                default: "Abzug A"
-            },
-            inventoryNumber: String,
-            remark: String,
-        }],
-        relatedWorks: [{
-            text: {
-                type: String,
-                default: "Teil eines Werkes"
-            },
-            inventoryNumber: String,
-            remark: {
-                type: String,
-                required: false
-            },
-        }],
-    },
-    additionalTextInformation: [{
-        type: {
-            type: String,
-            enum: ['Beschreibung', 'Interpretation', 'Kommentare', 'Beschreibung/ Interpretation/ Kommentare', '(not assigned)']
-        },
-        text: String,
-        date: {
-            type: String,
-            required: false
-        },
-        year: {
-            type: Number,
-            default: null
-        },
-        author: {
-            type: String,
-            default: "",
-        }
-    }],
-    publications: [{
-        title: {
-            type: String,
-            default: ""
-        },
-        pageNumber: {
-            type: String,
-            default: ""
-        },
-        referenceId: {
-            type: String,
-            default: ""
-        },
-    }],
+    references: [References],
+    additionalTextInformation: [additionalTextInformation],
+    publications: [Publications],
     keywords: Array,
-    locations: [{
-        type: {
-            type: String,
-            enum: ['Standort Cranach Objekt', 'Location Cranach Object']
-        },
-        term: String,
-        path: {
-            type: String,
-            default: ""
-        }
-    }],
+    locations: [Locations],
     owner: {
         type: String,
         default: "",
@@ -224,74 +145,10 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    catalogWorkReferences: [{
-        description: String,
-        referenceNumber: {
-            type: String,
-            default: ""
-        },
-        remarks: {
-            type: String,
-            default: ""
-        }
-    }],
-    structuredDimension: {
-        element: String,
-        width: {
-            type: String,
-            default: null
-        },
-        height: {
-            type: String,
-            default: null
-        }
-    },
+    catalogWorkReferences: [CatalogWorkReferences],
+    structuredDimension: StructuredDimension,
     images: {
-        type: {
-            info: {
-                maxDimensions: {
-                    width: Number,
-                    height: Number
-                }
-            },
-            sizes: {
-                xs: {
-                    dimensions: {
-                        width: Number,
-                        height: Number
-                    },
-                    src: String
-                },
-                s: {
-                    dimensions: {
-                        width: Number,
-                        height: Number
-                    },
-                    src: String
-                },
-                m: {
-                    dimensions: {
-                        width: Number,
-                        height: Number
-                    },
-                    src: String
-                },
-                l: {
-                    dimensions: {
-                        width: Number,
-                        height: Number
-                    },
-                    src: String
-                },
-                xl: {
-                    dimensions: {
-                        width: Number,
-                        height: Number
-                    },
-                    src: String
-                },
-            },
-        },
+        type: Images,
         required: false,
         default: null,
     }
