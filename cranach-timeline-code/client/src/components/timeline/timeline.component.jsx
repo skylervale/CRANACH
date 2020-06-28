@@ -11,7 +11,7 @@ export default class Timeline extends React.Component {
     return (
       <div>
         {/* Bounding box for the Timeline */}
-        <div style={{ width: '60%', height: '100px', margin: '0 auto' }}>
+        <div style={{ width: '100%', height: '100px', margin: '0 auto' }}>
           <HorizontalTimeline
             index={this.state.value}
             indexClick={(index) => {

@@ -2,7 +2,7 @@
   position: relative;
   text-align: center;
   padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */;
-  width: 80%;
+  width: 100%;
   height: auto;
   margin: 0 auto;
 }

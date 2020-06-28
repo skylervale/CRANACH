@@ -1,9 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -22,9 +17,23 @@ import Timeline from './components/timeline/timeline.component';
 import {Copyright} from './components/copyright/copyright.component';
 import {HeaderBar} from './components/appbar/appbar.component';
 import {Videoplayer} from './components/videoplayer/videoplayer.component';
+import {MediaCard} from './components/mediacard/mediacard.component';
 
 
-const cards = [1, 2, 3];
+const cards = [
+  {
+    title: "ENTDECKE DIE GEMÄLDE",
+    index: 1
+  },
+  {
+    title: "ARCHIVALIEN",
+    index: 2
+  },
+  {
+    title: "LITERATUR",
+    index: 3
+  }
+];
 
 function MainApp() {
   const classes = useStyles();
@@ -32,7 +41,9 @@ function MainApp() {
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <HeaderBar name={classes} />
+        <div className={classes.root}>
+          <HeaderBar classes={classes} />
+        </div>
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
@@ -46,7 +57,7 @@ function MainApp() {
                 <Typography variant="h3" align="center" className="title-spacing-top">
                   Besichtigung des Lucas Cranach Museums
                 </Typography>
-                <Typography variant="h4" align="center" className="title-spacing-bottom" gutterBottom>
+                <Typography variant="h6" align="center" className="title-spacing-bottom" gutterBottom>
                   Die größte Online-Bibliothek zu Werken von Lucas Cranach
                 </Typography>
               <Videoplayer url="https://www.youtube.com/watch?v=TzTFQqZVL5I"/>
@@ -61,40 +72,13 @@ function MainApp() {
             {/* End hero unit */}
             <Grid container spacing={4}>
               {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card className={classes.card}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
-                      title="Image title"
-                    />
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Heading
-                      </Typography>
-                      <Typography>
-                        This is a media card. You can use this section to describe the content.
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" color="primary">
-                        View
-                      </Button>
-                      <Button size="small" color="primary">
-                        Edit
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
+                <MediaCard value={card} />
               ))}
             </Grid>
           </Container>
         </main>
         {/* Footer */}
         <footer className={classes.footer}>
-          <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-            Something here to give the footer a purpose!
-          </Typography>
           <Copyright />
         </footer>
         {/* End footer */}
