@@ -1,6 +1,6 @@
-function initMapping(elasticClient) {
+function initMapping() {
     return elasticClient.indices.putMapping({
-        index: cranach_graphic,
+        index: cranach_painting,
         body: {
             properties: {
                 langCode: { type: "string" },
@@ -56,7 +56,6 @@ function initMapping(elasticClient) {
                         condition: {type: "string"}
                     }
                 },
-                conditionLevel: {type: "integer"},
                 objectName: {type: "string"},
                 inventoryNumber: {type: "string"},
                 objectId: {type: "integer"},
@@ -168,7 +167,7 @@ function initMapping(elasticClient) {
                             type: "nested",
                             properties: {
                                 maxDimensions: {
-                                    type: "object",
+                                    type: "Object",
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"}
