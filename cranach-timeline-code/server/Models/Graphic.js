@@ -12,16 +12,83 @@ let StructuredDimension = require('./StructuredDimension')
 let Images = require('./Images')
 let References = require('./References')
 
+
 let graphicSchema = new mongoose.Schema({
     langCode: {
         type: String,
         enum    : ['de', 'en'],
         default: 'de'
     },
+
     involvedPersons: [involvedPersons],
     involvedPersonsNames: [involvedPersonsNames],
     titles: [Titles],
     classification: Classification,
+    involvedPersons: [{
+        id: {
+            type: String,
+            required: false
+        },
+        role: {
+            type: String,
+            enum: ['Inventor', 'Drucker', 'Künstler', 'Formschneider', ''],
+        },
+        name: {
+            type: String,
+            required: false
+        },
+        prefix: {
+            type: String,
+            required: false
+        },
+        suffix: String,
+        nameType: {
+            type: String,
+            enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name', ""]
+        },
+        alternativeName: {
+            type: String,
+            required: false
+        },
+        remarks: {
+            type: String,
+            required: false
+        },
+        date: {
+            type: String,
+            required: false
+        },
+        isUnknown: Boolean
+
+    }],
+    involvedPersonsNames: [{
+        constituentId: String,
+        details: [{
+            name: String,
+            nameType: {
+                type: String,
+                enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
+            }
+        }],
+    }],
+    titles: [{
+    type: String,
+    title: String,
+    remarks: {
+        type: String,
+        required: false
+    },
+    }],
+    classification: {
+        classification: {
+            type: String,
+            default: "Druckgrafik"
+        },
+        condition: {
+            type: String,
+            required: false
+        }
+    },
     conditionLevel: Number,
     objectName: String,
     inventoryNumber: String,
