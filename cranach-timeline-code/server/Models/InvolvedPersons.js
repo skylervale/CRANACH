@@ -37,4 +37,4 @@ const involvedPersonsSchema = new mongoose.Schema({
         isUnknown: Boolean
     })
 
-module.exports = mongoose.model('involvedPersons', involvedPersonsSchema)
+module.exports = mongoose.model('InvolvedPersons', involvedPersonsSchema)

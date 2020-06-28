@@ -1,27 +1,27 @@
 function initMapping(elasticClient) {
     return elasticClient.indices.putMapping({
-        index: cranach_graphic,
+        index: "cranach_graphic",
         body: {
             properties: {
-                langCode: { type: "string" },
+                langCode: { type: "keyword" },
                 involvedPersons: {
                     type: "nested",
                     properties: {
-                        id: { type: "string" },
-                        role: { type: "string" },
+                        id: { type: "keyword" },
+                        role: { type: "keyword" },
                         name: {
-                            type: "string",
+                            type: "text",
                             fields: {
                                 raw: {
                                     type:  "keyword" }
                             }
                         },
-                        prefix: { type: "string" },
-                        suffix: { type: "string" },
-                        nameType: { type: "string" },
-                        alternativeName: { type: "string" },
-                        remarks: { type: "string" },
-                        date: { type: "string" },
+                        prefix: { type: "keyword" },
+                        suffix: { type: "keyword" },
+                        nameType: { type: "keyword" },
+                        alternativeName: { type: "keyword" },
+                        remarks: { type: "text" },
+                        date: { type: "keyword" },
                         isUnknown: { type: "boolean" },
 
                     }
@@ -29,12 +29,12 @@ function initMapping(elasticClient) {
                 involvedPersonsNames: {
                     type: "nested",
                     properties: {
-                        constituentId: { type: "string" },
+                        constituentId: { type: "keyword" },
                         details: {
                             type: "nested",
                             properties: {
-                                name: {type: "string"},
-                                nameType: {type: "string"},
+                                name: {type: "keyword"},
+                                nameType: {type: "keyword"},
                             }
                         },
 
@@ -44,72 +44,72 @@ function initMapping(elasticClient) {
                 titles: {
                     type: "nested",
                     properties: {
-                        type: { type: "string" },
-                        title: { type: "string" },
-                        remarks: { type: "string" }
+                        type: { type: "keyword" },
+                        title: { type: "keyword" },
+                        remarks: { type: "text" }
                     }
                 },
                 classification: {
                     type: "object",
                     properties: {
-                        classification: {type: "string"},
-                        condition: {type: "string"}
+                        classification: {type: "keyword"},
+                        condition: {type: "text"}
                     }
                 },
                 conditionLevel: {type: "integer"},
-                objectName: {type: "string"},
-                inventoryNumber: {type: "string"},
+                objectName: {type: "keyword"},
+                inventoryNumber: {type: "keyword"},
                 objectId: {type: "integer"},
                 isVirtual: {type: "boolean"},
-                dimensions: {type: "string"},
+                dimensions: {type: "text"},
                 dating: {
                     type: "nested",
                     properties: {
-                        dating: {type: "string"},
+                        dating: {type: "keyword"},
                         begin: {type: "integer"},
                         end: {type: "integer"},
-                        remarks: {type: "string"},
+                        remarks: {type: "text"},
 
                     }
                 },
                 historicEventInformations: {
                     type: "nested",
                     properties: {
-                        eventType: {type: "string"},
-                        text: {type: "string"},
-                        remarks: {type: "string"},
+                        eventType: {type: "keyword"},
+                        text: {type: "text"},
+                        remarks: {type: "text"},
                         begin: {type: "integer"},
                         end: {type: "integer"},
 
 
                     }
                 },
-                description: {type: "string"},
-                provenance: {type: "string"},
-                medium: {type: "string"},
-                signature: {type: "string"},
-                inscription: {type: "string"},
-                markings: {type: "string"},
-                relatedWorks: {type: "string"},
-                exhibitionHistory: {type: "string"},
-                bibliography: {type: "string"},
+                description: {type: "text"},
+                provenance: {type: "keyword"},
+                medium: {type: "keyword"},
+                signature: {type: "keyword"},
+                inscription: {type: "keyword"},
+                markings: {type: "text"},
+                relatedWorks: {type: "text"},
+                exhibitionHistory: {type: "text"},
+                bibliography: {type: "text"},
                 references: {
                     type: "nested",
                     properties: {
                         reprints: {
                             type: "object",
                             properties: {
-                                text: {type: "string"},
-                                inventoryNumber: {type: "string"},
-                                remark: {type: "string"},
+                                text: {type: "text"},
+                                inventoryNumber: {type: "keyword"},
+                                remark: {type: "text"},
                             }
                         },
                         relatedWorks: {
                             type: "object",
                             properties: {
-                                text: {type: "string"},
-                                inventoryNumber: {type: "string"},
-                                remark: {type: "string"},
+                                text: {type: "text"},
+                                inventoryNumber: {type: "keyword"},
+                                remark: {type: "text"},
                             }
                         },
                     }
@@ -117,11 +117,11 @@ function initMapping(elasticClient) {
                 additionalTextInformation: {
                     type: "nested",
                     properties: {
-                        type: {type: "string"},
-                        text: {type: "string"},
-                        date: {type: "string"},
-                        year: {type: "integer"},
-                        author: {type: "string"},
+                        type: {type: "keyword"},
+                        text: {type: "text"},
+                        date: {type: "keyword"},
+                        year: {type: "keyword"},
+                        author: {type: "keyword"},
 
 
                     }
@@ -129,36 +129,36 @@ function initMapping(elasticClient) {
                 publications: {
                     type: "nested",
                     properties: {
-                        title: {type: "string"},
-                        pageNumber: {type: "string"},
-                        referenceId: {type: "string"},
+                        title: {type: "keyword"},
+                        pageNumber: {type: "keyword"},
+                        referenceId: {type: "keyword"},
                     }
                 },
-                keywords: {type: "string"},
+                keywords: {type: "keyword"},
                 locations: {
                     type: "nested",
                     properties: {
-                        type: {type: "string"},
-                        term: {type: "string"},
-                        path: {type: "string"},
+                        type: {type: "keyword"},
+                        term: {type: "keyword"},
+                        path: {type: "keyword"},
                     }
                 },
-                owner: {type: "string"},
-                sortingNumber: {type: "string"},
+                owner: {type: "keyword"},
+                sortingNumber: {type: "keyword"},
                 catalogWorkReferences: {
                     type: "nested",
                     properties: {
-                        description: {type: "string"},
-                        referenceNumber: {type: "string"},
-                        remarks: {type: "string"},
+                        description: {type: "text"},
+                        referenceNumber: {type: "keyword"},
+                        remarks: {type: "text"},
                     }
                 },
                 structuredDimension: {
                     type: "nested",
                     properties: {
-                        element: {type: "string"},
-                        width: {type: "string"},
-                        height: {type: "string"},
+                        element: {type: "keyword"},
+                        width: {type: "keyword"},
+                        height: {type: "keyword"},
                     }
                 },
                 images: {
@@ -185,7 +185,7 @@ function initMapping(elasticClient) {
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"},
-                                        src: {type: "string"}
+                                        src: {type: "keyword"}
                                     }
                                 },
                                 s: {
@@ -193,7 +193,7 @@ function initMapping(elasticClient) {
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"},
-                                        src: {type: "string"}
+                                        src: {type: "keyword"}
                                     }
 
                                 },
@@ -202,7 +202,7 @@ function initMapping(elasticClient) {
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"},
-                                        src: {type: "string"}
+                                        src: {type: "keyword"}
                                     }
 
                                 },
@@ -211,7 +211,7 @@ function initMapping(elasticClient) {
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"},
-                                        src: {type: "string"}
+                                        src: {type: "keyword"}
 
                                     }
 
@@ -221,7 +221,7 @@ function initMapping(elasticClient) {
                                     properties: {
                                         width: {type: "integer"},
                                         height: {type: "integer"},
-                                        src: {type: "string"}
+                                        src: {type: "keyword"}
                                     }
 
                                 },

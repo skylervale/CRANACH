@@ -1,17 +1,15 @@
 let mongoose = require('mongoose')
-let involvedPersons = require('./InvolvedPersons')
-let involvedPersonsNames = require('./InvolvedPersonsNames')
+let InvolvedPersons = require('./InvolvedPersons')
+let InvolvedPersonsNames = require('./InvolvedPersonsNames')
 let Titles = require('./Titles')
 let Classification = require('./Classification')
 let Dating = require('./Dating')
-let additionalTextInformation = require('./AdditionalTextInformation')
+let References = require('./References')
+let AdditionalTextInformation = require('./AdditionalTextInformation')
 let Publications = require('./Publications')
 let Locations = require('./Locations')
 let CatalogWorkReferences = require('./CatalogWorkReferences')
 let StructuredDimension = require('./StructuredDimension')
-let Images = require('./Images')
-let References = require('./References')
-
 
 let graphicSchema = new mongoose.Schema({
     langCode: {
@@ -19,76 +17,10 @@ let graphicSchema = new mongoose.Schema({
         enum    : ['de', 'en'],
         default: 'de'
     },
-
-    involvedPersons: [involvedPersons],
-    involvedPersonsNames: [involvedPersonsNames],
+    involvedPersons: [InvolvedPersons],
+    involvedPersonsNames: [InvolvedPersonsNames],
     titles: [Titles],
     classification: Classification,
-    involvedPersons: [{
-        id: {
-            type: String,
-            required: false
-        },
-        role: {
-            type: String,
-            enum: ['Inventor', 'Drucker', 'Künstler', 'Formschneider', ''],
-        },
-        name: {
-            type: String,
-            required: false
-        },
-        prefix: {
-            type: String,
-            required: false
-        },
-        suffix: String,
-        nameType: {
-            type: String,
-            enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name', ""]
-        },
-        alternativeName: {
-            type: String,
-            required: false
-        },
-        remarks: {
-            type: String,
-            required: false
-        },
-        date: {
-            type: String,
-            required: false
-        },
-        isUnknown: Boolean
-
-    }],
-    involvedPersonsNames: [{
-        constituentId: String,
-        details: [{
-            name: String,
-            nameType: {
-                type: String,
-                enum: ['Primärer Name', 'Andere Suchform', 'Falsche Namensform', 'Alternativer Name']
-            }
-        }],
-    }],
-    titles: [{
-    type: String,
-    title: String,
-    remarks: {
-        type: String,
-        required: false
-    },
-    }],
-    classification: {
-        classification: {
-            type: String,
-            default: "Druckgrafik"
-        },
-        condition: {
-            type: String,
-            required: false
-        }
-    },
     conditionLevel: Number,
     objectName: String,
     inventoryNumber: String,
@@ -132,11 +64,12 @@ let graphicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    references: [References],
-    additionalTextInformation: [additionalTextInformation],
+    references:[References],
+    additionalTextInformation: [AdditionalTextInformation],
     publications: [Publications],
     keywords: Array,
     locations: [Locations],
+    repository: String,
     owner: {
         type: String,
         default: "",
@@ -147,11 +80,8 @@ let graphicSchema = new mongoose.Schema({
     },
     catalogWorkReferences: [CatalogWorkReferences],
     structuredDimension: StructuredDimension,
-    images: {
-        type: Images,
-        required: false,
-        default: null,
-    }
+    isBestOf: Boolean
+
 })
 
 module.exports = mongoose.model('Graphic', graphicSchema)

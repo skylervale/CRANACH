@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const details = require('./SubCollections/details')
 
 const involvedPersonsNamesSchema = new mongoose.Schema({
         constituentId: String,
@@ -12,4 +11,4 @@ const involvedPersonsNamesSchema = new mongoose.Schema({
         }]
 })
 
-module.exports = mongoose.model('involvedPersonsNames', involvedPersonsNamesSchema)
+module.exports = mongoose.model('InvolvedPersonsNames', involvedPersonsNamesSchema)

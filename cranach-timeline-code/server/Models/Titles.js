@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const titlesSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ["Titel", "Beshcreibender Titel", "Titel (vermutlich falsch)"]
+        enum: ["Titel", "Beshcreibender Titel"]
     },
     title: String,
     remarks: {
