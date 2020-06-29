@@ -1,15 +1,15 @@
 let mongoose = require('mongoose')
-let InvolvedPersons = require('./InvolvedPersons')
-let InvolvedPersonsNames = require('./InvolvedPersonsNames')
-let Titles = require('./Titles')
-let Classification = require('./Classification')
-let Dating = require('./Dating')
-let References = require('./References')
-let AdditionalTextInformation = require('./AdditionalTextInformation')
-let Publications = require('./Publications')
-let Locations = require('./Locations')
-let CatalogWorkReferences = require('./CatalogWorkReferences')
-let StructuredDimension = require('./StructuredDimension')
+let InvolvedPersons = require('./InvolvedPersons').schema
+let InvolvedPersonsNames = require('./InvolvedPersonsNames').schema
+let Titles = require('./Titles').schema
+let Classification = require('./Classification').schema
+let Dating = require('./Dating').schema
+let References = require('./References').schema
+let AdditionalTextInformation = require('./AdditionalTextInformation').schema
+let Publications = require('./Publications').schema
+let Locations = require('./Locations').schema
+let CatalogWorkReferences = require('./CatalogWorkReferences').schema
+let StructuredDimension = require('./StructuredDimension').schema
 
 let graphicSchema = new mongoose.Schema({
     langCode: {

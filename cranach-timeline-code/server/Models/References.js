@@ -4,7 +4,7 @@ const referencesSchema = new mongoose.Schema({
     reprints: {
         text: {
             type: String,
-            enum: ["Inhaltlich verwandt mit", "gehört zu”, “Teil eines Werkes", "Gehört thematisch zu", "Version", "Abzug A"],
+            enum: ["Inhaltlich verwandt mit", "gehört zu”, “Teil eines Werkes", "Gehört thematisch zu", "Version", "Abzug A", ""],
             default: ""
         },
         inventoryNumber: String,
