@@ -12,5 +12,8 @@
     "elasticsearch": "^16.7.1",
     "express": "^4.17.1",
     "mongoose": "^5.9.19"
+  },
+  "devDependencies": {
+    "array.prototype.flatmap": "^1.2.3"
   }
 }

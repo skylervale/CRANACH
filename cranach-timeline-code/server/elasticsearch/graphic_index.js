@@ -1,40 +1,41 @@
-function initMapping() {
-    return elasticClient.indices.putMapping({
-        index: "cranach_painting",
-        body: {
+const graphic_mapping = {
+    index: "cranach_graphic",
+    body: {
+        mappings: {
             properties: {
-                langCode: { type: "keyword" },
+                langCode: {type: "keyword"},
                 involvedPersons: {
                     type: "nested",
                     properties: {
-                        id: { type: "keyword" },
-                        role: { type: "keyword" },
+                        id: {type: "keyword"},
+                        role: {type: "keyword"},
                         name: {
                             type: "text",
                             fields: {
                                 raw: {
-                                    type:  "keyword" }
+                                    type: "keyword"
+                                }
                             }
                         },
-                        prefix: { type: "keyword" },
-                        suffix: { type: "keyword" },
-                        nameType: { type: "keyword" },
-                        alternativeName: { type: "keyword" },
-                        remarks: { type: "text" },
-                        date: { type: "keyword" },
-                        isUnknown: { type: "boolean" },
+                        prefix: {type: "keyword"},
+                        suffix: {type: "keyword"},
+                        nameType: {type: "keyword"},
+                        alternativeName: {type: "keyword"},
+                        remarks: {type: "text"},
+                        date: {type: "keyword"},
+                        isUnknown: {type: "boolean"},
 
                     }
                 },
                 involvedPersonsNames: {
                     type: "nested",
                     properties: {
-                        constituentId: { type: "keyword" },
+                        constituentId: {type: "keyword"},
                         details: {
                             type: "nested",
                             properties: {
                                 name: {type: "keyword"},
-                                nameType: {type: "text"},
+                                nameType: {type: "keyword"},
                             }
                         },
 
@@ -44,9 +45,9 @@ function initMapping() {
                 titles: {
                     type: "nested",
                     properties: {
-                        type: { type: "keyword" },
-                        title: { type: "text" },
-                        remarks: { type: "text" }
+                        type: {type: "keyword"},
+                        title: {type: "keyword"},
+                        remarks: {type: "text"}
                     }
                 },
                 classification: {
@@ -56,6 +57,7 @@ function initMapping() {
                         condition: {type: "text"}
                     }
                 },
+                conditionLevel: {type: "integer"},
                 objectName: {type: "keyword"},
                 inventoryNumber: {type: "keyword"},
                 objectId: {type: "integer"},
@@ -113,27 +115,6 @@ function initMapping() {
                         },
                     }
                 },
-                secondaryReferences: {
-                    type: "nested",
-                    properties: {
-                        reprints: {
-                            type: "object",
-                            properties: {
-                                text: {type: "text"},
-                                inventoryNumber: {type: "keyword"},
-                                remark: {type: "text"},
-                            }
-                        },
-                        relatedWorks: {
-                            type: "object",
-                            properties: {
-                                text: {type: "text"},
-                                inventoryNumber: {type: "keyword"},
-                                remark: {type: "text"},
-                            }
-                        },
-                    }
-                },
                 additionalTextInformation: {
                     type: "nested",
                     properties: {
@@ -159,8 +140,8 @@ function initMapping() {
                     type: "nested",
                     properties: {
                         type: {type: "keyword"},
-                        term: {type: "text"},
-                        path: {type: "text"},
+                        term: {type: "keyword"},
+                        path: {type: "keyword"},
                     }
                 },
                 owner: {type: "keyword"},
@@ -251,10 +232,11 @@ function initMapping() {
                 },
 
 
-
-
             }
         }
-    });
+    }
+
 }
-exports.initMapping = initMapping;
+module.exports = {
+    Graphic: graphic_mapping
+};

@@ -1,16 +1,15 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Graphic = require('./Models/Graphic');
 const elasticsearch = require('elasticsearch');
 const fs = require('fs')
-
-
-
-
+const Graphic = require('./elasticsearch/graphic_index').Graphic
+const Painting = require('./elasticsearch/painting_index')
 const app = express();
+const graphics = require('./cda-graphics.real.de.json').items;
+const routes = require('./routes/index.route');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
@@ -26,36 +25,34 @@ client.ping({
     }
 });
 
-// Connect to MongoDB
-mongoose
-    .connect(
-        'mongodb://cranach_mongodb:27017/db_cranach',
-        { useNewUrlParser: true, useUnifiedTopology: true }
-    )
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
 
-Graphic.createCollection().then(function(collection) {
-    console.log('Collection is created!');
-});
-
-Graphic.countDocuments({}, function(err, c) {
-    if (c === 0){
-        fs.readFile('./cda-graphics.real.de.json', 'utf8', (err, jsonString) => {
-            if (err) {
-                console.log("File read failed:", err)
-                return
-            }
-            JSON.parse(jsonString).items.forEach(graphic => {
-                let gr = new Graphic(graphic)
-                gr.save(function(error) {
-                    console.log('error', error)
-                });
-            })
+client.indices.exists({index: "cranach_graphic"}, (err, res, status) => {
+    if (res) {
+        console.log('index already exists');
+    } else {
+        client.indices.create(Graphic, (err, res, status) => {
+            console.log(err, res, status);
         })
     }
-});
+})
+
+client.count({index: 'cranach_graphic'}, function (err, resp) {
+    console.log("count", resp.count)
+    if (resp.count === 0) {
+        const body = graphics.flatMap(doc => [{index: {_index: 'cranach_graphic'}}, doc])
+
+        client.bulk({
+            body: body
+        }, function (err, resp) {
+            console.log(resp)
+            if (err) {
+                console.log(JSON.stringify(resp, null, '\t'));
+            }
+        });
+    }
+})
 
 app.get('/', (req, res) => res.send('Hello World!'))
+app.use(routes);
 
 app.listen(9000, () => console.log(`server app listening at http://localhost:9000`));
