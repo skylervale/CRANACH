@@ -61,7 +61,7 @@ const graphic_mapping = {
                 isVirtual: {type: "boolean"},
                 dimensions: {type: "text"},
                 dating: {
-                    type: "nested",
+                    type: "object",
                     properties: {
                         dating: {type: "keyword"},
                         begin: {type: "integer"},

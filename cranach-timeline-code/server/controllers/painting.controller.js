@@ -5,21 +5,22 @@ const client = new elasticsearch.Client({
     apiVersion: '7.x',
 });
 
-const getAll = function(req, res) {
+const getAll = function (req, res) {
     client.search({
         index: 'cranach_painting',
         body: {
             "query": {
                 "match_all": {},
             },
-        size: 2500,
-        from: 0
+            size: 2500,
+            from: 0
         }
-    },function (err,resp) {
+    }, function (err, resp) {
         res.send(resp);
     })
 }
 
+
 module.exports = {
-    getAll
+    getAll,
 };
