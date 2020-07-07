@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const elasticsearch = require('elasticsearch');
 const fs = require('fs')
 const Graphic = require('./elasticsearch/graphic_index').Graphic
-const Painting = require('./elasticsearch/painting_index')
+const Painting = require('./elasticsearch/painting_index').Painting
 const app = express();
 const graphics = require('./cda-graphics.real.de.json').items;
+const paintings = require('./cda-paintings.de.json').items;
 const routes = require('./routes/index.route');
 
 
@@ -24,33 +25,46 @@ client.ping({
         console.log('elasticsearch is running');
     }
 });
+const indices = [{
+    name: "cranach_graphic",
+    mapping: Graphic,
+    data: graphics
+    },
+    {
+    name: "cranach_painting",
+    mapping: Painting,
+    data: paintings
+    }]
 
 
-client.indices.exists({index: "cranach_graphic"}, (err, res, status) => {
-    if (res) {
-        console.log('index already exists');
-    } else {
-        client.indices.create(Graphic, (err, res, status) => {
-            console.log(err, res, status);
-        })
-    }
+indices.forEach(index => {
+    console.log(index.name)
+     client.indices.exists({index: index.name}, (err, res, status) => {
+        if (res) {
+            console.log('index already exists', index.name);
+        } else {
+            client.indices.create(index.mapping, (err, res, status) => {
+                console.log(err, res, status);
+            })
+        }
+    })
+    client.count({index: index.name}, function (err, resp) {
+        console.log("count", resp.count)
+        if (resp.count === 0) {
+            const body = index.data.flatMap(doc => [{index: {_index: index.name}}, doc])
+            client.bulk({
+                body: body
+            }, function (err, resp) {
+                console.log(resp)
+                if (err) {
+                    console.log(JSON.stringify(resp, null, '\t'));
+                }
+            });
+        }
+    })
+
 })
 
-client.count({index: 'cranach_graphic'}, function (err, resp) {
-    console.log("count", resp.count)
-    if (resp.count === 0) {
-        const body = graphics.flatMap(doc => [{index: {_index: 'cranach_graphic'}}, doc])
-
-        client.bulk({
-            body: body
-        }, function (err, resp) {
-            console.log(resp)
-            if (err) {
-                console.log(JSON.stringify(resp, null, '\t'));
-            }
-        });
-    }
-})
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(routes);

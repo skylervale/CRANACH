@@ -24,7 +24,6 @@ const graphic_mapping = {
                         remarks: {type: "text"},
                         date: {type: "keyword"},
                         isUnknown: {type: "boolean"},
-
                     }
                 },
                 involvedPersonsNames: {
@@ -38,8 +37,6 @@ const graphic_mapping = {
                                 nameType: {type: "keyword"},
                             }
                         },
-
-
                     }
                 },
                 titles: {
@@ -81,8 +78,6 @@ const graphic_mapping = {
                         remarks: {type: "text"},
                         begin: {type: "integer"},
                         end: {type: "integer"},
-
-
                     }
                 },
                 description: {type: "text"},
@@ -123,8 +118,6 @@ const graphic_mapping = {
                         date: {type: "keyword"},
                         year: {type: "keyword"},
                         author: {type: "keyword"},
-
-
                     }
                 },
                 publications: {
@@ -174,7 +167,6 @@ const graphic_mapping = {
                                         width: {type: "integer"},
                                         height: {type: "integer"}
                                     }
-
                                 }
                             }
                         },
@@ -224,18 +216,14 @@ const graphic_mapping = {
                                         height: {type: "integer"},
                                         src: {type: "keyword"}
                                     }
-
                                 },
                             }
                         }
                     }
                 },
-
-
             }
         }
     }
-
 }
 module.exports = {
     Graphic: graphic_mapping
