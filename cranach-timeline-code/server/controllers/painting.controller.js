@@ -10,12 +10,12 @@ const getAll = function(req, res) {
         index: 'cranach_painting',
         body: {
             "query": {
-                "match_all": {}
-            }
+                "match_all": {},
+            },
+        size: 2500,
+        from: 0
         }
     },function (err,resp) {
-        console.log("search error", err)
-        console.log("search resp", resp)
         res.send(resp);
     })
 }
