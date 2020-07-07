@@ -1,0 +1,83 @@
+.timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 450px;
+}
+
+@media screen and (min-width: 400px) {
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 400px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 400px;
+  }
+}
+
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 600px;
+  }
+
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 450px;
+  }
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 400px;
+  }
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-height: 380px;
+  }
+  
+}
+
