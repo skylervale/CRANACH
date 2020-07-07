@@ -5,17 +5,17 @@ const client = new elasticsearch.Client({
     apiVersion: '7.x',
 });
 
-const getAll = function(req, res) {
+const getAll = function (req, res) {
     client.search({
         index: 'cranach_graphic',
         body: {
             "query": {
-                "match_all": {}
-            }
+                "match_all": {},
+            },
+        size: 2500,
+        from: 0
         }
-    },function (err,resp) {
-        console.log("search error", err)
-        console.log("search resp", resp)
+    }, function (err, resp) {
         res.send(resp);
     })
 }

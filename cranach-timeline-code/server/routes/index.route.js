@@ -5,5 +5,6 @@ const paintings = require('./painting.route');
 const router = express.Router();
 
 router.use('/graphics', graphics);
+router.use('/painting', paintings);
 
 module.exports = router;
