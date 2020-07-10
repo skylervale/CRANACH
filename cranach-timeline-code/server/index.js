@@ -39,7 +39,7 @@ const indices = [{
 
 indices.forEach(index => {
     console.log(index.name)
-     client.indices.exists({index: index.name}, (err, res, status) => {
+    client.indices.exists({index: index.name}, (err, res, status) => {
         if (res) {
             console.log('index already exists', index.name);
         } else {
