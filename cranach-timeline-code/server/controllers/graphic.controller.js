@@ -1,5 +1,7 @@
 const elasticsearch = require('elasticsearch');
 
+
+
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
     apiVersion: '7.x',
@@ -12,8 +14,8 @@ const getAll = function (req, res) {
             "query": {
                 "match_all": {},
             },
-        size: 2500,
-        from: 0
+            size: 1000,
+            from: 0
         }
     }, function (err, resp) {
         res.send(resp);
@@ -26,7 +28,7 @@ const getTimelineList = function (req, res) {
         body: {
             "query": {
                 "bool": {
-                    "must": [
+                    "must":
                         {
                             "nested": {
                                 "path": "images",
@@ -37,21 +39,42 @@ const getTimelineList = function (req, res) {
                                 }
                             }
                         },
-                        {
-                            "exists": {
-                                "field": "dating.dated"
-                            }
+                    "must_not": {
+                        "term": {
+                            "dating.dated.keyword": ""
                         }
-                    ]
-                }
+                    }
+                },
             },
-            size: 20,
+            "sort": [
+                {
+                    "dating.dated.keyword": {
+                        "order": "asc",
+                    }
+                }
+            ],
+            size: 1000,
             _source: {
                 "includes": ["titles", "images", "dating.dated"]
             }
         }
     }, function (err, resp) {
-        res.send(resp)
+        if (err){
+            res.send(err)
+        }else {
+            const graphics = []
+            resp.hits.hits.forEach((hit) => {
+               if (graphics.length === 0){
+                   graphics.push(hit._source)
+               } else {
+                   const found = graphics.some(graphic => graphic.dating.dated === hit._source.dating.dated)
+                    if (!found && parseInt(hit._source.dating.dated)){
+                        graphics.push(hit._source)
+                    }
+               }
+            })
+            res.send(graphics)
+        }
     })
 }
 
