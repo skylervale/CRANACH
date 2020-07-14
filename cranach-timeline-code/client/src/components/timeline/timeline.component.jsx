@@ -5,8 +5,9 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 const axios = require('axios').default;
 
-const VALUES = ['2020-06-27', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01', '2020-08-01', '2021-01-01', '2021-01-01'];
-
+//const VALUES = ['2020-06-27', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01', '2020-08-01', '2021-01-01', '2021-01-01'];
+const defaultGetLabel = (date, index) => (new Date(date)).toDateString().substring(10);
+console.log("defaultGetLabel", defaultGetLabel);
 export default class Timeline extends React.Component {
   state = {
       value: 0,
@@ -24,6 +25,7 @@ export default class Timeline extends React.Component {
               let dates = [];
               let images = [];
               graphics.map(function(item) {
+                  console.log(item)
                   dates.push(item.dating.dated);
                   images.push(item.images);
               })
@@ -49,6 +51,7 @@ export default class Timeline extends React.Component {
             minEventPadding={50}
             maxEventPadding={50}
             linePadding={160}
+            getLabel={ (date, index) => (new Date(date)).toDateString().substring(10) }
             styles={{ background: '#f8f8f8', foreground: 'orange', outline: 'orange' }}
           />
         </div>
