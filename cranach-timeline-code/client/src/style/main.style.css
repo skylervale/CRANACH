@@ -7,3 +7,6 @@
 .title-spacing-bottom{
     margin-bottom: 45px !important;
 }
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 1200 !important;
+}
