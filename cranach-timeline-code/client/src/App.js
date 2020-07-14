@@ -4,6 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {ThemeProvider} from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 
 //Style Components
 import './style/main.style.css';
@@ -38,6 +45,7 @@ const cards = [
 function MainApp() {
   const classes = useStyles();
   return (
+     <Router>
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -45,37 +53,44 @@ function MainApp() {
           <HeaderBar classes={classes} />
         </div>
         <main>
-          {/* Hero unit */}
-          <div className={classes.heroContent}>
-            {/*** Timeline Container ***/}
-            <Container maxWidth="lg">
-              <Timeline />
-            </Container>
-            {/*** Timeline End ***/}
-            {/*** PromoVideo Container ***/}
-            <Container maxWidth="lg">
+          <Switch>
+            <Route path="/graphics">
+            {/* Graphics listing component goes here */}
+            </Route>
+            <Route path="/">
+              {/* Hero unit */}
+              <div className={classes.heroContent}>
+                {/*** Timeline Container ***/}
+                <Container maxWidth="lg">
+                  <Timeline />
+                </Container>
+                {/*** Timeline End ***/}
+
+              </div>
+              {/*** PromoVideo Container ***/}
+              <Container maxWidth="lg">
                 <Typography variant="h3" align="center" className="title-spacing-top">
                   Besichtigung des Lucas Cranach Museums
                 </Typography>
                 <Typography variant="h6" align="center" className="title-spacing-bottom" gutterBottom>
                   Die größte Online-Bibliothek zu Werken von Lucas Cranach
                 </Typography>
-              <Videoplayer url="https://www.youtube.com/watch?v=TzTFQqZVL5I"/>
-            </Container>
-            {/*** PromoVideo End ***/}
-          </div>
-
-          <Typography variant="h3" align="center" className="title-spacing-top">
-            Kategorien
-          </Typography>
-          <Container className={classes.cardGrid} maxWidth="md">
-            {/* End hero unit */}
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <MediaCard value={card} />
-              ))}
-            </Grid>
-          </Container>
+                <Videoplayer url="https://www.youtube.com/watch?v=TzTFQqZVL5I"/>
+              </Container>
+              {/*** PromoVideo End ***/}
+              <Typography variant="h3" align="center" className="title-spacing-top">
+                Kategorien
+              </Typography>
+              <Container className={classes.cardGrid} maxWidth="md">
+                {/* End hero unit */}
+                <Grid container spacing={4}>
+                  {cards.map((card) => (
+                      <MediaCard value={card} />
+                  ))}
+                </Grid>
+              </Container>
+            </Route>
+          </Switch>
         </main>
         {/* Footer */}
         <footer className={classes.footer}>
@@ -84,6 +99,7 @@ function MainApp() {
         {/* End footer */}
       </ThemeProvider>
     </React.Fragment>
+     </Router>
   );
 }
 
