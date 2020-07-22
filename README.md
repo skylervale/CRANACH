@@ -1,3 +1,11 @@
+# Projekt I - Vision & Konzept
+| ![](https://img.icons8.com/windows/32/000000/idea.png)<br>[Konzept](https://github.com/ramichr/lucas_cranach_projekt2/wiki/Einf%C3%BChrung) | ![](https://img.icons8.com/windows/32/000000/prototype.png)<br>[Design Sprint](https://github.com/ramichr/lucas_cranach_projekt2/wiki/Design-Sprint) | ![](https://img.icons8.com/windows/32/000000/brief.png)<br>[Projekt 2: Board](https://github.com/ramichr/lucas_cranach_projekt2/projects/2) | ![](https://img.icons8.com/windows/32/000000/brief.png)<br>[Projekt 2: Meilensteine](https://github.com/ramichr/lucas_cranach_projekt2/milestones) | ![](https://img.icons8.com/windows/32/000000/code-file.png)<br>[Prototyp v1.0](https://github.com/ramichr/lucas_cranach_projekt2/tree/master/prototype/v1.0) | ![](https://img.icons8.com/windows/32/000000/code-file.png)<br>[Datenstrukturen des Cranach Archivs](https://github.com/lucascranach/importer/tree/master/docs/json) | ![](https://img.icons8.com/windows/32/000000/repository.png)<br>[Backlog](https://github.com/ramichr/lucas_cranach_projekt2/projects/3) |
+|:-------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
+
+# Projekt II - Entwicklung
+|  ![](https://img.icons8.com/ios-filled/32/000000/process.png)<br>[Entwicklungsprozess](Entwicklungsprozess) | ![](https://img.icons8.com/windows/32/000000/table-properties.png)<br>   [Frontend](Frontend) | ![](https://img.icons8.com/ios-filled/32/000000/graph-clique.png)<br>   [Backend](Backend) | ![](https://img.icons8.com/windows/32/000000/repository.png)<br>[Sprint](https://github.com/ramichr/CRANACH/projects/2) | ![](https://img.icons8.com/windows/32/000000/code-file.png)<br>   [Code](https://github.com/ramichr/CRANACH/tree/master/cranach-timeline-code) | ![](https://img.icons8.com/windows/32/000000/prototype.png)<br>   [Website]() |
+|:-------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|
+<!--
 # Lucas Cranach Timeline
 
 Projektgegenstand ist das [Lucas Cranach Timeline- Projekt 2019](https://th-koeln.github.io/mi-bachelor-screendesign/projekt-2019/)
@@ -8,7 +16,7 @@ Projektgegenstand ist das [Lucas Cranach Timeline- Projekt 2019](https://th-koel
 
 Ziel in dieser Phase des Projekts ist die Fortführung der erarbeiteten Konzepte des [Projekts - Vision und Konzept](https://www.medieninformatik.th-koeln.de/study/master/moduls/ma_modul_projekt_visionkonzept/). Als Ergebnis soll ein _Minimum Viable Product_ entwickelt und weiterentwickelt werden.
 
-<!--
+
 ## Entwicklungsorganisation
 
 ### 1. Sprint
