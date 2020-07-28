@@ -15,10 +15,17 @@ const getAll = function (req, res) {
                 "match_all": {},
             },
             size: 1000,
-            from: 0
+            from: 0,
+            _source: {
+                "includes": ["titles", "images", "dating"]
+            }
         }
     }, function (err, resp) {
-        res.send(resp);
+        if (err){
+            res.send(err);
+        }
+        let graphics = resp.hits.hits.map(graphic => graphic._source )
+        res.send(graphics);
     })
 }
 
