@@ -7,8 +7,7 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 
@@ -21,24 +20,36 @@ import {useStyles} from './config/usestyles.config';
 
 //Html components
 import Timeline from './components/timeline/timeline.component';
+import Paintinglist from './components/paintinglist/paintinglist.component';
 import {Copyright} from './components/copyright/copyright.component';
 import {HeaderBar} from './components/appbar/appbar.component';
 import {Videoplayer} from './components/videoplayer/videoplayer.component';
 import {MediaCard} from './components/mediacard/mediacard.component';
 
+//images
+import gemaldeimg from './images/gemalde.jpg';
+import archivalienimg from './images/archivalien.jpg';
+import literaturimg from './images/literature.jpg';
+
 
 const cards = [
   {
     title: "ENTDECKE DIE GEMÄLDE",
-    index: 1
+    index: 1,
+    image: gemaldeimg,
+    link: "/paintings"
   },
   {
     title: "ARCHIVALIEN",
-    index: 2
+    index: 2,
+    image: archivalienimg,
+    link: "#"
   },
   {
     title: "LITERATUR",
-    index: 3
+    index: 3,
+    image: literaturimg,
+    link: "#"
   }
 ];
 
@@ -54,18 +65,30 @@ function MainApp() {
         </div>
         <main>
           <Switch>
-            <Route path="/graphics">
-            {/* Graphics listing component goes here */}
+
+            {/*** PAINTINGS PAGE ***/}
+            <Route path="/paintings">
+              <Container maxWidth="lg">
+                  <Typography variant="h3" align="center" className="title-spacing-top">
+                    Entdecke die Gemälde
+                  </Typography>
+                  <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={4}></Grid>
+                    <Paintinglist value={classes} />
+                  </Container>
+              </Container>
+              
             </Route>
+            {/*** END PAINTINGS PAGE ***/}
+
+            {/*** LANDING PAGE ***/}
             <Route path="/">
-              {/* Hero unit */}
               <div className={classes.heroContent}>
                 {/*** Timeline Container ***/}
                 <Container maxWidth="lg">
                   <Timeline />
                 </Container>
                 {/*** Timeline End ***/}
-
               </div>
               {/*** PromoVideo Container ***/}
               <Container maxWidth="lg">
@@ -81,17 +104,20 @@ function MainApp() {
               <Typography variant="h3" align="center" className="title-spacing-top">
                 Kategorien
               </Typography>
-              <Container className={classes.cardGrid} maxWidth="md">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                  {cards.map((card) => (
-                      <MediaCard value={card} />
-                  ))}
-                </Grid>
-              </Container>
             </Route>
+            {/*** END LANDING PAGE ***/}
+            
           </Switch>
         </main>
+        {/* Categories Nav */}
+        <Container className={classes.cardGrid} maxWidth="md">
+          <Grid container spacing={4}>
+            {cards.map((card) => (
+                <MediaCard key={card.index} value={card} />
+            ))}
+          </Grid>
+        </Container>
+        {/* END Categories Nav */}
         {/* Footer */}
         <footer className={classes.footer}>
           <Copyright />
