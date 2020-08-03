@@ -21,9 +21,9 @@
 
 ### Teammitglieder für Projekt II
 
-| ![](https://avatars0.githubusercontent.com/u/24878008?s=200&v=4) | ![](https://avatars1.githubusercontent.com/u/25585481?s=200&v=4) | ![](https://avatars0.githubusercontent.com/u/49440303?s=200&u=bbdf6f2769d13ce1198c2294d7cce364a76e53d0&v=4) | ![](https://avatars0.githubusercontent.com/u/4565812?s=400&u=c737f17a8da2c79e967d8f26ac31ee5d7d2f50eb&v=4) 
-|:-------------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------: | :----------------------------------------------------------------: 
-|          [Maher Mahouichi](https://github.com/maherwizy)         |           [Youssef Mestiri](https://github.com/youssefMes)           |          [Rami Cheikh Rouhou](https://github.com/ramichr)          |          [Pascal Schorde](https://github.com/p2sk) 
+| ![](https://avatars0.githubusercontent.com/u/24878008?s=200&v=4) | ![](https://avatars1.githubusercontent.com/u/25585481?s=200&v=4) | ![](https://avatars0.githubusercontent.com/u/49440303?s=200&u=bbdf6f2769d13ce1198c2294d7cce364a76e53d0&v=4)  
+|:-------------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:  
+|          [Maher Mahouichi](https://github.com/maherwizy)         |           [Youssef Mestiri](https://github.com/youssefMes)           |          [Rami Cheikh Rouhou](https://github.com/ramichr)          
 
 
 <!--
