@@ -10,12 +10,20 @@ const axios = require('axios').default;
 
 
 export default class Paintinglist extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            paintings: []
-        };
+    state = {
+        paintings: []
+    };
+
+    componentDidMount() {
+        axios.get(`http://localhost:9000/graphics/timeline`)
+            .then(res => {
+                let paintings = res.data;
+                this.setState({
+                    paintings: paintings
+                });
+            });
     }
+
     render() {
         let styleClass =this.props.value;
         return (
@@ -23,11 +31,11 @@ export default class Paintinglist extends React.Component {
                 <GridList cellHeight={400} className={styleClass.gridList}>
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                     </GridListTile>
-                    {this.props.paintings.map((painting, index) => (
-                        <GridListTile key={index}>
-                            <img src={painting.images.sizes.xs.src} alt={painting.titles.title} />
+                    {this.state.paintings.map((painting) => (
+                        <GridListTile key={painting.index}>
+                            <img src={painting.images.sizes.xs.src} alt={painting.title} />
                             <GridListTileBar
-                            title={painting.titles.title}
+                            title={painting.title}
                             subtitle={<span>by: {painting.author}</span>}
                             actionIcon={
                                 <IconButton aria-label={`info about ${painting.title}`} className={styleClass.icon}>

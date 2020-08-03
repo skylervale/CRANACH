@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -30,7 +30,6 @@ import {MediaCard} from './components/mediacard/mediacard.component';
 import gemaldeimg from './images/gemalde.jpg';
 import archivalienimg from './images/archivalien.jpg';
 import literaturimg from './images/literature.jpg';
-import axios from "axios";
 
 
 const cards = [
@@ -56,36 +55,13 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
-  const [graphics, setGraphics] = useState([])
-  const [searchText, setSearchText] = useState('')
-
-  const getData = () => {
-    axios.get(`http://localhost:9000/graphics/search?text=${searchText}`)
-        .then((res) => {
-          let graphicsList = []
-          console.log(typeof res.data)
-          Object.values(res.data).map(graphic => {
-            if (graphic.images) graphicsList.push(graphic)
-          })
-          console.log("graphicsList", graphicsList)
-          setGraphics(graphicsList)
-        })
-  }
-  const handleChange = (searchText) => {
-    setSearchText(searchText)
-    console.log("searchText", searchText)
-  }
-  useEffect(() => {
-     getData()
-  }, [searchText]);
-
   return (
      <Router>
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className={classes.root}>
-          <HeaderBar classes={classes} onChange={handleChange}/>
+          <HeaderBar classes={classes} />
         </div>
         <main>
           <Switch>
@@ -98,7 +74,7 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <Paintinglist value={classes} paintings={graphics} />
+                    <Paintinglist value={classes} />
                   </Container>
               </Container>
               
