@@ -87,7 +87,87 @@ const getTimelineList = async function (req, res) {
     })
 }
 
+const FullTextSearch = async function(req, res){
+    const searchText = req.query.text
+    await client.search({
+        index: 'cranach_graphic',
+        body:  {
+            "query": {
+                "bool": {
+                    "should": [
+                        {
+                            "query_string": {
+                                "query": "*" + searchText + "*",
+                                "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                                "fuzziness": "AUTO"
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "titles",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["titles.title^3"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "locations",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["locations.term", "locations.type"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "involvedPersons",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "involvedPersonsNames",
+                                "query": {
+                                    "nested": {
+                                        "path": "involvedPersonsNames.details",
+                                        "query": {
+                                            "query_string": {
+                                                "query": "*" + searchText + "*",
+                                                "fields": ["involvedPersonsNames.details.name^3"],
+                                                "fuzziness": "AUTO"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    ]
+                }
+            },
+            "sort": [ "_score"],
+            size: 100,
+        }
+    },function (error,response) {
+        res.send(response);
+    })
+
+}
 module.exports = {
     getAll,
-    getTimelineList
+    getTimelineList,
+    FullTextSearch
 };
