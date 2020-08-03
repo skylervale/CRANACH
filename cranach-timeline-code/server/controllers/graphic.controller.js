@@ -1,7 +1,6 @@
 const elasticsearch = require('elasticsearch');
 
 
-
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
     apiVersion: '7.x',
@@ -66,13 +65,13 @@ const getTimelineList = async function (req, res) {
             }
         }
     }, function (err, resp) {
-        if (err){
+        if (err) {
             res.send(err)
-        }else {
+        } else {
             let graphics = [];
             graphics = resp.hits.hits.map(hit => hit._source)
             graphics.map(graphic => {
-                graphic.dating.dated = graphic.dating.dated.replace(/\D/g, '').substring(0,4)
+                graphic.dating.dated = graphic.dating.dated.replace(/\D/g, '').substring(0, 4)
             })
             graphics = graphics.reduce(function (object, graphic) {
                 const date = graphic.dating.dated;
@@ -87,11 +86,11 @@ const getTimelineList = async function (req, res) {
     })
 }
 
-const FullTextSearch = async function(req, res){
+const FullTextSearch = async function (req, res) {
     const searchText = req.query.text
     await client.search({
         index: 'cranach_graphic',
-        body:  {
+        body: {
             "query": {
                 "bool": {
                     "should": [
@@ -158,11 +157,18 @@ const FullTextSearch = async function(req, res){
                     ]
                 }
             },
-            "sort": [ "_score"],
+            "sort": ["_score"],
             size: 100,
         }
-    },function (error,response) {
-        res.send(response);
+    }, function (error, response) {
+        if (!error){
+            if (response.hits.hits.length !== 0) {
+                let graphics = [];
+                graphics = response.hits.hits.map(hit => hit._source)
+                res.send(graphics);
+            }
+        }
+        res.send(error)
     })
 
 }
