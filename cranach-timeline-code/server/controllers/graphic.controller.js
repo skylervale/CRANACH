@@ -7,8 +7,8 @@ const client = new elasticsearch.Client({
     apiVersion: '7.x',
 });
 
-const getAll = function (req, res) {
-    client.search({
+const getAll = async function (req, res) {
+    await client.search({
         index: 'cranach_graphic',
         body: {
             "query": {
@@ -29,8 +29,8 @@ const getAll = function (req, res) {
     })
 }
 
-const getTimelineList = function (req, res) {
-    client.search({
+const getTimelineList = async function (req, res) {
+    await client.search({
         index: 'cranach_graphic',
         body: {
             "query": {
@@ -69,17 +69,19 @@ const getTimelineList = function (req, res) {
         if (err){
             res.send(err)
         }else {
-            const graphics = []
-            resp.hits.hits.forEach((hit) => {
-               if (graphics.length === 0){
-                   graphics.push(hit._source)
-               } else {
-                   const found = graphics.some(graphic => graphic.dating.dated === hit._source.dating.dated)
-                    if (!found && parseInt(hit._source.dating.dated)){
-                        graphics.push(hit._source)
-                    }
-               }
+            let graphics = [];
+            graphics = resp.hits.hits.map(hit => hit._source)
+            graphics.map(graphic => {
+                graphic.dating.dated = graphic.dating.dated.replace(/\D/g, '').substring(0,4)
             })
+            graphics = graphics.reduce(function (object, graphic) {
+                const date = graphic.dating.dated;
+                if (!object.hasOwnProperty(date)) {
+                    object[date] = [];
+                }
+                object[date].push(graphic);
+                return object;
+            }, {});
             res.send(graphics)
         }
     })
