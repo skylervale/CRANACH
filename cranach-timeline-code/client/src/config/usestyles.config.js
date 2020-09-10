@@ -1,4 +1,5 @@
 import { fade, makeStyles } from '@material-ui/core/styles';
+const drawerWidth = 240;
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,5 +80,43 @@ export const useStyles = makeStyles((theme) => ({
         width: '20ch',
       },
     },
+  },
+  hide: {
+    display: 'none',
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    maxWidth: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: drawerWidth,
+  },
+  drawer: {
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-start',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
   },
 }));

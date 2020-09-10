@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -30,6 +30,7 @@ import {MediaCard} from './components/mediacard/mediacard.component';
 import gemaldeimg from './images/gemalde.jpg';
 import archivalienimg from './images/archivalien.jpg';
 import literaturimg from './images/literature.jpg';
+import axios from "axios";
 
 
 const cards = [
@@ -55,13 +56,50 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
+  const [graphics, setGraphics] = useState([])
+  const [searchText, setSearchText] = useState('')
+  const [filter, setFilter] = useState({
+    yearRange: [1500,1550],
+    classification: ""
+  })
+  const getData = () => {
+    axios.get(`http://localhost:9000/graphics/search`, {
+      params: {
+        text: searchText,
+        yearRange: filter.yearRange,
+        classification: filter.classification
+      }
+    })
+        .then((res) => {
+          let graphicsList = []
+          console.log(typeof res.data)
+          Object.values(res.data).map(graphic => {
+            if (graphic.images) graphicsList.push(graphic)
+          })
+          console.log("graphicsList", graphicsList)
+          setGraphics(graphicsList)
+        })
+  }
+  console.log("filter", filter)
+
+  const handleChange = (searchText) => {
+    setSearchText(searchText)
+    console.log("searchText", searchText)
+  }
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
+  useEffect(() => {
+     getData()
+  }, [searchText, filter]);
+
   return (
      <Router>
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className={classes.root}>
-          <HeaderBar classes={classes} />
+          <HeaderBar classes={classes} onChange={handleChange} onFilterChange={handleFilterChange} filter={filter}/>
         </div>
         <main>
           <Switch>
@@ -74,10 +112,9 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <Paintinglist value={classes} />
+                    <Paintinglist value={classes} paintings={graphics} />
                   </Container>
               </Container>
-              
             </Route>
             {/*** END PAINTINGS PAGE ***/}
 

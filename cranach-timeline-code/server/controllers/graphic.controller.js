@@ -1,7 +1,6 @@
 const elasticsearch = require('elasticsearch');
 
 
-
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
     apiVersion: '7.x',
@@ -21,10 +20,10 @@ const getAll = async function (req, res) {
             }
         }
     }, function (err, resp) {
-        if (err){
+        if (err) {
             res.send(err);
         }
-        let graphics = resp.hits.hits.map(graphic => graphic._source )
+        let graphics = resp.hits.hits.map(graphic => graphic._source)
         res.send(graphics);
     })
 }
@@ -66,13 +65,13 @@ const getTimelineList = async function (req, res) {
             }
         }
     }, function (err, resp) {
-        if (err){
+        if (err) {
             res.send(err)
-        }else {
+        } else {
             let graphics = [];
             graphics = resp.hits.hits.map(hit => hit._source)
             graphics.map(graphic => {
-                graphic.dating.dated = graphic.dating.dated.replace(/\D/g, '').substring(0,4)
+                graphic.dating.dated = graphic.dating.dated.replace(/\D/g, '').substring(0, 4)
             })
             graphics = graphics.reduce(function (object, graphic) {
                 const date = graphic.dating.dated;
@@ -87,7 +86,134 @@ const getTimelineList = async function (req, res) {
     })
 }
 
+const FullTextSearch = async function (req, res) {
+    const searchText = req.query.text ? req.query.text : ''
+    const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1505]
+    const classification = req.query.classification
+    console.log(req.query)
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "query": {
+                "bool": {
+                    "should": [
+                        {
+                            "query_string": {
+                                "query": "*" + searchText + "*",
+                                "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                                "fuzziness": "AUTO"
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "titles",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["titles.title^3"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "locations",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["locations.term", "locations.type"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "involvedPersons",
+                                "query": {
+                                    "query_string": {
+                                        "query": "*" + searchText + "*",
+                                        "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
+                                        "fuzziness": "AUTO"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "nested": {
+                                "path": "involvedPersonsNames",
+                                "query": {
+                                    "nested": {
+                                        "path": "involvedPersonsNames.details",
+                                        "query": {
+                                            "query_string": {
+                                                "query": "*" + searchText + "*",
+                                                "fields": ["involvedPersonsNames.details.name^3"],
+                                                "fuzziness": "AUTO"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    ],
+                    "filter": [
+                        {
+                            "range": {
+                                "dating.dated": {
+                                    "gte": yearRange[0],
+                                    "lte": yearRange[1]
+                                }
+                            },
+                        },
+                        // @todo fix classification filter
+                        // {
+                        //     "term": {
+                        //         "classification.classification": classification
+                        //     }
+                        // }
+                    ]
+
+                }
+            },
+            "sort": ["_score"],
+            size: 100,
+        }
+    }, function (error, response) {
+        if (!error) {
+            if (response.hits.hits.length !== 0) {
+                let graphics = [];
+                graphics = response.hits.hits.map(hit => hit._source)
+                res.send(graphics);
+            }
+        }
+        res.send(error)
+    })
+
+}
+const getClassifications = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "classification_agg" : {
+                    "terms" : {"field" : "classification.classification"}
+                }
+            }
+        }
+    }, function (err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        console.log("resp", resp)
+        let classifications = resp.aggregations.classification_agg.buckets.map(bucket => bucket.key)
+        res.send(classifications);
+    })
+}
 module.exports = {
     getAll,
-    getTimelineList
+    getTimelineList,
+    FullTextSearch,
+    getClassifications
 };
