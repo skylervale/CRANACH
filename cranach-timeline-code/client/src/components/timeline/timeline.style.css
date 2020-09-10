@@ -1,7 +1,9 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 .timeline-image {
-    text-align: center;
-    overflow: hidden;
-    max-height: 450px;
+  text-align: center;
+  overflow: hidden;
+  max-height: 450px;
 }
 
 @media screen and (min-width: 400px) {
@@ -19,9 +21,16 @@
     max-height: 400px;
   }
 }
+@media screen and (max-width: 1200px) {
+  .timeline-image {
+    text-align: center;
+    overflow: hidden;
+    max-width: 90%;
+  }
+}
 
 
-/* 
+/*
   ##Device = Laptops, Desktops
   ##Screen = B/w 1025px to 1280px
 */
@@ -36,48 +45,159 @@
 
 }
 
-/* 
+/*
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  
+
   .timeline-image {
     text-align: center;
     overflow: hidden;
     max-height: 450px;
   }
-  
+
 }
 
-/* 
+/*
   ##Device = Tablets, Ipads (landscape)
   ##Screen = B/w 768px to 1024px
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  
+
   .timeline-image {
-    text-align: center;
     overflow: hidden;
     max-height: 400px;
   }
-  
+
 }
 
-/* 
+/*
   ##Device = Most of the Smartphones Mobiles (Portrait)
   ##Screen = B/w 320px to 479px
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
-  
+
   .timeline-image {
     text-align: center;
     overflow: hidden;
     max-height: 380px;
   }
-  
+
 }
 
+.prev-position {
+  border-radius: 50%;
+  border: 2px solid orange;
+  height: 50px;
+  width: 50px;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+.image-gallery {
+  position: relative;
+  margin-top: 1em;
+}
+
+.scroller {
+  height: 25em;
+  border: 4px solid orange;
+}
+.scroller__scroll-container {
+}
+.scroller__scroll-container--use-thin {
+  scrollbar-width: thin;
+}
+
+.scroller__inner > * + * {
+  /* margin-left: -3em; */
+}
+.scroller__inner > *:not(:last-child) {
+  margin-right: -3em;
+}
+.scroller__inner > * {
+  mask-image: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 1) 1.5em,
+          rgba(0, 0, 0, 1) calc(100% - 1.5em),
+          rgba(0, 0, 0, 0) 100%
+  );
+}
+.scroller__inner > :first-child {
+  mask-image: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 1) calc(100% - 1.5em),
+          rgba(0, 0, 0, 0) 100%
+  );
+}
+.scroller__inner > :last-child {
+  mask-image: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 1) 1.5em
+  );
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0.25em;
+  border-radius: 0;
+  background: orange;
+  color: white;
+  user-select: none;
+}
+.nav-button--next {
+  right: 0;
+  transform: translate(calc(50% - 4px), -50%);
+}
+.nav-button--previous {
+  left: 0;
+  transform: translate(calc(-50% + 4px), -50%);
+}
+
+.index-buttons {
+  width: 100%;
+  display: flex;
+  margin: 1em;
+  flex-wrap: wrap;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+}
+
+.index-button {
+  pointer-events: initial;
+  padding: 0.5em;
+  border-radius: 50%;
+  background: #f0f0f0;
+}
+.index-button + .index-button {
+  margin-left: 0.75em;
+}
+.index-button--current,
+.index-button--adjacent + .index-button--adjacent {
+  background: orange;
+}
+
+.image-wrapper--scrollbar {
+  border-bottom: 10px solid orange;
+}
+.image-wrapper img {
+  height: 100%;
+  width: auto;
+  margin-left: 100px;
+  display: inline-block;
+}
+img:hover {
+  box-shadow: 0 0 11px darkorange;
+}

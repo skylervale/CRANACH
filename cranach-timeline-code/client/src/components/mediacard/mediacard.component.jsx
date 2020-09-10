@@ -10,14 +10,13 @@ import Button from '@material-ui/core/Button';
 
 export const MediaCard = (card) => {
     const classes = useStyles();
-    console.log(card);
     return(
         <Grid item key={card.value.index} xs={12} sm={6} md={4}>
           <Card className={classes.card}>
             <CardMedia
               className={classes.cardMedia}
-              image="https://source.unsplash.com/random"
-              title="Image title"
+              image={card.value.image}
+              title={card.value.title}
             />
             <CardContent className={classes.cardContent}>
               <Typography gutterBottom variant="h5" component="h2">
@@ -25,11 +24,8 @@ export const MediaCard = (card) => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" color="primary">
-                View
-              </Button>
-              <Button size="small" color="primary">
-                Edit
+              <Button size="small" color="primary" href={card.value.link}>
+                Mehr
               </Button>
             </CardActions>
           </Card>

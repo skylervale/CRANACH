@@ -4,11 +4,11 @@ FROM mhart/alpine-node:latest
 WORKDIR /server
 # copy package.json into the container at /server
 COPY package*.json /server/
+# Copy the current directory contents into the container at /server
+COPY ./ /server/
 # install dependencies
 RUN    npm install \
     && npm install --save-dev nodemon
-# Copy the current directory contents into the container at /server
-COPY ./ /server/
 
 # Run the app when the container launches
 CMD ["npm", "start"]

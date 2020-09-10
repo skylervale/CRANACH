@@ -20,7 +20,7 @@ const painting_mapping = {
                         prefix: {type: "keyword"},
                         suffix: {type: "keyword"},
                         nameType: {type: "keyword"},
-                        alternativeName: {type: "keyword"},
+                        alternativeName: {type: "text"},
                         remarks: {type: "text"},
                         date: {type: "keyword"},
                         isUnknown: {type: "boolean"},
@@ -33,7 +33,14 @@ const painting_mapping = {
                         details: {
                             type: "nested",
                             properties: {
-                                name: {type: "keyword"},
+                                name: {
+                                    type: "text",
+                                    fields: {
+                                        raw: {
+                                            type: "keyword"
+                                        }
+                                    }
+                                },
                                 nameType: {type: "text"},
                             }
                         },
@@ -79,9 +86,9 @@ const painting_mapping = {
                     }
                 },
                 description: {type: "text"},
-                provenance: {type: "keyword"},
-                medium: {type: "keyword"},
-                signature: {type: "keyword"},
+                provenance: {type: "text"},
+                medium: {type: "text"},
+                signature: {type: "text"},
                 inscription: {type: "keyword"},
                 markings: {type: "text"},
                 relatedWorks: {type: "text"},
@@ -152,11 +159,12 @@ const painting_mapping = {
                     type: "nested",
                     properties: {
                         type: {type: "keyword"},
-                        term: {type: "text"},
-                        path: {type: "text"},
+                        term: {type: "keyword"},
+                        path: {type: "keyword"},
                     }
                 },
-                owner: {type: "keyword"},
+                repository: {type: "text"},
+                owner: {type: "text"},
                 sortingNumber: {type: "keyword"},
                 catalogWorkReferences: {
                     type: "nested",

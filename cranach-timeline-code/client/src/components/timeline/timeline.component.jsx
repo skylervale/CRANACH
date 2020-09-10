@@ -1,30 +1,55 @@
 import React from 'react';
 import HorizontalTimeline from 'react-horizontal-timeline';
 import './timeline.style.css';
+import {Gallery} from "./gallery.component";
 
-const VALUES = ['2020-06-27', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01', '2020-08-01', '2021-01-01', '2021-01-01'];
+const axios = require('axios').default;
 
 export default class Timeline extends React.Component {
-    state = { value: 0, previous: 0 };
+    state = {
+        value: 0,
+        previous: 0,
+        dates: [],
+        graphics: [],
+    };
+
+    componentDidMount() {
+        axios.get(`http://localhost:9000/graphics/timeline`)
+            .then(res => {
+                let dates = Object.keys(res.data).map(date => date);
+                this.setState({
+                    dates: dates,
+                    graphics: res.data
+                });
+            })
+    }
 
     render() {
         return (
-        <div>
-            {/* Bounding box for the Timeline */}
-            <div style={{ width: '100%', height: '100px', margin: '0 auto' }}>
-            <HorizontalTimeline
-                index={this.state.value}
-                indexClick={(index) => {
-                this.setState({ value: index, previous: this.state.value });
-                }}
-                values={ VALUES } />
+            <div>
+                {/* Bounding box for the Timeline */}
+                <div style={{width: '100%', height: '100px', margin: '0 auto'}}>
+                    <HorizontalTimeline
+                        index={this.state.value}
+                        indexClick={(index) => {
+                            this.setState({value: index, previous: this.state.value});
+
+                        }}
+                        values={this.state.dates}
+                        minEventPadding={50}
+                        maxEventPadding={50}
+                        linePadding={160}
+                        getLabel={(date, index) => (new Date(date)).toDateString().substring(10)}
+                        styles={{background: '#f8f8f8', foreground: 'orange', outline: 'orange'}}
+                    />
+                </div>
+                <div className='timeline-image'>
+                    <Gallery data={this.state.graphics[this.state.dates[this.state.value]]}/>
+                </div>
+                <div className='text-center'>
+                    {/* any arbitrary component can go here */}
+                </div>
             </div>
-            <div className='timeline-image'>
-            {/* any arbitrary component can go here */}
-            <img src="https://source.unsplash.com/random" alt="Logo" />;
-            {this.state.value}
-            </div>
-        </div>
         );
     }
-    }
+}

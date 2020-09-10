@@ -8,6 +8,7 @@ const app = express();
 const graphics = require('./cda-graphics.real.de.json').items;
 const paintings = require('./cda-paintings.de.json').items;
 const routes = require('./routes/index.route');
+const cors = require('cors');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -15,6 +16,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
     apiVersion: '7.x',
+}, function (err, resp) {
+    console.log("Resp: ",resp);
 });
 client.ping({
     requestTimeout: 3000
@@ -35,8 +38,6 @@ const indices = [{
     mapping: Painting,
     data: paintings
     }]
-
-
 indices.forEach(index => {
     console.log(index.name)
     client.indices.exists({index: index.name}, (err, res, status) => {
@@ -65,8 +66,7 @@ indices.forEach(index => {
 
 })
 
-
+app.use(cors());
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(routes);
-
 app.listen(9000, () => console.log(`server app listening at http://localhost:9000`));
