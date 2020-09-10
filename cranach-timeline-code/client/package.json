@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "fontsource-roboto": "^2.1.4",
+    "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-horizontal-timeline": "^1.5.3",
@@ -44,5 +45,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9000"
+  "proxy": "http://localhost:9000",
+  "devDependencies": {
+    "@material-ui/styles": "^4.10.0",
+    "eslint-plugin-react": "^7.20.5"
+  }
 }

@@ -6,48 +6,68 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import FilterListIcon from '@material-ui/icons/FilterList';
 import axios from "axios";
-import {Switch, useHistory} from "react-router-dom";
-
+import {Route, Switch, useHistory} from "react-router-dom";
+import FilterDrawer from "../paintinglist/FilterDrawer";
+import classNames from 'classnames';
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 export const HeaderBar = (props) => {
     const history = useHistory();
+    const [isOpen, setIsOpen] = useState(false)
+    const { classes, filter, onChange, onFilterChange } = props
     const handleSearchChange = (event) => {
-        props.onChange(event.target.value)
-        if (window.location.pathname !== '/paintings'){
+        onChange(event.target.value)
+        if (window.location.pathname !== '/paintings') {
             history.push('/paintings')
         }
     }
-    return(
-        <AppBar position="relative">
+    const toggle = () => {
+        setIsOpen(!isOpen)
+    }
+    return (
+        <AppBar position="fixed"
+                className={classNames(classes.appBar, {
+                    [classes.appBarShift]: isOpen,
+                })}
+        >
+            <CssBaseline />
             <Toolbar>
                 <IconButton
                     edge="start"
-                    className={props.classes.menuButton}
+                    className={classes.menuButton}
                     color="inherit"
                     aria-label="open drawer">
-                    <MenuIcon />
+                    <MenuIcon/>
                 </IconButton>
-                <Typography className={props.classes.title} variant="h6" color="inherit" noWrap>
-                   Cranach Digital Archive
+                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                    Cranach Digital Archive
                 </Typography>
                 {/*** Search Box ***/}
-                <div className={props.classes.search}>
-                    <div className={props.classes.searchIcon}>
-                        <SearchIcon />
+                <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon/>
                     </div>
                     <InputBase
                         placeholder="Search…"
                         classes={{
-                            input: props.classes.inputInput,
-                            root: props.classes.inputRoot,
+                            input: classes.inputInput,
+                            root: classes.inputRoot,
                         }}
-                        inputProps={{ 'aria-label': 'search' }}
+                        inputProps={{'aria-label': 'search'}}
                         onChange={handleSearchChange}
                     />
                 </div>
                 {/*** End Search Box ***/}
+                {/*** Filter ***/}
+                {!isOpen && <FilterListIcon
+                    className={classNames(classes.menuButton, isOpen && classes.hide)}
+                    onClick={toggle}
+                />}
+                <FilterDrawer isOpen={isOpen} classes={classes} toggle={toggle} onFilterChange={onFilterChange} filter={filter}/>
+                {/*** End Filter ***/}
             </Toolbar>
         </AppBar>
     );

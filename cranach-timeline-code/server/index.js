@@ -10,7 +10,6 @@ const paintings = require('./cda-paintings.de.json').items;
 const routes = require('./routes/index.route');
 const cors = require('cors');
 
-//test
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -18,7 +17,7 @@ const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
     apiVersion: '7.x',
 }, function (err, resp) {
-    console.log("************************************** Resp: ",resp);
+    console.log("Resp: ",resp);
 });
 client.ping({
     requestTimeout: 3000

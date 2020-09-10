@@ -58,9 +58,18 @@ function MainApp() {
   const classes = useStyles();
   const [graphics, setGraphics] = useState([])
   const [searchText, setSearchText] = useState('')
-
+  const [filter, setFilter] = useState({
+    yearRange: [1500,1550],
+    classification: ""
+  })
   const getData = () => {
-    axios.get(`http://localhost:9000/graphics/search?text=${searchText}`)
+    axios.get(`http://localhost:9000/graphics/search`, {
+      params: {
+        text: searchText,
+        yearRange: filter.yearRange,
+        classification: filter.classification
+      }
+    })
         .then((res) => {
           let graphicsList = []
           console.log(typeof res.data)
@@ -71,13 +80,18 @@ function MainApp() {
           setGraphics(graphicsList)
         })
   }
+  console.log("filter", filter)
+
   const handleChange = (searchText) => {
     setSearchText(searchText)
     console.log("searchText", searchText)
   }
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
   useEffect(() => {
      getData()
-  }, [searchText]);
+  }, [searchText, filter]);
 
   return (
      <Router>
@@ -85,7 +99,7 @@ function MainApp() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className={classes.root}>
-          <HeaderBar classes={classes} onChange={handleChange}/>
+          <HeaderBar classes={classes} onChange={handleChange} onFilterChange={handleFilterChange} filter={filter}/>
         </div>
         <main>
           <Switch>
@@ -101,7 +115,6 @@ function MainApp() {
                     <Paintinglist value={classes} paintings={graphics} />
                   </Container>
               </Container>
-              
             </Route>
             {/*** END PAINTINGS PAGE ***/}
 
