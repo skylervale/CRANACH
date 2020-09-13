@@ -42,12 +42,12 @@ export function Gallery(props) {
                     hideScrollbar={!showScrollbar}
                     onChange={newStatus => setStatus(newStatus)}
                     renderWithin={({
-                                       scrollTo,
-                                       next,
-                                       previous,
-                                       items,
-                                       status,
-                                   }) => (
+                                    scrollTo,
+                                    next,
+                                    previous,
+                                    items,
+                                    status,
+                                }) => (
                         <>
                             {status.previous !== null && (
                                 <button
