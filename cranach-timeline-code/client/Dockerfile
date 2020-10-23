@@ -1,13 +1,11 @@
 # Use a lighter version of Node as a parent image
-FROM mhart/alpine-node:latest
-# Set the working directory to /client
+FROM mhart/alpine-node
 WORKDIR /client
-# copy package.json into the container at /client
-COPY package*.json /client/
-# Copy the current directory contents into the container at /client
-COPY ./ /client/
-# install dependencies
-RUN npm install
-
-# Run the app when the container launches
+# Copy your code in the docker image
+COPY . /client
+# Install your project dependencies
+RUN npm install --silent
+# Expose the port 3000
+EXPOSE 3000
+# Set the default command to run when a container starts
 CMD ["npm", "start"]
