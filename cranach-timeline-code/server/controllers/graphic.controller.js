@@ -88,98 +88,100 @@ const getTimelineList = async function (req, res) {
 
 const FullTextSearch = async function (req, res) {
     const searchText = req.query.text ? req.query.text : ''
-    const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1505]
+    const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1600]
     const classification = req.query.classification
-    console.log(req.query)
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "query": {
-                "bool": {
-                    "should": [
-                        {
-                            "query_string": {
-                                "query": "*" + searchText + "*",
-                                "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
-                                "fuzziness": "AUTO"
-                            }
-                        },
-                        {
-                            "nested": {
-                                "path": "titles",
-                                "query": {
-                                    "query_string": {
-                                        "query": "*" + searchText + "*",
-                                        "fields": ["titles.title^3"],
-                                        "fuzziness": "AUTO"
-                                    }
+    const body = {
+        query: {
+            bool: {
+                should: [
+                    {
+                        "query_string": {
+                            "query": "*" + searchText + "*",
+                            "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                            "fuzziness": "AUTO"
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "titles",
+                            "query": {
+                                "query_string": {
+                                    "query": "*" + searchText + "*",
+                                    "fields": ["titles.title^3"],
+                                    "fuzziness": "AUTO"
                                 }
                             }
-                        },
-                        {
-                            "nested": {
-                                "path": "locations",
-                                "query": {
-                                    "query_string": {
-                                        "query": "*" + searchText + "*",
-                                        "fields": ["locations.term", "locations.type"],
-                                        "fuzziness": "AUTO"
-                                    }
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "locations",
+                            "query": {
+                                "query_string": {
+                                    "query": "*" + searchText + "*",
+                                    "fields": ["locations.term", "locations.type"],
+                                    "fuzziness": "AUTO"
                                 }
                             }
-                        },
-                        {
-                            "nested": {
-                                "path": "involvedPersons",
-                                "query": {
-                                    "query_string": {
-                                        "query": "*" + searchText + "*",
-                                        "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
-                                        "fuzziness": "AUTO"
-                                    }
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "involvedPersons",
+                            "query": {
+                                "query_string": {
+                                    "query": "*" + searchText + "*",
+                                    "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
+                                    "fuzziness": "AUTO"
                                 }
                             }
-                        },
-                        {
-                            "nested": {
-                                "path": "involvedPersonsNames",
-                                "query": {
-                                    "nested": {
-                                        "path": "involvedPersonsNames.details",
-                                        "query": {
-                                            "query_string": {
-                                                "query": "*" + searchText + "*",
-                                                "fields": ["involvedPersonsNames.details.name^3"],
-                                                "fuzziness": "AUTO"
-                                            }
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "involvedPersonsNames",
+                            "query": {
+                                "nested": {
+                                    "path": "involvedPersonsNames.details",
+                                    "query": {
+                                        "query_string": {
+                                            "query": "*" + searchText + "*",
+                                            "fields": ["involvedPersonsNames.details.name^3"],
+                                            "fuzziness": "AUTO"
                                         }
                                     }
                                 }
                             }
+                        }
+                    },
+                ],
+                filter: [
+                    {
+                        "range": {
+                            "dating.dated": {
+                                "gte": yearRange[0],
+                                "lte": yearRange[1]
+                            }
                         },
-                    ],
-                    "filter": [
-                        {
-                            "range": {
-                                "dating.dated": {
-                                    "gte": yearRange[0],
-                                    "lte": yearRange[1]
-                                }
-                            },
-                        },
-                        // @todo fix classification filter
-                        // {
-                        //     "term": {
-                        //         "classification.classification": classification
-                        //     }
-                        // }
-                    ]
+                    }
+                ]
 
-                }
-            },
-            "sort": ["_score"],
-            size: 100,
+            }
+        },
+        "sort": ["_score"],
+        size: 100,
+    }
+    if (classification){
+        const filterItem = {
+            "term": {
+                "classification.classification": classification
+            }
         }
+        body.query.bool.filter.push(filterItem)
+    }
+    await client.search({
+        index: 'cranach_graphic',
+        body: body
     }, function (error, response) {
         if (error) {
             res.send(error)
