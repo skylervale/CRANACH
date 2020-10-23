@@ -100,7 +100,6 @@
 
 .image-gallery {
   position: relative;
-  margin-top: 1em;
 }
 
 .scroller {
@@ -200,4 +199,19 @@
 }
 img:hover {
   box-shadow: 0 0 11px darkorange;
+}
+.css-24kdal {
+  overflow-y: inherit;
+}
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+    max-height: calc(72vh - 80px);
+}
+.image-gallery-content.left .image-gallery-slide .image-gallery-image, .image-gallery-content.right .image-gallery-slide .image-gallery-image {
+  max-height: 72vh;
+}
+.image-gallery-slide .image-gallery-description {
+  bottom: 0px;
+}
+.image-gallery-fullscreen-button, .image-gallery-play-button {
+  bottom: 15px;
 }

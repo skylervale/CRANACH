@@ -13,3 +13,4 @@ cranach-timeline-code/client/coverage
 # production
 cranach-timeline-code/client/build/
 
+cranach-timeline-code/client/package-lock.json
