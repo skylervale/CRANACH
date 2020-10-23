@@ -181,14 +181,14 @@ const FullTextSearch = async function (req, res) {
             size: 100,
         }
     }, function (error, response) {
-        if (!error) {
-            if (response.hits.hits.length !== 0) {
-                let graphics = [];
-                graphics = response.hits.hits.map(hit => hit._source)
-                res.send(graphics);
-            }
+        if (error) {
+            res.send(error)
         }
-        res.send(error)
+        let graphics = [];
+        if (response.hits.hits.length !== 0) {
+            graphics = response.hits.hits.map(hit => hit._source)
+        }
+        res.send(graphics);
     })
 
 }
