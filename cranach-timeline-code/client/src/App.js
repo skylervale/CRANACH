@@ -63,22 +63,22 @@ function MainApp() {
     classification: ""
   })
   const getData = () => {
-    axios.get(`http://localhost:9000/graphics/search`, {
-      params: {
-        text: searchText,
-        yearRange: filter.yearRange,
-        classification: filter.classification
-      }
-    })
-        .then((res) => {
-          let graphicsList = []
-          console.log(typeof res.data)
-          Object.values(res.data).map(graphic => {
-            if (graphic.images) graphicsList.push(graphic)
-          })
-          console.log("graphicsList", graphicsList)
-          setGraphics(graphicsList)
+    axios
+      .get(`http://localhost:9000/graphics/search`, {
+        params: {
+          text: searchText,
+          ...filter
+        },
+      })
+      .then((res) => {
+        let graphicsList = []
+        console.log(typeof res.data)
+        Object.values(res.data).map((graphic) => {
+          if (graphic.images) graphicsList.push(graphic)
         })
+        console.log('graphicsList', graphicsList)
+        setGraphics(graphicsList)
+      })
   }
   console.log("filter", filter)
 
