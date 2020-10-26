@@ -89,7 +89,9 @@ const getTimelineList = async function (req, res) {
 const FullTextSearch = async function (req, res) {
     const searchText = req.query.text ? req.query.text : ''
     const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1600]
+    const artists = req.query.artists ? req.query.artists : []
     const classification = req.query.classification
+    const medium = req.query.medium
     const body = {
         query: {
             bool: {
@@ -171,10 +173,30 @@ const FullTextSearch = async function (req, res) {
         "sort": ["_score"],
         size: 100,
     }
+    //@todo optimise adding filters to query
     if (classification){
         const filterItem = {
             "term": {
                 "classification.classification": classification
+            }
+        }
+        body.query.bool.filter.push(filterItem)
+    }
+    if (medium){
+        const filterItem = {
+            "wildcard": {
+                "medium": medium + "*"
+            }
+        }
+        body.query.bool.filter.push(filterItem)
+    }
+    if (artists.length > 0){
+        const filterItem = {
+            "nested": {
+                "path": "involvedPersons",
+                "query": {
+                    "terms": {"involvedPersons.name.raw": artists}
+                }
             }
         }
         body.query.bool.filter.push(filterItem)
@@ -204,7 +226,7 @@ const getClassifications = async function(req,res){
                 }
             }
         }
-    }, function (err, resp) {
+    }, function(err, resp) {
         if (err) {
             res.send(err);
         }
@@ -213,9 +235,78 @@ const getClassifications = async function(req,res){
         res.send(classifications);
     })
 }
+const getMediumValues = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "medium_agg" : {
+                    "terms" : {"field" : "medium.raw"}
+                }
+            },
+            _source: {
+                "includes": ["titles", "medium"]
+            }
+        }
+    }, function(err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        console.log("resp", resp)
+        let mediumValues = []
+        resp.aggregations.medium_agg.buckets.map(bucket => {
+            if(!bucket.key){
+               return
+            }
+            // remove unclean data (ex: \n[cda 2018]) and push to value array
+            mediumValues.push(bucket.key.split("\n")[0])
+        })
+        console.log("mediumValues", mediumValues)
+        res.send(mediumValues);
+    })
+}
+const getArtistsList = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "artists_agg" : {
+                    "nested": {
+                        "path": "involvedPersons",
+                    },
+                    "aggs" : {
+                        "unique_artists": {
+                            "terms": {
+                                "field": "involvedPersons.name.raw"
+                            }
+                        }
+                    }
+                }
+            },
+            _source: {
+                "includes": ["involvedPersons.name"]
+            },
+            size: 0
+        }
+    }, function(err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        let artists = []
+        resp.aggregations.artists_agg.unique_artists.buckets.map(bucket => {
+            if(!bucket.key){
+                return
+            }
+            artists.push(bucket.key)
+        })
+        res.send(artists);
+    })
+}
 module.exports = {
     getAll,
     getTimelineList,
     FullTextSearch,
-    getClassifications
+    getClassifications,
+    getMediumValues,
+    getArtistsList
 };
