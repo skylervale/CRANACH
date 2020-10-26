@@ -1,4 +1,4 @@
-import React, {Fragment, useRef, useState} from 'react';
+import React from 'react';
 //import ImageScroller from 'react-image-scroller';
 import ImageGallery from 'react-image-gallery';
 //import defaultStatus from 'react-image-scroller';

@@ -5,23 +5,23 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import _ from 'lodash'
+//import List from "@material-ui/core/List";
+//import ListItem from "@material-ui/core/ListItem";
+//import _ from 'lodash';
 import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
+//import FormHelperText from "@material-ui/core/FormHelperText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import ListSubheader from "@material-ui/core/ListSubheader";
+//import ListSubheader from "@material-ui/core/ListSubheader";
 import axios from 'axios'
-import Grid from "@material-ui/core/Grid";
+//import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
 const FilterDrawer = (props) => {
     const { isOpen, classes, toggle, filter, onFilterChange} = props
     const [classifications, setClassifications] = React.useState([]);
-    const [yearRange, setYearRange] = React.useState([1500, 1550]);
+    //const [yearRange, setYearRange] = React.useState([1500, 1550]);
     useEffect(() => {
         axios.get(`http://localhost:9000/graphics/classifications`)
             .then(res => {

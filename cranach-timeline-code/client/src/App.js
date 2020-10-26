@@ -21,6 +21,8 @@ import {useStyles} from './config/usestyles.config';
 //Html components
 import Timeline from './components/timeline/timeline.component';
 import Paintinglist from './components/paintinglist/paintinglist.component';
+import ArchivalsList from './components/archivals/archivals.component';
+import LiteratursList from './components/literaturs/literaturs.component';
 import {Copyright} from './components/copyright/copyright.component';
 import {HeaderBar} from './components/appbar/appbar.component';
 import {Videoplayer} from './components/videoplayer/videoplayer.component';
@@ -44,13 +46,13 @@ const cards = [
     title: "ARCHIVALIEN",
     index: 2,
     image: archivalienimg,
-    link: "#"
+    link: "/archivals"
   },
   {
     title: "LITERATUR",
     index: 3,
     image: literaturimg,
-    link: "#"
+    link: "/literatur"
   }
 ];
 
@@ -117,6 +119,34 @@ function MainApp() {
               </Container>
             </Route>
             {/*** END PAINTINGS PAGE ***/}
+
+            {/*** ARCHIVALS PAGE ***/}
+            <Route path="/archivals">
+              <Container maxWidth="lg">
+                  <Typography variant="h3" align="center" className="title-spacing-top">
+                    Archivalien
+                  </Typography>
+                  <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={4}></Grid>
+                    <ArchivalsList value={classes} archivals={graphics} />
+                  </Container>
+              </Container>
+            </Route>
+            {/*** END ARCHIVALS PAGE ***/}
+
+            {/*** LITERATUR PAGE ***/}
+            <Route path="/literatur">
+              <Container maxWidth="lg">
+                  <Typography variant="h3" align="center" className="title-spacing-top">
+                    Literatur
+                  </Typography>
+                  <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={4}></Grid>
+                    <LiteratursList value={classes} literaturs={graphics} />
+                  </Container>
+              </Container>
+            </Route>
+            {/*** END LITERATUR PAGE ***/}
 
             {/*** LANDING PAGE ***/}
             <Route path="/">

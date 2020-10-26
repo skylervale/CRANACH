@@ -7,8 +7,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import FilterListIcon from '@material-ui/icons/FilterList';
-import axios from "axios";
-import {Route, Switch, useHistory} from "react-router-dom";
+import Link from "@material-ui/core/Link";
+//import axios from "axios";
+import {/*Route, Switch,*/ useHistory} from "react-router-dom";
 import FilterDrawer from "../paintinglist/FilterDrawer";
 import classNames from 'classnames';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -35,15 +36,18 @@ export const HeaderBar = (props) => {
         >
             <CssBaseline />
             <Toolbar>
-                <IconButton
+                {/* <IconButton
                     edge="start"
                     className={classes.menuButton}
                     color="inherit"
                     aria-label="open drawer">
                     <MenuIcon/>
-                </IconButton>
+                </IconButton> */}
+
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    Cranach Digital Archive
+                    <Link href="/" style={{color:'white'}}>
+                        Cranach Digital Archive
+                    </Link>
                 </Typography>
                 {/*** Search Box ***/}
                 <div className={classes.search}>

@@ -9,29 +9,29 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 //const axios = require('axios').default;
 
 
-export default class Paintinglist extends React.Component {
+export default class LiteratursList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            paintings: []
+            literaturs: []
         };
     }
     render() {
-        let styleClass =this.props.value;
+        let styleClass = this.props.value;
         return (
             <div className={styleClass.root}>
                 <GridList cellHeight={400} className={styleClass.gridList}>
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                     </GridListTile>
-                    {this.props.paintings.map((painting, index) => (
-                        console.log("Paiting: ", painting),
+                    {this.props.literaturs.map((literatur, index) => (
+                        console.log("Paiting: ", literatur),
                         <GridListTile key={index}>
-                            <img src={painting.images.sizes.xs.src} alt={painting.titles.title} />
+                            <img src={literatur.images.sizes.xs.src} alt={literatur.titles.title} />
                             <GridListTileBar
-                            title={painting.titles[0].title}
-                            subtitle={<span>by: {painting.owner}</span>}
+                            title={literatur.titles[0].title}
+                            subtitle={<span>by: {literatur.owner}</span>}
                             // actionIcon={
-                            //     <IconButton aria-label={`info about ${painting.dating}`} className={styleClass.icon}>
+                            //     <IconButton aria-label={`info about ${literatur.dating}`} className={styleClass.icon}>
                             //     <InfoIcon />
                             //     </IconButton>
                             // }

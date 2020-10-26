@@ -4,6 +4,7 @@ const drawerWidth = 240;
 export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop:'90px'
   },
   grow: {
     flexGrow: 1,
@@ -12,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    padding: theme.spacing(6, 0, 6),
+    padding: theme.spacing(3, 0, 3),
     marginTop: theme.spacing(4),
   },
   heroButtons: {
@@ -39,6 +40,7 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     display: 'none',
+    color: 'white',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
