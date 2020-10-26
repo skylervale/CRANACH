@@ -89,7 +89,14 @@ const graphic_mapping = {
                 },
                 description: {type: "text"},
                 provenance: {type: "text"},
-                medium: {type: "text"},
+                medium: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
                 signature: {type: "text"},
                 inscription: {type: "keyword"},
                 markings: {type: "text"},

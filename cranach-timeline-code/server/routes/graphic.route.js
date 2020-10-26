@@ -10,5 +10,9 @@ router.route('/search')
     .get(graphicController.FullTextSearch);
 router.route('/classifications')
     .get(graphicController.getClassifications);
+router.route('/medium')
+    .get(graphicController.getMediumValues);
+router.route('/artists')
+    .get(graphicController.getArtistsList);
 
 module.exports = router;
