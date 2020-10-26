@@ -14,5 +14,11 @@ router.route('/medium')
     .get(graphicController.getMediumValues);
 router.route('/artists')
     .get(graphicController.getArtistsList);
+router.route('/locations')
+    .get(graphicController.getLocationsList);
+router.route('/repositories')
+    .get(graphicController.getRepositoryValues);
+router.route('/owners')
+    .get(graphicController.getOwners);
 
 module.exports = router;
