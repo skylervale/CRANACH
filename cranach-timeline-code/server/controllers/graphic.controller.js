@@ -302,11 +302,102 @@ const getArtistsList = async function(req,res){
         res.send(artists);
     })
 }
+
+const getLocationsList = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "locations_agg" : {
+                    "nested": {
+                        "path": "locations",
+                    },
+                    "aggs" : {
+                        "unique_locations": {
+                            "terms": {
+                                "field": "locations.term"
+                            }
+                        }
+                    }
+                }
+            },
+            _source: {
+                "includes": ["locations"]
+            },
+            size: 10
+        }
+    }, function(err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        let locations = []
+        resp.aggregations.locations_agg.unique_locations.buckets.map(bucket => {
+            if(!bucket.key){
+                return
+            }
+            locations.push(bucket.key)
+        })
+        res.send(locations);
+    })
+}
+const getRepositoryValues = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "repositories_agg" : {
+                    "terms" : {"field" : "repository.raw"}
+                }
+            },
+            size: 0
+        }
+    }, function(err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        let repositories = []
+        resp.aggregations.repositories_agg.buckets.map(bucket => {
+            if(!bucket.key){
+                return
+            }
+            repositories.push(bucket.key)
+        })
+        res.send(repositories);
+    })
+}
+const getOwners = async function(req,res){
+    await client.search({
+        index: 'cranach_graphic',
+        body: {
+            "aggs" : {
+                "owners_agg" : {
+                    "terms" : {"field" : "owner.raw"}
+                }
+            },
+            size: 0
+        }
+    }, function(err, resp) {
+        if (err) {
+            res.send(err);
+        }
+        let owners = []
+        resp.aggregations.owners_agg.buckets.map(bucket => {
+            if(!bucket.key){
+                return
+            }
+            owners.push(bucket.key)
+        })
+        res.send(owners);
+    })
+}
 module.exports = {
     getAll,
     getTimelineList,
     FullTextSearch,
     getClassifications,
     getMediumValues,
-    getArtistsList
+    getArtistsList,
+    getLocationsList,
+    getRepositoryValues,
+    getOwners
 };

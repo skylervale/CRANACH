@@ -151,8 +151,22 @@ const graphic_mapping = {
                         path: {type: "keyword"},
                     }
                 },
-                repository: {type: "text"},
-                owner: {type: "text"},
+                repository: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
+                owner: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
                 sortingNumber: {type: "keyword"},
                 catalogWorkReferences: {
                     type: "nested",
