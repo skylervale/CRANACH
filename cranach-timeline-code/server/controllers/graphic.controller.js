@@ -1,5 +1,5 @@
 const elasticsearch = require('elasticsearch');
-
+const graphicService = require('../services/graphic.service')
 
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
@@ -85,13 +85,14 @@ const getTimelineList = async function (req, res) {
         }
     })
 }
-
 const FullTextSearch = async function (req, res) {
     const searchText = req.query.text ? req.query.text : ''
     const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1600]
     const artists = req.query.artists ? req.query.artists : []
     const classification = req.query.classification
     const medium = req.query.medium
+    const repositories = req.query.repositories ? req.query.repositories : []
+    const owners = req.query.owners ? req.query.owners : []
     const body = {
         query: {
             bool: {
@@ -191,6 +192,7 @@ const FullTextSearch = async function (req, res) {
         body.query.bool.filter.push(filterItem)
     }
     if (artists.length > 0){
+        console.log("artists", artists)
         const filterItem = {
             "nested": {
                 "path": "involvedPersons",
@@ -201,6 +203,22 @@ const FullTextSearch = async function (req, res) {
         }
         body.query.bool.filter.push(filterItem)
     }
+
+    if (repositories.length > 0){
+        console.log("repositories", repositories)
+
+        const filterItem = {
+            "terms": {"repository": repositories}
+        }
+        body.query.bool.filter.push(filterItem)
+    }
+    if (owners.length > 0){
+        const filterItem = {
+            "terms": {"owner": owners}
+        }
+        body.query.bool.filter.push(filterItem)
+    }
+    console.log("body.query.bool.filter", body.query.bool.filter)
     await client.search({
         index: 'cranach_graphic',
         body: body
@@ -209,195 +227,28 @@ const FullTextSearch = async function (req, res) {
             res.send(error)
         }
         let graphics = [];
-        if (response.hits.hits.length !== 0) {
+        if (response.hits && response.hits.hits.length !== 0) {
             graphics = response.hits.hits.map(hit => hit._source)
         }
         res.send(graphics);
     })
 
 }
-const getClassifications = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "classification_agg" : {
-                    "terms" : {"field" : "classification.classification"}
-                }
-            }
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        console.log("resp", resp)
-        let classifications = resp.aggregations.classification_agg.buckets.map(bucket => bucket.key)
-        res.send(classifications);
-    })
-}
-const getMediumValues = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "medium_agg" : {
-                    "terms" : {"field" : "medium.raw"}
-                }
-            },
-            _source: {
-                "includes": ["titles", "medium"]
-            }
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        console.log("resp", resp)
-        let mediumValues = []
-        resp.aggregations.medium_agg.buckets.map(bucket => {
-            if(!bucket.key){
-               return
-            }
-            // remove unclean data (ex: \n[cda 2018]) and push to value array
-            mediumValues.push(bucket.key.split("\n")[0])
-        })
-        console.log("mediumValues", mediumValues)
-        res.send(mediumValues);
-    })
-}
-const getArtistsList = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "artists_agg" : {
-                    "nested": {
-                        "path": "involvedPersons",
-                    },
-                    "aggs" : {
-                        "unique_artists": {
-                            "terms": {
-                                "field": "involvedPersons.name.raw"
-                            }
-                        }
-                    }
-                }
-            },
-            _source: {
-                "includes": ["involvedPersons.name"]
-            },
-            size: 0
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        let artists = []
-        resp.aggregations.artists_agg.unique_artists.buckets.map(bucket => {
-            if(!bucket.key){
-                return
-            }
-            artists.push(bucket.key)
-        })
-        res.send(artists);
-    })
+const getFilterData = async function(req,res){
+    let filters = {
+        "classifications": await graphicService.getClassifications(),
+        "mediumValues": await graphicService.getMediumValues(),
+        "artists": await graphicService.getArtistsList(),
+        "locations": await graphicService.getLocationsList(),
+        "repositories": await graphicService.getRepositoryValues(),
+        "owners": await graphicService.getOwnersList(),
+    }
+    res.send(filters)
 }
 
-const getLocationsList = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "locations_agg" : {
-                    "nested": {
-                        "path": "locations",
-                    },
-                    "aggs" : {
-                        "unique_locations": {
-                            "terms": {
-                                "field": "locations.term"
-                            }
-                        }
-                    }
-                }
-            },
-            _source: {
-                "includes": ["locations"]
-            },
-            size: 10
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        let locations = []
-        resp.aggregations.locations_agg.unique_locations.buckets.map(bucket => {
-            if(!bucket.key){
-                return
-            }
-            locations.push(bucket.key)
-        })
-        res.send(locations);
-    })
-}
-const getRepositoryValues = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "repositories_agg" : {
-                    "terms" : {"field" : "repository.raw"}
-                }
-            },
-            size: 0
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        let repositories = []
-        resp.aggregations.repositories_agg.buckets.map(bucket => {
-            if(!bucket.key){
-                return
-            }
-            repositories.push(bucket.key)
-        })
-        res.send(repositories);
-    })
-}
-const getOwners = async function(req,res){
-    await client.search({
-        index: 'cranach_graphic',
-        body: {
-            "aggs" : {
-                "owners_agg" : {
-                    "terms" : {"field" : "owner.raw"}
-                }
-            },
-            size: 0
-        }
-    }, function(err, resp) {
-        if (err) {
-            res.send(err);
-        }
-        let owners = []
-        resp.aggregations.owners_agg.buckets.map(bucket => {
-            if(!bucket.key){
-                return
-            }
-            owners.push(bucket.key)
-        })
-        res.send(owners);
-    })
-}
 module.exports = {
     getAll,
     getTimelineList,
     FullTextSearch,
-    getClassifications,
-    getMediumValues,
-    getArtistsList,
-    getLocationsList,
-    getRepositoryValues,
-    getOwners
+    getFilterData
 };

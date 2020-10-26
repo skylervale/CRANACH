@@ -8,17 +8,6 @@ router.route('/timeline')
     .get(graphicController.getTimelineList);
 router.route('/search')
     .get(graphicController.FullTextSearch);
-router.route('/classifications')
-    .get(graphicController.getClassifications);
-router.route('/medium')
-    .get(graphicController.getMediumValues);
-router.route('/artists')
-    .get(graphicController.getArtistsList);
-router.route('/locations')
-    .get(graphicController.getLocationsList);
-router.route('/repositories')
-    .get(graphicController.getRepositoryValues);
-router.route('/owners')
-    .get(graphicController.getOwners);
-
+router.route('/getFilters')
+    .get(graphicController.getFilterData);
 module.exports = router;
