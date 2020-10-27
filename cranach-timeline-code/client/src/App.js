@@ -20,7 +20,8 @@ import {useStyles} from './config/usestyles.config';
 
 //Html components
 import Timeline from './components/timeline/timeline.component';
-import Paintinglist from './components/paintinglist/paintinglist.component';
+import {Paintinglist} from './components/paintinglist/paintinglist.component';
+import PaintingDetails from './components/paintinglist/paintingDetails.component';
 import ArchivalsList from './components/archivals/archivals.component';
 import LiteratursList from './components/literaturs/literaturs.component';
 import {Copyright} from './components/copyright/copyright.component';
@@ -58,12 +59,14 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
+  const [selectedPaint, setPainting] = useState({});
   const [graphics, setGraphics] = useState([])
   const [searchText, setSearchText] = useState('')
   const [filter, setFilter] = useState({
     yearRange: [1500,1550],
     classification: ""
   })
+  console.log("selectedPaint app.js ", selectedPaint);
   const getData = () => {
     axios.get(`http://localhost:9000/graphics/search`, {
       params: {
@@ -112,13 +115,26 @@ function MainApp() {
                   <Typography variant="h3" align="center" className="title-spacing-top">
                     Entdecke die Gemälde
                   </Typography>
-                  <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid container spacing={4}></Grid>
-                    <Paintinglist value={classes} paintings={graphics} />
+                  <Container className={classes.cardGrid} maxWidth="lg">
+                    <Paintinglist value={classes} paintings={graphics} setPainting={setPainting} />
                   </Container>
               </Container>
             </Route>
             {/*** END PAINTINGS PAGE ***/}
+
+            {/*** PAINTING DETAILS PAGE ***/}
+            <Route path="/paintingdetails">
+              <Container maxWidth="lg">
+                  <Typography variant="h3" align="center" className="title-spacing-top">
+                    Einzelheiten
+                  </Typography>
+                  <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={4}></Grid>
+                    <PaintingDetails value={classes} painting={selectedPaint} />
+                  </Container>
+              </Container>
+            </Route>
+            {/*** END PAINTING DETAILS PAGE ***/}
 
             {/*** ARCHIVALS PAGE ***/}
             <Route path="/archivals">
