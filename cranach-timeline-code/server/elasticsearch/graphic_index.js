@@ -89,7 +89,14 @@ const graphic_mapping = {
                 },
                 description: {type: "text"},
                 provenance: {type: "text"},
-                medium: {type: "text"},
+                medium: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
                 signature: {type: "text"},
                 inscription: {type: "keyword"},
                 markings: {type: "text"},
@@ -144,8 +151,22 @@ const graphic_mapping = {
                         path: {type: "keyword"},
                     }
                 },
-                repository: {type: "text"},
-                owner: {type: "text"},
+                repository: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
+                owner: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
                 sortingNumber: {type: "keyword"},
                 catalogWorkReferences: {
                     type: "nested",
