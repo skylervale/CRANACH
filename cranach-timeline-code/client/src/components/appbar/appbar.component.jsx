@@ -21,9 +21,6 @@ export const HeaderBar = (props) => {
     const { classes, filter, onChange, onFilterChange } = props;
     const handleSearchChange = (event) => {
         onChange(event.target.value)
-        if (window.location.pathname !== '/paintings') {
-            history.push('/paintings')
-        }
     }
     const toggle = () => {
         setIsOpen(!isOpen)
@@ -50,6 +47,7 @@ export const HeaderBar = (props) => {
                     </Link>
                 </Typography>
                 {/*** Search Box ***/}
+                {window.location.pathname !== '/' &&
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon/>
@@ -63,7 +61,7 @@ export const HeaderBar = (props) => {
                         inputProps={{'aria-label': 'search'}}
                         onChange={handleSearchChange}
                     />
-                </div>
+                </div>}
                 {/*** End Search Box ***/}
                 {/*** Filter ***/}
                 {!isOpen && <FilterListIcon

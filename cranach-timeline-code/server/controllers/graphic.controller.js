@@ -87,6 +87,7 @@ const getTimelineList = async function (req, res) {
 }
 const FullTextSearch = async function (req, res) {
     const searchText = req.query.text ? req.query.text : ''
+    console.log("search", searchText)
     const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1600]
     const artists = req.query.artists ? req.query.artists : []
     const classification = req.query.classification
@@ -99,65 +100,65 @@ const FullTextSearch = async function (req, res) {
             bool: {
                 should: [
                     {
-                        "query_string": {
-                            "query": "*" + searchText + "*",
-                            "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
-                            "fuzziness": "AUTO"
-                        }
-                    },
-                    {
                         "nested": {
                             "path": "titles",
                             "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
-                                    "fields": ["titles.title^3"],
-                                    "fuzziness": "AUTO"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "locations",
-                            "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
-                                    "fields": ["locations.term", "locations.type"],
-                                    "fuzziness": "AUTO"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "involvedPersons",
-                            "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
-                                    "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
-                                    "fuzziness": "AUTO"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "involvedPersonsNames",
-                            "query": {
-                                "nested": {
-                                    "path": "involvedPersonsNames.details",
-                                    "query": {
-                                        "query_string": {
-                                            "query": "*" + searchText + "*",
-                                            "fields": ["involvedPersonsNames.details.name^3"],
-                                            "fuzziness": "AUTO"
-                                        }
+                                "match": {
+                                    "titles.title": {
+                                      "query": searchText
                                     }
-                                }
+                                  }
+
                             }
                         }
                     },
+                    {
+                        "multi_match" : {
+                              "query": searchText, 
+                              "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                            }
+                    }
+                    // {
+                    //     "nested": {
+                    //         "path": "locations",
+                    //         "query": {
+                    //             "query_string": {
+                    //                 "query": "*" + searchText + "*",
+                    //                 "fields": ["locations.term", "locations.type"],
+                    //                 "fuzziness": "AUTO"
+                    //             }
+                    //         }
+                    //     }
+                    // },
+                    // {
+                    //     "nested": {
+                    //         "path": "involvedPersons",
+                    //         "query": {
+                    //             "query_string": {
+                    //                 "query": "*" + searchText + "*",
+                    //                 "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
+                    //                 "fuzziness": "AUTO"
+                    //             }
+                    //         }
+                    //     }
+                    // },
+                    // {
+                    //     "nested": {
+                    //         "path": "involvedPersonsNames",
+                    //         "query": {
+                    //             "nested": {
+                    //                 "path": "involvedPersonsNames.details",
+                    //                 "query": {
+                    //                     "query_string": {
+                    //                         "query": "*" + searchText + "*",
+                    //                         "fields": ["involvedPersonsNames.details.name^3"],
+                    //                         "fuzziness": "AUTO"
+                    //                     }
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // },
                 ],
                 filter: [
                     {
@@ -172,8 +173,7 @@ const FullTextSearch = async function (req, res) {
 
             }
         },
-        "sort": ["_score"],
-        size: 100,
+        size: 1000,
     }
     //@todo optimise adding filters to query
     if (classification){

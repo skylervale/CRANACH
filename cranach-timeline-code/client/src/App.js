@@ -68,57 +68,13 @@ const cards = [
 function MainApp() {
   const classes = useStyles();
   const [selectedPaint, setPainting] = useState({});
-  const [graphics, setGraphics] = useState([]);
-  const [paintings, setPaintings] = useState([])
+  const [selectedGraphic, setGraphic] = useState({});
   const [searchText, setSearchText] = useState('');
+  // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1550],
     classification: ""
   })
-  console.log("selectedPaint app.js ", selectedPaint);
-
-  const getGraphics = () => {
-    // url encode arrays
-    let urlEncodedFilter = filter;
-    let stringifiedArray;
-    for (const [key, value] of Object.entries(filter)) {
-      if (Array.isArray(value)) {
-        stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
-        urlEncodedFilter = {
-          ...urlEncodedFilter,
-          [key]: stringifiedArray
-        }
-      }
-    }
-    axios.get(`http://localhost:9000/graphics/search`, {
-          params: {
-            text: searchText,
-            ...filter
-          },
-        })
-        .then((res) => {
-          let graphicsList = []
-          console.log(typeof res.data)
-          Object.values(res.data).map((graphic) => {
-            if (graphic.images) graphicsList.push(graphic)
-          })
-          console.log('graphicsList', graphicsList)
-          setGraphics(graphicsList)
-        })
-  }
-  const getPaintings = () => {
-    axios.get(`http://localhost:9000/painting`, {})
-      .then((res) => {
-        let paintingList = []
-        console.log(typeof res.data)
-        Object.values(res.data).map((painting) => {
-          if (painting.images) paintingList.push(painting)
-        })
-        console.log('graphicsList', paintingList)
-        setPaintings(paintingList)
-      })
-  }
-
   const handleChange = (searchText) => {
     setSearchText(searchText)
     console.log("searchText", searchText)
@@ -126,10 +82,6 @@ function MainApp() {
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
-  useEffect(() => {
-      getGraphics()
-  }, [searchText, filter]);
-
   return (
      <Router>
     <React.Fragment>
@@ -148,7 +100,7 @@ function MainApp() {
                     Entdecke die Gemälde
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="lg">
-                    <Paintinglist value={classes} paintings={graphics} setPainting={setPainting} />
+                    <Paintinglist value={classes} filter={filter} searchText={searchText} />
                   </Container>
               </Container>
             </Route>
@@ -171,7 +123,7 @@ function MainApp() {
                     Grafiken
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="lg">
-                    <Paintinglist value={classes} graphics={graphics} setPainting={setPainting} />
+                    <Graphiclist value={classes} filter={filter} searchText={searchText} />
                   </Container>
               </Container>
             </Route>
@@ -195,7 +147,7 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <ArchivalsList value={classes} archivals={graphics} />
+                    <ArchivalsList value={classes} />
                   </Container>
               </Container>
             </Route>
@@ -209,7 +161,7 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <LiteratursList value={classes} literaturs={graphics} />
+                    <LiteratursList value={classes}/>
                   </Container>
               </Container>
             </Route>
