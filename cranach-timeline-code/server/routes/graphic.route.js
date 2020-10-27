@@ -8,7 +8,6 @@ router.route('/timeline')
     .get(graphicController.getTimelineList);
 router.route('/search')
     .get(graphicController.FullTextSearch);
-router.route('/classifications')
-    .get(graphicController.getClassifications);
-
+router.route('/getFilters')
+    .get(graphicController.getFilterData);
 module.exports = router;
