@@ -13,6 +13,15 @@ const search = async (index, body) => {
         body: body
     })
 }
+
+const findOne = async (index, id) => {
+    const client = getClient()
+    return  await client.get({
+        index: index,
+        id: id
+    })
+}
 module.exports = {
-    search
+    search,
+    findOne
 }

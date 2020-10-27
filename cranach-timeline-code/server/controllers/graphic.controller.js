@@ -193,7 +193,6 @@ const FullTextSearch = async function (req, res) {
         body.query.bool.filter.push(filterItem)
     }
     if (artists.length > 0){
-        console.log("artists", artists)
         const filterItem = {
             "nested": {
                 "path": "involvedPersons",
@@ -205,7 +204,6 @@ const FullTextSearch = async function (req, res) {
         body.query.bool.filter.push(filterItem)
     }
     if (locations.length > 0){
-        console.log("locations", locations)
         const filterItem = {
             "nested": {
                 "path": "locations",
@@ -217,8 +215,6 @@ const FullTextSearch = async function (req, res) {
         body.query.bool.filter.push(filterItem)
     }
     if (repositories.length > 0){
-        console.log("repositories", repositories)
-
         const filterItem = {
             "terms": {"repository.raw": repositories}
         }
@@ -230,7 +226,6 @@ const FullTextSearch = async function (req, res) {
         }
         body.query.bool.filter.push(filterItem)
     }
-    console.log("body.query.bool.filter", body.query.bool.filter)
     await client.search({
         index: 'cranach_graphic',
         body: body
@@ -240,7 +235,12 @@ const FullTextSearch = async function (req, res) {
         }
         let graphics = [];
         if (response.hits && response.hits.hits.length !== 0) {
-            graphics = response.hits.hits.map(hit => hit._source)
+            graphics = response.hits.hits.map(hit => {
+                return {
+                    ...hit._source,
+                    id: hit._id
+                }
+            })
         }
         res.send(graphics);
     })
@@ -258,9 +258,17 @@ const getFilterData = async function(req,res){
     res.send(filters)
 }
 
+const getSingleGraphic = async function(req,res){
+    const { id } = req.query
+    const resp = await graphicService.findSingleGraphic(id)
+    res.send(resp)
+}
+
+
 module.exports = {
     getAll,
     getTimelineList,
     FullTextSearch,
-    getFilterData
+    getFilterData,
+    getSingleGraphic
 };
