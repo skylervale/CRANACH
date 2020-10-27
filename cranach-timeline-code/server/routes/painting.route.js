@@ -4,5 +4,6 @@ const paintingController = require('../controllers/painting.controller');
 
 router.route('/')
     .get(paintingController.getAll);
-
+router.route('/timeline')
+    .get(paintingController.getTimelineList);
 module.exports = router;
