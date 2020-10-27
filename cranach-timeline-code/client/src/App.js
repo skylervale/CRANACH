@@ -20,8 +20,9 @@ import {useStyles} from './config/usestyles.config';
 
 //Html components
 import Timeline from './components/timeline/timeline.component';
+import {Graphiclist} from './components/graphiclist/graphiclist.component';
 import {Paintinglist} from './components/paintinglist/paintinglist.component';
-import PaintingDetails from './components/paintinglist/paintingDetails.component';
+import {PaintingDetails} from './components/paintinglist/paintingDetails.component';
 import ArchivalsList from './components/archivals/archivals.component';
 import LiteratursList from './components/literaturs/literaturs.component';
 import {Copyright} from './components/copyright/copyright.component';
@@ -33,6 +34,7 @@ import {MediaCard} from './components/mediacard/mediacard.component';
 import gemaldeimg from './images/gemalde.jpg';
 import archivalienimg from './images/archivalien.jpg';
 import literaturimg from './images/literature.jpg';
+import graphicimg from './images/gemalde.jpg'
 import axios from "axios";
 
 
@@ -44,14 +46,20 @@ const cards = [
     link: "/paintings"
   },
   {
-    title: "ARCHIVALIEN",
+    title: "GRAFIKEN",
     index: 2,
+    image: graphicimg,
+    link: "/graphics"
+  },
+  {
+    title: "ARCHIVALIEN",
+    index: 3,
     image: archivalienimg,
     link: "/archivals"
   },
   {
     title: "LITERATUR",
-    index: 3,
+    index: 4,
     image: literaturimg,
     link: "/literatur"
   }
@@ -60,14 +68,15 @@ const cards = [
 function MainApp() {
   const classes = useStyles();
   const [selectedPaint, setPainting] = useState({});
-  const [graphics, setGraphics] = useState([])
-  const [searchText, setSearchText] = useState('')
+  const [graphics, setGraphics] = useState([]);
+  const [paintings, setPaintings] = useState([])
+  const [searchText, setSearchText] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1550],
     classification: ""
   })
   console.log("selectedPaint app.js ", selectedPaint);
-  const getData = () => {
+  const getGraphics = () => {
     axios
       .get(`http://localhost:9000/graphics/search`, {
         params: {
@@ -85,7 +94,19 @@ function MainApp() {
         setGraphics(graphicsList)
       })
   }
-  console.log("filter", filter)
+  const getPaintings = () => {
+    axios
+      .get(`http://localhost:9000/painting`, {})
+      .then((res) => {
+        let paintingList = []
+        console.log(typeof res.data)
+        Object.values(res.data).map((painting) => {
+          if (painting.images) paintingList.push(painting)
+        })
+        console.log('graphicsList', paintingList)
+        setPaintings(paintingList)
+      })
+  }
 
   const handleChange = (searchText) => {
     setSearchText(searchText)
@@ -95,7 +116,8 @@ function MainApp() {
     setFilter(newFilter);
   };
   useEffect(() => {
-     getData()
+      getGraphics(),
+      getGraphics()
   }, [searchText, filter]);
 
   return (
@@ -125,15 +147,35 @@ function MainApp() {
             {/*** PAINTING DETAILS PAGE ***/}
             <Route path="/paintingdetails">
               <Container maxWidth="lg">
-                  <Typography variant="h3" align="center" className="title-spacing-top">
-                    Einzelheiten
-                  </Typography>
                   <Container className={classes.cardGrid}>
                     <PaintingDetails value={classes} painting={selectedPaint} />
                   </Container>
               </Container>
             </Route>
             {/*** END PAINTING DETAILS PAGE ***/}
+
+            {/*** GRAPHICS PAGE ***/}
+            <Route path="/graphics">
+              <Container maxWidth="lg">
+                  <Typography variant="h3" align="center" className="title-spacing-top">
+                    Grafiken
+                  </Typography>
+                  <Container className={classes.cardGrid} maxWidth="lg">
+                    <Paintinglist value={classes} graphics={graphics} setPainting={setPainting} />
+                  </Container>
+              </Container>
+            </Route>
+            {/*** END GRAPHICS PAGE ***/}
+
+            {/*** GRAPHIC DETAILS PAGE ***/}
+            <Route path="/graphicsdetails">
+              <Container maxWidth="lg">
+                  <Container className={classes.cardGrid}>
+                    <PaintingDetails value={classes} painting={selectedPaint} />
+                  </Container>
+              </Container>
+            </Route>
+            {/*** END GRAPHIC DETAILS PAGE ***/}
 
             {/*** ARCHIVALS PAGE ***/}
             <Route path="/archivals">
