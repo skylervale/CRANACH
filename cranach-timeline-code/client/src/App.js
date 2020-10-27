@@ -76,27 +76,38 @@ function MainApp() {
     classification: ""
   })
   console.log("selectedPaint app.js ", selectedPaint);
+
   const getGraphics = () => {
-    axios
-      .get(`http://localhost:9000/graphics/search`, {
-        params: {
-          text: searchText,
-          ...filter
-        },
-      })
-      .then((res) => {
-        let graphicsList = []
-        console.log(typeof res.data)
-        Object.values(res.data).map((graphic) => {
-          if (graphic.images) graphicsList.push(graphic)
+    // url encode arrays
+    let urlEncodedFilter = filter;
+    let stringifiedArray;
+    for (const [key, value] of Object.entries(filter)) {
+      if (Array.isArray(value)) {
+        stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
+        urlEncodedFilter = {
+          ...urlEncodedFilter,
+          [key]: stringifiedArray
+        }
+      }
+    }
+    axios.get(`http://localhost:9000/graphics/search`, {
+          params: {
+            text: searchText,
+            ...filter
+          },
         })
-        console.log('graphicsList', graphicsList)
-        setGraphics(graphicsList)
-      })
+        .then((res) => {
+          let graphicsList = []
+          console.log(typeof res.data)
+          Object.values(res.data).map((graphic) => {
+            if (graphic.images) graphicsList.push(graphic)
+          })
+          console.log('graphicsList', graphicsList)
+          setGraphics(graphicsList)
+        })
   }
   const getPaintings = () => {
-    axios
-      .get(`http://localhost:9000/painting`, {})
+    axios.get(`http://localhost:9000/painting`, {})
       .then((res) => {
         let paintingList = []
         console.log(typeof res.data)
@@ -116,7 +127,6 @@ function MainApp() {
     setFilter(newFilter);
   };
   useEffect(() => {
-      getGraphics(),
       getGraphics()
   }, [searchText, filter]);
 

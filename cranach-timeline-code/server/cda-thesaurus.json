@@ -1918,16 +1918,7 @@
                                         "britishEquivalent": "The Virgin and Child",
                                         "dkultTermIdentifier": "0104030403"
                                     },
-                                    "subTerms": [
-                                        {
-                                            "term": "Maria lactans",
-                                            "alt": {
-                                                "britishEquivalent": "Madonna Lactans",
-                                                "dkultTermIdentifier": "010403040301"
-                                            },
-                                            "subTerms": []
-                                        }
-                                    ]
+                                    "subTerms": []
                                 },
                                 {
                                     "term": "Die Madonna mit dem Kinde und dem Johannesknaben",
@@ -1982,6 +1973,14 @@
                                     "alt": {
                                         "britishEquivalent": "The Virgin of Mercy",
                                         "dkultTermIdentifier": "0104030409"
+                                    },
+                                    "subTerms": []
+                                },
+                                {
+                                    "term": "Maria lactans",
+                                    "alt": {
+                                        "britishEquivalent": "Madonna Lactans",
+                                        "dkultTermIdentifier": "0104030410"
                                     },
                                     "subTerms": []
                                 }
