@@ -10,4 +10,6 @@ router.route('/search')
     .get(graphicController.FullTextSearch);
 router.route('/getFilters')
     .get(graphicController.getFilterData);
+router.route('/getGraphic')
+    .get(graphicController.getSingleGraphic);
 module.exports = router;

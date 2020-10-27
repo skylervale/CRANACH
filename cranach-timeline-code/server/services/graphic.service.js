@@ -75,6 +75,10 @@ const getOwnersList = async () => {
     return owners;
 }
 
+const findSingleGraphic = async (id) => {
+    const doc = await client.findOne(index, id)
+    return doc._source
+}
 
 
 module.exports = {
@@ -83,5 +87,6 @@ module.exports = {
     getArtistsList,
     getLocationsList,
     getRepositoryValues,
-    getOwnersList
+    getOwnersList,
+    findSingleGraphic
 }

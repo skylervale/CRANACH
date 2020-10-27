@@ -93,6 +93,7 @@ const FullTextSearch = async function (req, res) {
     const medium = req.query.medium
     const repositories = req.query.repositories ? req.query.repositories : []
     const owners = req.query.owners ? req.query.owners : []
+    const locations = req.query.locations ? req.query.locations : []
     const body = {
         query: {
             bool: {
@@ -192,7 +193,6 @@ const FullTextSearch = async function (req, res) {
         body.query.bool.filter.push(filterItem)
     }
     if (artists.length > 0){
-        console.log("artists", artists)
         const filterItem = {
             "nested": {
                 "path": "involvedPersons",
@@ -203,22 +203,29 @@ const FullTextSearch = async function (req, res) {
         }
         body.query.bool.filter.push(filterItem)
     }
-
-    if (repositories.length > 0){
-        console.log("repositories", repositories)
-
+    if (locations.length > 0){
         const filterItem = {
-            "terms": {"repository": repositories}
+            "nested": {
+                "path": "locations",
+                "query": {
+                    "terms": {"locations.term": locations}
+                }
+            }
+        }
+        body.query.bool.filter.push(filterItem)
+    }
+    if (repositories.length > 0){
+        const filterItem = {
+            "terms": {"repository.raw": repositories}
         }
         body.query.bool.filter.push(filterItem)
     }
     if (owners.length > 0){
         const filterItem = {
-            "terms": {"owner": owners}
+            "terms": {"owner.raw": owners}
         }
         body.query.bool.filter.push(filterItem)
     }
-    console.log("body.query.bool.filter", body.query.bool.filter)
     await client.search({
         index: 'cranach_graphic',
         body: body
@@ -228,7 +235,12 @@ const FullTextSearch = async function (req, res) {
         }
         let graphics = [];
         if (response.hits && response.hits.hits.length !== 0) {
-            graphics = response.hits.hits.map(hit => hit._source)
+            graphics = response.hits.hits.map(hit => {
+                return {
+                    ...hit._source,
+                    id: hit._id
+                }
+            })
         }
         res.send(graphics);
     })
@@ -246,9 +258,17 @@ const getFilterData = async function(req,res){
     res.send(filters)
 }
 
+const getSingleGraphic = async function(req,res){
+    const { id } = req.query
+    const resp = await graphicService.findSingleGraphic(id)
+    res.send(resp)
+}
+
+
 module.exports = {
     getAll,
     getTimelineList,
     FullTextSearch,
-    getFilterData
+    getFilterData,
+    getSingleGraphic
 };
