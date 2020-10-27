@@ -1,4 +1,5 @@
 const elasticsearch = require('elasticsearch');
+const paintingService = require('../services/painting.service')
 
 const client = new elasticsearch.Client({
     host: 'cranach_elasticsearch:9200',
@@ -239,10 +240,29 @@ const FullTextSearch = async function (req, res) {
         }
         res.send(paintings);
     })
+}
 
+const getFilterData = async function(req,res){
+    let filters = {
+        "classifications": await paintingService.getClassifications(),
+        "mediumValues": await paintingService.getMediumValues(),
+        "artists": await paintingService.getArtistsList(),
+        "locations": await paintingService.getLocationsList(),
+        "repositories": await paintingService.getRepositoryValues(),
+        "owners": await paintingService.getOwnersList(),
+    }
+    res.send(filters)
+}
+
+const getSinglePainting = async function(req,res){
+    const { id } = req.query
+    const resp = await paintingService.findSinglePainting(id)
+    res.send(resp)
 }
 module.exports = {
     getAll,
     getTimelineList,
-    FullTextSearch
+    FullTextSearch,
+    getFilterData,
+    getSinglePainting
 };
