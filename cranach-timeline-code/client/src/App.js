@@ -128,8 +128,7 @@ function MainApp() {
                   <Typography variant="h3" align="center" className="title-spacing-top">
                     Einzelheiten
                   </Typography>
-                  <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid container spacing={4}></Grid>
+                  <Container className={classes.cardGrid}>
                     <PaintingDetails value={classes} painting={selectedPaint} />
                   </Container>
               </Container>

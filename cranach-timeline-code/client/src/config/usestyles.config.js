@@ -17,6 +17,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 0, 3),
     marginTop: theme.spacing(4),
   },
+  typoPadding:{
+    padding: theme.spacing(1),
+    textAlign: 'left',
+  },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
@@ -122,5 +126,10 @@ export const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
 }));

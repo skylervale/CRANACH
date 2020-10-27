@@ -24,7 +24,7 @@ export const Paintinglist = (props) => {
                         <img src={painting.images.sizes.xs.src} alt={painting.titles.title} />
                         <GridListTileBar
                         title={painting.titles[0].title}
-                        subtitle={<span>by: {painting.owner}</span>}
+                        subtitle={<span>Von: {painting.owner}</span>}
                         // actionIcon={
                         //     <IconButton aria-label={`info about ${painting.dating}`} className={styleClass.icon}>
                         //     <InfoIcon />
