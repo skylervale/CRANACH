@@ -17,8 +17,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 export const HeaderBar = (props) => {
     const history = useHistory();
-    const [isOpen, setIsOpen] = useState(false)
-    const { classes, filter, onChange, onFilterChange } = props
+    const [isOpen, setIsOpen] = useState(false);
+    const { classes, filter, onChange, onFilterChange } = props;
     const handleSearchChange = (event) => {
         onChange(event.target.value)
         if (window.location.pathname !== '/paintings') {

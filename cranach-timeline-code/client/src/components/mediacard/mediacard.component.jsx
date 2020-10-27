@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 export const MediaCard = (card) => {
     const classes = useStyles();
     return(
-        <Grid item key={card.value.index} xs={12} sm={6} md={4}>
+        <Grid item key={card.value.index} xs={12} sm={6} md={3}>
           <Card className={classes.card}>
             <CardMedia
               className={classes.cardMedia}

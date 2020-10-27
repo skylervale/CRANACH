@@ -4,6 +4,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import {useHistory} from "react-router-dom";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 //import ListSubheader from '@material-ui/core/ListSubheader';
 //import IconButton from '@material-ui/core/IconButton';
 //import InfoIcon from '@material-ui/icons/Info';
@@ -18,8 +19,15 @@ export const Paintinglist = (props) => {
             <GridList cols={4} spacing={30} cellHeight={400} className={styleClass.gridList}>
                 {props.paintings.map((painting, index) => (
                     <GridListTile key={index} onClick={()=>{
-                        setPainting(painting)
-                        history.push('/paintingdetails')
+                        console.log("painting: ", painting);
+                        //setPainting(painting)
+                        //AsyncStorage.setItem('selectedPainting', JSON.stringify(painting));
+                        history.push(
+                            {
+                                pathname: '/paintingdetails',
+                                search: "id="+painting.id
+                            }
+                        );
                     }}>
                         <img src={painting.images.sizes.xs.src} alt={painting.titles.title} />
                         <GridListTileBar
