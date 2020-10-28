@@ -5,6 +5,7 @@ import ImageGallery from 'react-image-gallery';
 //import { LazyLoadImage } from 'react-lazy-load-image-component';
 //import classNames from 'classnames';
 import './timeline.style.css';
+import {useHistory} from "react-router-dom";
 //import * as Scroll from 'react-scroll';
 //import axios from 'axios';
 //let Element  = Scroll.Element;
@@ -12,17 +13,17 @@ import './timeline.style.css';
 
 let images = [];
 
-console.log("Static: ",images);
-const imageClick = (ev) => {
-    console.log("ImageClick timeline: ",ev);
-} 
-
 export function Gallery(props) {
     /*const [showScrollbar, setShowScrollbar] = useState(false);
     const [useThinScrollbar, setUseThinScrollbar] = useState(true);
     const [showIndexButtons, setShowIndexButtons] = useState(true);
     const [status, setStatus] = useState(defaultStatus);*/
-    const { data } = props
+    const { data, checked } = props;
+    let pathName = "/graphicdetails";
+    const history = useHistory();
+    if(checked === "paintings"){
+        pathName = "/paintingdetails";
+    }
     console.log(data);
     if (data){
         
@@ -38,10 +39,17 @@ export function Gallery(props) {
         
         ))
     }
-    console.log("-*-*-*-*-*-images: ",images);
+    const imageClick = (id) => {        
+        history.push(
+            {
+                pathname: pathName,
+                search: "id="+id
+            }
+        );
+    } 
     return (
             
-        <ImageGallery onClick={() => imageClick(images.id)} showThumbnails="true" showPlayButton="false" thumbnailPosition="left" showIndex="true" items={images} />
+        <ImageGallery onClick={() => imageClick(images[0].id)} showThumbnails="true" showPlayButton="false" thumbnailPosition="left" showIndex="true" items={images} />
     );
 
 }

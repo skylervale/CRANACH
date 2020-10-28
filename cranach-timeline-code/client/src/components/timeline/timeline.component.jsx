@@ -31,6 +31,7 @@ const BlueCheckbox = withStyles({
 
 
 export default class Timeline extends React.Component {
+    
     state = {
         value: 0,
         previous: 0,
@@ -38,6 +39,7 @@ export default class Timeline extends React.Component {
         result: [],
         checked: 'paintings',
     };
+
 
     getData = (categoryName) => {
         axios.get(`http://localhost:9000/${categoryName}/timeline`)
@@ -95,7 +97,7 @@ export default class Timeline extends React.Component {
                     />
                 </div>
                 
-                <Gallery data={this.state.result[this.state.dates[this.state.value]]}/>
+                <Gallery checked={this.state.checked} data={this.state.result[this.state.dates[this.state.value]]}/>
 
             </div>
         );
