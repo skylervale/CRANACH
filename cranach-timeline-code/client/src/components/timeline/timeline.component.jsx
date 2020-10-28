@@ -72,12 +72,12 @@ export default class Timeline extends React.Component {
                     <FormLabel component="legend">Zeitstrahl-Inhalt</FormLabel>  
                     <FormGroup row>
                         <FormControlLabel
-                            control={<GreenCheckbox checked={this.state.checked === "graphics"} onChange={this.handleChange} name="graphics" />}
-                            label="Grafiken"
-                        />
-                        <FormControlLabel
                             control={<BlueCheckbox checked={this.state.checked === "paintings"} onChange={this.handleChange} name="paintings" />}
                             label="Gemälde"
+                        />
+                        <FormControlLabel
+                            control={<GreenCheckbox checked={this.state.checked === "graphics"} onChange={this.handleChange} name="graphics" />}
+                            label="Grafiken"
                         />
                     </FormGroup>
                 </div>
