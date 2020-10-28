@@ -63,7 +63,12 @@ const getTimelineList = async function (req, res) {
         } else {
             console.log("resp", resp)
             let paintings = [];
-            paintings = resp.hits.hits.map(hit => hit._source)
+            paintings = resp.hits.hits.map(hit => {
+                return {
+                    ...hit._source,
+                    id: hit._id
+                }
+            })
             paintings.map(painting => {
                 painting.dating.dated = painting.dating.dated.replace(/\D/g, '').substring(0, 4)
             })
