@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +21,7 @@ import {useStyles} from './config/usestyles.config';
 //Html components
 import Timeline from './components/timeline/timeline.component';
 import {Graphiclist} from './components/graphiclist/graphiclist.component';
+import {GraphicDetails} from './components/graphiclist/graphicDetails.component';
 import {Paintinglist} from './components/paintinglist/paintinglist.component';
 import {PaintingDetails} from './components/paintinglist/paintingDetails.component';
 import ArchivalsList from './components/archivals/archivals.component';
@@ -55,70 +56,28 @@ const cards = [
     title: "ARCHIVALIEN",
     index: 3,
     image: archivalienimg,
-    link: "/archivals"
+    link: "/graphics"
+    //link: "/archivals"
   },
   {
     title: "LITERATUR",
     index: 4,
     image: literaturimg,
-    link: "/literatur"
+    link: "/graphics"
+    //link: "/literatur"
   }
 ];
 
 function MainApp() {
   const classes = useStyles();
   const [selectedPaint, setPainting] = useState({});
-  const [graphics, setGraphics] = useState([]);
-  const [paintings, setPaintings] = useState([])
+  const [selectedGraphic, setGraphic] = useState({});
   const [searchText, setSearchText] = useState('');
+  // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1550],
     classification: ""
   })
-  console.log("selectedPaint app.js ", selectedPaint);
-
-  const getGraphics = () => {
-    // url encode arrays
-    let urlEncodedFilter = filter;
-    let stringifiedArray;
-    for (const [key, value] of Object.entries(filter)) {
-      if (Array.isArray(value)) {
-        stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
-        urlEncodedFilter = {
-          ...urlEncodedFilter,
-          [key]: stringifiedArray
-        }
-      }
-    }
-    axios.get(`http://localhost:9000/graphics/search`, {
-          params: {
-            text: searchText,
-            ...filter
-          },
-        })
-        .then((res) => {
-          let graphicsList = []
-          console.log(typeof res.data)
-          Object.values(res.data).map((graphic) => {
-            if (graphic.images) graphicsList.push(graphic)
-          })
-          console.log('graphicsList', graphicsList)
-          setGraphics(graphicsList)
-        })
-  }
-  const getPaintings = () => {
-    axios.get(`http://localhost:9000/painting`, {})
-      .then((res) => {
-        let paintingList = []
-        console.log(typeof res.data)
-        Object.values(res.data).map((painting) => {
-          if (painting.images) paintingList.push(painting)
-        })
-        console.log('graphicsList', paintingList)
-        setPaintings(paintingList)
-      })
-  }
-
   const handleChange = (searchText) => {
     setSearchText(searchText)
     console.log("searchText", searchText)
@@ -126,10 +85,7 @@ function MainApp() {
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
-  useEffect(() => {
-      getGraphics()
-  }, [searchText, filter]);
-
+  
   return (
      <Router>
     <React.Fragment>
@@ -148,7 +104,7 @@ function MainApp() {
                     Entdecke die Gemälde
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="lg">
-                    <Paintinglist value={classes} paintings={graphics} setPainting={setPainting} />
+                    <Paintinglist value={classes} filter={filter} searchText={searchText} />
                   </Container>
               </Container>
             </Route>
@@ -171,17 +127,17 @@ function MainApp() {
                     Grafiken
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="lg">
-                    <Paintinglist value={classes} graphics={graphics} setPainting={setPainting} />
+                    <Graphiclist value={classes} filter={filter} searchText={searchText} />
                   </Container>
               </Container>
             </Route>
             {/*** END GRAPHICS PAGE ***/}
 
             {/*** GRAPHIC DETAILS PAGE ***/}
-            <Route path="/graphicsdetails">
+            <Route path="/graphicdetails">
               <Container maxWidth="lg">
                   <Container className={classes.cardGrid}>
-                    <PaintingDetails value={classes} painting={selectedPaint} />
+                    <GraphicDetails value={classes} painting={selectedPaint} />
                   </Container>
               </Container>
             </Route>
@@ -195,7 +151,7 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <ArchivalsList value={classes} archivals={graphics} />
+                    <ArchivalsList value={classes} />
                   </Container>
               </Container>
             </Route>
@@ -209,7 +165,7 @@ function MainApp() {
                   </Typography>
                   <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}></Grid>
-                    <LiteratursList value={classes} literaturs={graphics} />
+                    <LiteratursList value={classes}/>
                   </Container>
               </Container>
             </Route>
@@ -217,7 +173,7 @@ function MainApp() {
 
             {/*** LANDING PAGE ***/}
             <Route path="/">
-              <div className={classes.heroContent}>
+              <div>
                 {/*** Timeline Container ***/}
                 <Container maxWidth="lg">
                   <Timeline />

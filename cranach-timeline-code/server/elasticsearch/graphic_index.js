@@ -70,7 +70,7 @@ const graphic_mapping = {
                 dating: {
                     type: "object",
                     properties: {
-                        dating: {type: "keyword"},
+                        dated: {type: "keyword"},
                         begin: {type: "integer"},
                         end: {type: "integer"},
                         remarks: {type: "text"},

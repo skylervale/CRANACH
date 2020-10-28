@@ -206,9 +206,6 @@ img:hover {
 .image-gallery-content .image-gallery-slide .image-gallery-image {
     max-height: calc(72vh - 80px);
 }
-.image-gallery-content.left .image-gallery-slide .image-gallery-image, .image-gallery-content.right .image-gallery-slide .image-gallery-image {
-  max-height: 72vh;
-}
 .image-gallery-slide .image-gallery-description {
   bottom: 0px;
 }

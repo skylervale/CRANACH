@@ -87,6 +87,7 @@ const getTimelineList = async function (req, res) {
 }
 const FullTextSearch = async function (req, res) {
     const searchText = req.query.text ? req.query.text : ''
+    console.log("search", searchText)
     const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1600]
     const artists = req.query.artists ? req.query.artists : []
     const classification = req.query.classification

@@ -7,35 +7,35 @@ import Divider from '@material-ui/core/Divider';
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 
-export const PaintingDetails = (props) => {
+export const GraphicDetails = (props) => {
     let styleClass =  props.value;
-    const [painting, setPainting] = useState({});
+    const [graphic, setGraphic] = useState({});
     const history = useHistory();
     const selectedID = history.location.search.replace("?id=","");
-    console.log("selectedPainting updated ", painting);
+    console.log("selectedGraphic updated ", graphic);
    
     const getData = () => {
         axios
-            .get(`http://localhost:9000/paintings/getPainting`, {
+            .get(`http://localhost:9000/graphics/getGraphic`, {
             params: {
                 id: selectedID
             },
             })
             .then((res) => {
-                console.log("response getPainting:", res.data)
-                setPainting(res.data);
+                console.log("response getGraphic:", res.data)
+                setGraphic(res.data);
             })
     }
     useEffect(() => {
         getData();
         console.log("****************")
      }, []);
-    if(!painting.images){
+    if(!graphic.images){
         return(
             <Typography component="span">Loading ...</Typography>
         )
     }else{
-        console.log("painting befor return",painting)
+        console.log("graphic befor return",graphic)
         return (
             <div>
                 <Typography variant="h3" align="center" className="title-spacing-bottom">
@@ -43,7 +43,7 @@ export const PaintingDetails = (props) => {
                 </Typography>
                 <Grid container spacing={3}>
                     <Grid item xs={5}>
-                        <img src={painting.images.sizes.xs.src} width={'100%'} alt={painting.titles[0].title} />
+                        <img src={graphic.images.sizes.xs.src} width={'100%'} alt={graphic.titles[0].title} />
                     </Grid>
                     <Grid item xs={7}>
                         <Paper className={styleClass.paper}>
@@ -52,63 +52,56 @@ export const PaintingDetails = (props) => {
                                     Titel 
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.titles[0].title}
+                                    {graphic.titles[0].title}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Erfinder 
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.involvedPersons[0].name}
+                                    {graphic.involvedPersons[0].name}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Inhaber
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.owner}
+                                    {graphic.owner}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Datum 
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.dating.dated}
+                                    {graphic.dating.dated}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Maße 
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.dimensions}
+                                    {graphic.dimensions}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Objektname
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.objectName}
+                                    {graphic.objectName}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
                                     Standort
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.locations[0].term}
+                                    {graphic.locations[0].term}
                                 </Typography>
                                 <Divider />
                                 <Typography variant="h6" component="h6">
-                                    Unterschrift
+                                    Herkunft
                                 </Typography>
                                 <Typography component="span">
-                                    {painting.signature}
-                                </Typography>
-                                <Divider />
-                                <Typography variant="h6" component="h6">
-                                    Beschreibung
-                                </Typography>
-                                <Typography component="span">
-                                    {painting.description}
+                                    {graphic.provenance}
                                 </Typography>
                                 <Divider />
                             </div>
