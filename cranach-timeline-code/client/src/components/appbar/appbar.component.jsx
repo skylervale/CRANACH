@@ -125,7 +125,7 @@ export const HeaderBar = (props) => {
                     aria-haspopup="true"
                     onClick={handleToggle}
                     >
-                     <span className={classes.menuBut}>Kategrien</span>
+                     <span className={classes.menuBut}>Kategorien</span>
                     </Button>
                     <Button target="_blank" href="https://lucascranach.org/">
                         <span className={classes.menuBut}>Blog</span>

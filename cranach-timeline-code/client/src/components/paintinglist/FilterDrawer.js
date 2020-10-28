@@ -43,7 +43,7 @@ const FilterDrawer = (props) => {
         onFilterChange(newFilter)
     }
 
-    const handlefilterSelectChange = (event) => {
+    const handleFilterSelectChange = (event) => {
         console.log("tar5et", event.target)
         const newFilter = {
                 ...filter,
@@ -92,7 +92,7 @@ const FilterDrawer = (props) => {
                 name="classification"
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                onChange={handlefilterSelectChange}
+                onChange={handleFilterSelectChange}
                 defaultValue="none"
             >
                 {filterData && filterData.classifications && filterData.classifications.map((classification, index) =>
@@ -123,7 +123,7 @@ const FilterDrawer = (props) => {
                 id="demo-mutiple-checkbox"
                 multiple
                 value={filter.artists ? filter.artists : []}
-                onChange={handlefilterSelectChange}
+                onChange={handleFilterSelectChange}
                 input={<Input />}
                 renderValue={(selected) => selected.join(', ')}
                 // MenuProps={MenuProps}

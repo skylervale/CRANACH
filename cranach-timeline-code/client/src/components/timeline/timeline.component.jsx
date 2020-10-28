@@ -36,50 +36,29 @@ export default class Timeline extends React.Component {
         previous: 0,
         dates: [],
         result: [],
-        checkedPaint: false,
-        checkedGraph: true
+        checked: 'paintings',
     };
 
-    getData = () => {
-        if(this.state.checkedGraph){
-            axios.get(`http://localhost:9000/graphics/timeline`)
+    getData = (categoryName) => {
+        axios.get(`http://localhost:9000/${categoryName}/timeline`)
             .then(res => {
                 let dates = Object.keys(res.data).map(date => date);
-                
                 this.setState({
                     dates: dates,
                     result: res.data
                 });
             });
-        }else{
-            axios.get(`http://localhost:9000/paintings/timeline`)
-            .then(res => {
-                let dates = Object.keys(res.data).map(date => date);
-                
-                this.setState({
-                    dates: dates,
-                    result: res.data
-                });
-            });
-        }
     }
 
     componentDidMount() {
-        this.getData();
+        this.getData("paintings");
     }
 
-    componentDidUpdate() {
-        this.getData();  
-    };
-
     handleChange = (event) => {
-        console.log(event.target.name);
-        console.log(event.target.checked);
-        if(event.target.name === "checkedPaint"){
-            this.setState({"checkedPaint": event.target.checked, "checkedGraph": false });
-        }else{
-            this.setState({"checkedGraph": event.target.checked, "checkedPaint": false });
-        }
+        const {name} = event.target
+        this.setState({checked: name});
+        this.getData(name);
+
     };
 
     render() {
@@ -91,11 +70,11 @@ export default class Timeline extends React.Component {
                     <FormLabel component="legend">Zeitstrahl-Inhalt</FormLabel>  
                     <FormGroup row>
                         <FormControlLabel
-                            control={<BlueCheckbox checked={this.state.checkedGraph} onChange={this.handleChange} name="checkedGraph" />}
+                            control={<BlueCheckbox checked={this.state.checked === "graphics"} onChange={this.handleChange} name="graphics" />}
                             label="Grafiken"
                         />
                         <FormControlLabel
-                            control={<GreenCheckbox checked={this.state.checkedPaint} onChange={this.handleChange} name="checkedPaint" />}
+                            control={<BlueCheckbox checked={this.state.checked === "paintings"} onChange={this.handleChange} name="paintings" />}
                             label="Gemälde"
                         />
                     </FormGroup>
