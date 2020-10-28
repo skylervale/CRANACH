@@ -36,7 +36,7 @@ import gemaldeimg from './images/gemalde.jpg';
 import archivalienimg from './images/archivalien.jpg';
 import literaturimg from './images/literature.jpg';
 import graphicimg from './images/gemalde.jpg'
-import axios from "axios";
+
 
 
 const cards = [
@@ -70,8 +70,6 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
-  const [selectedPaint, setPainting] = useState({});
-  const [selectedGraphic, setGraphic] = useState({});
   const [searchText, setSearchText] = useState('');
   // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
@@ -114,7 +112,7 @@ function MainApp() {
             <Route path="/paintingdetails">
               <Container maxWidth="lg">
                   <Container className={classes.cardGrid}>
-                    <PaintingDetails value={classes} painting={selectedPaint} />
+                    <PaintingDetails value={classes}/>
                   </Container>
               </Container>
             </Route>
@@ -137,7 +135,7 @@ function MainApp() {
             <Route path="/graphicdetails">
               <Container maxWidth="lg">
                   <Container className={classes.cardGrid}>
-                    <GraphicDetails value={classes} painting={selectedPaint} />
+                    <GraphicDetails value={classes}/>
                   </Container>
               </Container>
             </Route>

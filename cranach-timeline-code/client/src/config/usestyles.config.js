@@ -7,6 +7,9 @@ export const useStyles = makeStyles((theme) => ({
     marginTop:'64px',
     padding: theme.spacing(2)
   },
+  filtercontainer:{
+    display: 'flex',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -127,8 +130,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    margin: theme.spacing(2)
   },
   paper: {
     padding: theme.spacing(2),
