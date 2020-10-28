@@ -75,7 +75,7 @@ function MainApp() {
   const [searchText, setSearchText] = useState('');
   // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
-    yearRange: [1500,1550],
+    yearRange: [1500,1800],
     classification: ""
   })
   const handleChange = (searchText) => {

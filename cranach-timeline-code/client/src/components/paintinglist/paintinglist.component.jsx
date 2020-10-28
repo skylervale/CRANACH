@@ -14,6 +14,18 @@ export const Paintinglist = (props) => {
     const history =  useHistory();
     const [paintings, setPaintings] = useState(null);
     const getPaintings = () => {
+        // url encode arrays
+        let urlEncodedFilter = filter;
+        let stringifiedArray;
+        for (const [key, value] of Object.entries(filter)) {
+            if (Array.isArray(value)) {
+                stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
+                urlEncodedFilter = {
+                    ...urlEncodedFilter,
+                    [key]: stringifiedArray
+                }
+            }
+        }
         axios.get(`http://localhost:9000/paintings/search`, {
             params: {
                 text: searchText,
