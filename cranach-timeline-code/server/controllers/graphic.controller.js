@@ -99,8 +99,8 @@ const FullTextSearch = async function (req, res) {
             bool: {
                 should: [
                     {
-                        "query_string": {
-                            "query": "*" + searchText + "*",
+                        "multi_match": {
+                            "query": searchText,
                             "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
                             "fuzziness": "AUTO"
                         }
@@ -109,10 +109,11 @@ const FullTextSearch = async function (req, res) {
                         "nested": {
                             "path": "titles",
                             "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
-                                    "fields": ["titles.title^3"],
-                                    "fuzziness": "AUTO"
+                                "common": {
+                                    "titles.title": {
+                                        "query": searchText,
+                                        "cutoff_frequency": 0.001,
+                                    }
                                 }
                             }
                         }
@@ -121,44 +122,16 @@ const FullTextSearch = async function (req, res) {
                         "nested": {
                             "path": "locations",
                             "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
+                                "multi_match": {
+                                    "query": searchText,
                                     "fields": ["locations.term", "locations.type"],
                                     "fuzziness": "AUTO"
                                 }
                             }
                         }
-                    },
-                    {
-                        "nested": {
-                            "path": "involvedPersons",
-                            "query": {
-                                "query_string": {
-                                    "query": "*" + searchText + "*",
-                                    "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
-                                    "fuzziness": "AUTO"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "involvedPersonsNames",
-                            "query": {
-                                "nested": {
-                                    "path": "involvedPersonsNames.details",
-                                    "query": {
-                                        "query_string": {
-                                            "query": "*" + searchText + "*",
-                                            "fields": ["involvedPersonsNames.details.name^3"],
-                                            "fuzziness": "AUTO"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
+                    }
                 ],
+                minimum_should_match:"1",
                 filter: [
                     {
                         "range": {
@@ -173,7 +146,7 @@ const FullTextSearch = async function (req, res) {
             }
         },
         "sort": ["_score"],
-        size: 100,
+        size: 500,
     }
     //@todo optimise adding filters to query
     if (classification){
