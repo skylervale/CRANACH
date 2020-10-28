@@ -106,14 +106,8 @@
   height: 25em;
   border: 4px solid orange;
 }
-.scroller__scroll-container {
-}
 .scroller__scroll-container--use-thin {
   scrollbar-width: thin;
-}
-
-.scroller__inner > * + * {
-  /* margin-left: -3em; */
 }
 .scroller__inner > *:not(:last-child) {
   margin-right: -3em;
