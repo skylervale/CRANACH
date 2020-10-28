@@ -34,7 +34,7 @@ const FilterDrawer = (props) => {
                 console.log("res", res)
                 setFilterData(res.data)
             })
-    },[])
+    },[pathname])
     const handleYearChange = (event, newValue) => {
         const newFilter = {
                 ...filter,
@@ -88,7 +88,7 @@ const FilterDrawer = (props) => {
         </Container>
         <Divider/>
         <FormControl className={classes.formControl} fullWidth={false}>
-            <InputLabel id="demo-simple-select-helper-label">Classification</InputLabel>
+            <InputLabel id="demo-mutiple-checkbox-label">Classification</InputLabel>
             <Select
                 name="classification"
                 labelId="demo-simple-select-helper-label"
@@ -101,21 +101,6 @@ const FilterDrawer = (props) => {
                 }
             </Select>
         </FormControl>
-        {/*<FormControl className={classes.formControl}>*/}
-        {/*    <InputLabel htmlFor="grouped-select">Grouping</InputLabel>*/}
-        {/*    <Select defaultValue="" id="grouped-select">*/}
-        {/*        <MenuItem value="">*/}
-        {/*            <em>None</em>*/}
-        {/*        </MenuItem>*/}
-        {/*        <ListSubheader>Category 1</ListSubheader>*/}
-        {/*        <MenuItem value={1}>Option 1</MenuItem>*/}
-        {/*        <MenuItem value={2}>Option 2</MenuItem>*/}
-        {/*        <ListSubheader>Category 2</ListSubheader>*/}
-        {/*        <MenuItem value={3}>Option 3</MenuItem>*/}
-        {/*        <MenuItem value={4}>Option 4</MenuItem>*/}
-        {/*    </Select>*/}
-        {/*</FormControl>*/}
-
         <FormControl className={classes.formControl}>
             <InputLabel id="demo-mutiple-checkbox-label">Künstler</InputLabel>
             <Select
@@ -133,6 +118,90 @@ const FilterDrawer = (props) => {
                     <MenuItem key={index} value={artist}>
                         <Checkbox checked={filter.artists && filter.artists.indexOf(artist) > -1} />
                         <ListItemText primary={artist} />
+                    </MenuItem>
+                )}
+            </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="demo-mutiple-checkbox-label">Medium</InputLabel>
+            <Select
+                name="mediumValues"
+                labelId="demo-mutiple-checkbox-label"
+                id="demo-mutiple-checkbox"
+                multiple
+                value={filter.mediumValues ? filter.mediumValues : []}
+                onChange={handleFilterSelectChange}
+                input={<Input />}
+                renderValue={(selected) => selected.join(', ')}
+                // MenuProps={MenuProps}
+            >
+                {filterData.mediumValues && filterData.mediumValues.map((v, index) =>
+                    <MenuItem key={index} value={v}>
+                        <Checkbox checked={filter.mediumValues && filter.mediumValues.indexOf(v) > -1} />
+                        <ListItemText primary={v} />
+                    </MenuItem>
+                )}
+            </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="demo-mutiple-checkbox-label">Owners</InputLabel>
+            <Select
+                name="owners"
+                labelId="demo-mutiple-checkbox-label"
+                id="demo-mutiple-checkbox"
+                multiple
+                value={filter.owners ? filter.owners : []}
+                onChange={handleFilterSelectChange}
+                input={<Input />}
+                renderValue={(selected) => selected.join(', ')}
+                // MenuProps={MenuProps}
+            >
+                {filterData.owners && filterData.owners.map((owner, index) =>
+                    <MenuItem key={index} value={owner}>
+                        <Checkbox checked={filter.owners && filter.owners.indexOf(owner) > -1} />
+                        <ListItemText primary={owner} />
+                    </MenuItem>
+                )}
+            </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="demo-mutiple-checkbox-label">Locations</InputLabel>
+            <Select
+                name="locations"
+                labelId="demo-mutiple-checkbox-label"
+                id="demo-mutiple-checkbox"
+                multiple
+                value={filter.locations ? filter.locations : []}
+                onChange={handleFilterSelectChange}
+                input={<Input />}
+                renderValue={(selected) => selected.join(', ')}
+                // MenuProps={MenuProps}
+            >
+                {filterData.locations && filterData.locations.map((location, index) =>
+                    <MenuItem key={index} value={location}>
+                        <Checkbox checked={filter.locations && filter.locations.indexOf(location) > -1} />
+                        <ListItemText primary={location} />
+                    </MenuItem>
+                )}
+            </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="demo-mutiple-checkbox-label">Repositories</InputLabel>
+            <Select
+                name="repositories"
+                labelId="demo-mutiple-checkbox-label"
+                id="demo-mutiple-checkbox"
+                multiple
+                value={filter.repositories ? filter.repositories : []}
+                onChange={handleFilterSelectChange}
+                input={<Input />}
+                renderValue={(selected) => selected.join(', ')}
+                // MenuProps={MenuProps}
+            >
+                {filterData.repositories && filterData.repositories.map((repository, index) =>
+                    <MenuItem key={index} value={repository}>
+                        <Checkbox checked={filter.artists && filter.artists.indexOf(repository) > -1} />
+                        <ListItemText primary={repository} />
                     </MenuItem>
                 )}
             </Select>

@@ -5,24 +5,25 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import {useHistory} from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 export const Graphiclist = (props) => {
     let styleClass =  props.value;
     const history = useHistory();
-    const [graphics, setGraphics] = useState([]);
+    const [graphics, setGraphics] = useState(null);
     const {filter, searchText} = props
     const getGraphics = () => {
         // url encode arrays
-        // let urlEncodedFilter = filter;
-        // let stringifiedArray;
-        // for (const [key, value] of Object.entries(filter)) {
-        //   if (Array.isArray(value)) {
-        //     stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
-        //     urlEncodedFilter = {
-        //       ...urlEncodedFilter,
-        //       [key]: stringifiedArray
-        //     }
-        //   }
-        // }
+        let urlEncodedFilter = filter;
+        let stringifiedArray;
+        for (const [key, value] of Object.entries(filter)) {
+          if (Array.isArray(value)) {
+            stringifiedArray = value.map((v, index) => `${key}[${index}]=${v}`).join('&')
+            urlEncodedFilter = {
+              ...urlEncodedFilter,
+              [key]: stringifiedArray
+            }
+          }
+        }
         axios.get(`http://localhost:9000/graphics/search`, {
               params: {
                 text: searchText,
@@ -43,9 +44,18 @@ export const Graphiclist = (props) => {
         getGraphics()
     }, [searchText, filter]);
 
-    if(graphics.length === 0){
+    if(!graphics){
         return(
-            <Typography component="span">Loading ...</Typography>
+            <div className={styleClass.root} style={{minHeight: 300 + "px", textAlign: "center"}} >
+                <CircularProgress />
+                <Typography component="span">Loading ...</Typography>
+            </div>
+        )
+    } else if (graphics.length === 0){
+        return (
+            <div className={styleClass.root} style={{minHeight: 300 + "px", textAlign: "center"}} >
+                <Typography component="span">No records found</Typography>
+            </div>
         )
     }else {
     return (

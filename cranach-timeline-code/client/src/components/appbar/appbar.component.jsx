@@ -76,6 +76,8 @@ export const HeaderBar = (props) => {
 
         prevOpen.current = open;
     }, [open]);
+    const {pathname} = history.location
+    const allowedFilterPaths = ["/paintings", "/graphics"]
     return (
         <AppBar position="fixed"
                 className={classNames(classes.appBar, {
@@ -150,7 +152,7 @@ export const HeaderBar = (props) => {
                 </div>
 
                 {/*** Filter ***/}
-                {!isOpen && <FilterListIcon
+                {!isOpen && (allowedFilterPaths.indexOf(pathname) > -1) && <FilterListIcon
                     className={classNames(classes.menuButton, isOpen && classes.hide)}
                     onClick={toggle}
                 />}
