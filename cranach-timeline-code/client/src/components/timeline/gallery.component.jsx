@@ -13,6 +13,9 @@ import './timeline.style.css';
 let images = [];
 
 console.log("Static: ",images);
+const imageClick = (ev) => {
+    console.log("ImageClick timeline: ",ev);
+} 
 
 export function Gallery(props) {
     /*const [showScrollbar, setShowScrollbar] = useState(false);
@@ -24,20 +27,21 @@ export function Gallery(props) {
     if (data){
         
         images = Object.values(data).map((graphic, index) => (
-            
+           
             {
                 original: graphic.images.sizes.xs.src,
                 thumbnail: graphic.images.sizes.xs.src,
                 sizes: "200px",
-                description: data[index].titles[0].title
+                description: data[index].titles[0].title,
+                id: graphic.id
             }
         
         ))
     }
-    console.log(images);
+    console.log("-*-*-*-*-*-images: ",images);
     return (
             
-        <ImageGallery showThumbnails="true" showPlayButton="false" thumbnailPosition="left" showIndex="true" items={images} />
+        <ImageGallery onClick={() => imageClick(images.id)} showThumbnails="true" showPlayButton="false" thumbnailPosition="left" showIndex="true" items={images} />
     );
 
 }
