@@ -4,7 +4,7 @@ const drawerWidth = 320;
 export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop:'90px',
+    marginTop:'64px',
     padding: theme.spacing(2)
   },
   grow: {
@@ -43,12 +43,15 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 0.02,
     display: 'none',
     color: 'white',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+  },
+  menuBut:{
+    color: 'white',
   },
   search: {
     position: 'relative',

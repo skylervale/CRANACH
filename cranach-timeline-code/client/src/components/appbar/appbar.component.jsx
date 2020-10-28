@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,18 +13,69 @@ import {/*Route, Switch,*/ useHistory} from "react-router-dom";
 import FilterDrawer from "../paintinglist/FilterDrawer";
 import classNames from 'classnames';
 import CssBaseline from "@material-ui/core/CssBaseline";
+//Import Menu
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 
 
 export const HeaderBar = (props) => {
     const history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     const { classes, filter, onChange, onFilterChange } = props;
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef(null);
     const handleSearchChange = (event) => {
         onChange(event.target.value)
     }
     const toggle = () => {
         setIsOpen(!isOpen)
     }
+
+    //MENU
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        console.log("handleClose Ev:", event);
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    const handlePaintLink = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+        history.push("/paintings");
+    };
+    const handleGraphLink = (event) => {
+        console.log("handleClose Ev:", event);
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+        history.push("/graphics");
+    };
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+          event.preventDefault();
+          setOpen(false);
+        }
+    }
+    const prevOpen = useRef(open);
+    useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+        }
+
+        prevOpen.current = open;
+    }, [open]);
     return (
         <AppBar position="fixed"
                 className={classNames(classes.appBar, {
@@ -62,7 +113,42 @@ export const HeaderBar = (props) => {
                         onChange={handleSearchChange}
                     />
                 </div>}
+                <div className={classes.grow} />
                 {/*** End Search Box ***/}
+                <div>
+                    <Button href="/">
+                        <span className={classes.menuBut}>Startseite</span>
+                    </Button>
+                    <Button
+                    ref={anchorRef}
+                    aria-controls={open ? 'menu-list-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                    >
+                     <span className={classes.menuBut}>Kategrien</span>
+                    </Button>
+                    <Button target="_blank" href="https://lucascranach.org/">
+                        <span className={classes.menuBut}>Blog</span>
+                    </Button>
+                    <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                        {...TransitionProps}
+                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                        >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                                <MenuItem onClick={handlePaintLink}>Gemälde</MenuItem>
+                                <MenuItem onClick={handleGraphLink}>Grafiken</MenuItem>
+                            </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                        </Grow>
+                    )}
+                    </Popper>
+                </div>
+
                 {/*** Filter ***/}
                 {!isOpen && <FilterListIcon
                     className={classNames(classes.menuButton, isOpen && classes.hide)}

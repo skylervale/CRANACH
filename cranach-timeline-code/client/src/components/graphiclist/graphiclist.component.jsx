@@ -53,7 +53,6 @@ export const Graphiclist = (props) => {
             <GridList cols={4} spacing={30} cellHeight={400} className={styleClass.gridList}>
                 {graphics.map((graphic, index) => (
                     <GridListTile key={index} onClick={()=>{
-                        return
                         console.log("graphic: ", graphic);
                         history.push(
                             {

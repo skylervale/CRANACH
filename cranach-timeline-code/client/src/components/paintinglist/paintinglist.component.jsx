@@ -42,7 +42,6 @@ export const Paintinglist = (props) => {
                     {paintings.map((painting, index) => (
                         
                         <GridListTile key={index} onClick={()=>{
-                            return
                             console.log("painting: ", painting);
                             history.push(
                                 {

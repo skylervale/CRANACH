@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +21,7 @@ import {useStyles} from './config/usestyles.config';
 //Html components
 import Timeline from './components/timeline/timeline.component';
 import {Graphiclist} from './components/graphiclist/graphiclist.component';
+import {GraphicDetails} from './components/graphiclist/graphicDetails.component';
 import {Paintinglist} from './components/paintinglist/paintinglist.component';
 import {PaintingDetails} from './components/paintinglist/paintingDetails.component';
 import ArchivalsList from './components/archivals/archivals.component';
@@ -55,13 +56,15 @@ const cards = [
     title: "ARCHIVALIEN",
     index: 3,
     image: archivalienimg,
-    link: "/archivals"
+    link: "/graphics"
+    //link: "/archivals"
   },
   {
     title: "LITERATUR",
     index: 4,
     image: literaturimg,
-    link: "/literatur"
+    link: "/graphics"
+    //link: "/literatur"
   }
 ];
 
@@ -82,6 +85,7 @@ function MainApp() {
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
+  
   return (
      <Router>
     <React.Fragment>
@@ -130,10 +134,10 @@ function MainApp() {
             {/*** END GRAPHICS PAGE ***/}
 
             {/*** GRAPHIC DETAILS PAGE ***/}
-            <Route path="/graphicsdetails">
+            <Route path="/graphicdetails">
               <Container maxWidth="lg">
                   <Container className={classes.cardGrid}>
-                    <PaintingDetails value={classes} painting={selectedPaint} />
+                    <GraphicDetails value={classes} painting={selectedPaint} />
                   </Container>
               </Container>
             </Route>
@@ -169,7 +173,7 @@ function MainApp() {
 
             {/*** LANDING PAGE ***/}
             <Route path="/">
-              <div className={classes.heroContent}>
+              <div>
                 {/*** Timeline Container ***/}
                 <Container maxWidth="lg">
                   <Timeline />
