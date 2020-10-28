@@ -20,15 +20,16 @@ import Container from "@material-ui/core/Container";
 import Input from "@material-ui/core/Input";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
+import {useHistory} from "react-router-dom";
 
 
 const FilterDrawer = (props) => {
     const { isOpen, classes, toggle, filter, onFilterChange} = props
     const [filterData, setFilterData] = useState([]);
-
-    console.log("filterData", filterData)
+    const history =  useHistory();
+    const {pathname} = history.location
     useEffect(() => {
-        axios.get(`http://localhost:9000/graphics/getFilters`)
+        axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
             .then(res => {
                 console.log("res", res)
                 setFilterData(res.data)
