@@ -100,66 +100,39 @@ const FullTextSearch = async function (req, res) {
             bool: {
                 should: [
                     {
+                        "multi_match": {
+                            "query": searchText,
+                            "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                            "fuzziness": "AUTO"
+                        }
+                    },
+                    {
                         "nested": {
                             "path": "titles",
                             "query": {
-                                "match": {
+                                "common": {
                                     "titles.title": {
-                                      "query": searchText
+                                        "query": searchText,
+                                        "cutoff_frequency": 0.001,
                                     }
-                                  }
-
+                                }
                             }
                         }
                     },
                     {
-                        "multi_match" : {
-                              "query": searchText, 
-                              "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+                        "nested": {
+                            "path": "locations",
+                            "query": {
+                                "multi_match": {
+                                    "query": searchText,
+                                    "fields": ["locations.term", "locations.type"],
+                                    "fuzziness": "AUTO"
+                                }
                             }
+                        }
                     }
-                    // {
-                    //     "nested": {
-                    //         "path": "locations",
-                    //         "query": {
-                    //             "query_string": {
-                    //                 "query": "*" + searchText + "*",
-                    //                 "fields": ["locations.term", "locations.type"],
-                    //                 "fuzziness": "AUTO"
-                    //             }
-                    //         }
-                    //     }
-                    // },
-                    // {
-                    //     "nested": {
-                    //         "path": "involvedPersons",
-                    //         "query": {
-                    //             "query_string": {
-                    //                 "query": "*" + searchText + "*",
-                    //                 "fields": ["involvedPersons.alternativeName^3", "involvedPersons.alternativeName^3"],
-                    //                 "fuzziness": "AUTO"
-                    //             }
-                    //         }
-                    //     }
-                    // },
-                    // {
-                    //     "nested": {
-                    //         "path": "involvedPersonsNames",
-                    //         "query": {
-                    //             "nested": {
-                    //                 "path": "involvedPersonsNames.details",
-                    //                 "query": {
-                    //                     "query_string": {
-                    //                         "query": "*" + searchText + "*",
-                    //                         "fields": ["involvedPersonsNames.details.name^3"],
-                    //                         "fuzziness": "AUTO"
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // },
                 ],
+                minimum_should_match:"1",
                 filter: [
                     {
                         "range": {
@@ -173,7 +146,8 @@ const FullTextSearch = async function (req, res) {
 
             }
         },
-        size: 1000,
+        "sort": ["_score"],
+        size: 500,
     }
     //@todo optimise adding filters to query
     if (classification){
