@@ -24,18 +24,18 @@ export function Gallery(props) {
             }
         ))
     }
-    const HandleImageClick = () => {
+    const handleImageClick = () => {
         const index = galleryRef.current.getCurrentIndex()
         const {id} = data[index]
         history.push({ pathname: pathName, search: "id="+id });
     }
     return (
         <ImageGallery
-            onClick={HandleImageClick}
-            showThumbnails="true"
-            showPlayButton="false"
+            onClick={handleImageClick}
+            showThumbnails={true}
+            showPlayButton={false}
             thumbnailPosition="left"
-            showIndex="true"
+            showIndex={true}
             items={images}
             lazyLoad={true}
             ref={galleryRef}
