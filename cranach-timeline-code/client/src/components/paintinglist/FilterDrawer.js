@@ -30,11 +30,13 @@ const FilterDrawer = (props) => {
     const {pathname} = history.location;
     const [checked, setChecked] = useState(false);
     useEffect(() => {
-        axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
-            .then(res => {
-                console.log("res", res)
-                setFilterData(res.data)
-            })
+        if (["painting","graghics"].indexOf(pathname) > -1) {
+            axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
+                .then(res => {
+                    console.log("res", res)
+                    setFilterData(res.data)
+                })
+        }
     },[pathname])
     const handleYearChange = (event, newValue) => {
         const newFilter = {

@@ -1,8 +1,9 @@
 const elasticsearch = require('elasticsearch');
+const {host} = require('./config')
 
 const getClient =  () => {
     return new elasticsearch.Client({
-        host: 'cranach_elasticsearch:9200',
+        host: host,
         apiVersion: '7.x',
     });
 }
