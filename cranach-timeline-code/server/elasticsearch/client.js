@@ -1,10 +1,8 @@
 const elasticsearch = require('elasticsearch');
-
+const config = require('./config')
+const {host, apiVersion} = config
 const getClient =  () => {
-    return new elasticsearch.Client({
-        host: 'cranach_elasticsearch:9200',
-        apiVersion: '7.x',
-    });
+    return new elasticsearch.Client({host, apiVersion});
 }
 const search = async (index, body) => {
     const client = getClient()
@@ -23,5 +21,6 @@ const findOne = async (index, id) => {
 }
 module.exports = {
     search,
-    findOne
+    findOne,
+    getClient
 }

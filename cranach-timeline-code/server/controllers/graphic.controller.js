@@ -47,14 +47,14 @@ const getTimelineList = async function (req, res) {
                         },
                     "must_not": {
                         "term": {
-                            "dating.dated.keyword": ""
+                            "dating.dated": ""
                         }
                     }
                 },
             },
             "sort": [
                 {
-                    "dating.dated.keyword": {
+                    "dating.dated": {
                         "order": "asc",
                     }
                 }

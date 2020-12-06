@@ -142,7 +142,15 @@ const graphic_mapping = {
                         referenceId: {type: "keyword"},
                     }
                 },
-                keywords: {type: "keyword"},
+                keywords:  {
+                    type: "nested",
+                    properties: {
+                        type: {type: "keyword"},
+                        term: {type: "keyword"},
+                        path: {type: "keyword"},
+                        url: {type: "text"}
+                    }
+                },
                 locations: {
                     type: "nested",
                     properties: {
@@ -182,6 +190,40 @@ const graphic_mapping = {
                         element: {type: "keyword"},
                         width: {type: "keyword"},
                         height: {type: "keyword"},
+                    }
+                },
+                restorationSurveys: {
+                    type: "nested",
+                    properties: {
+                        type: {type: "keyword"},
+                        project: {type: "keyword"},
+                        overallAnalysis: {type: "keyword"},
+                        remarks: {type: "keyword"},
+                        tests: {
+                            type: "nested",
+                            properties: {
+                                kind: {type: "keyword"},
+                                text: {type: "keyword"},
+                                purpose: {type: "keyword"},
+                                remarks: {type: "keyword"}
+                            }
+                        },
+                        processingDates: {
+                            type: "object",
+                            properties: {
+                                beginDate: {type: "keyword"},
+                                beginYear: {type: "keyword"},
+                                endDate: {type: "keyword"},
+                                endYear: {type: "keyword"}
+                            }
+                        },
+                        signature: {
+                            type: "object",
+                            properties: {
+                                date: {type: "text"},
+                                name: {type: "text"}
+                            }
+                        }
                     }
                 },
                 images: {
