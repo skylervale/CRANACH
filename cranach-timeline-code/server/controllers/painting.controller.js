@@ -1,10 +1,8 @@
 const elasticsearch = require('elasticsearch');
 const paintingService = require('../services/painting.service')
-
-const client = new elasticsearch.Client({
-    host: 'cranach_elasticsearch:9200',
-    apiVersion: '7.x',
-});
+const queries = require('../elasticsearch/queries')
+const esClient = require('../elasticsearch/client')
+const client = esClient.getClient()
 
 const getAll = async function (req, res) {
     client.search({
@@ -87,119 +85,56 @@ const getTimelineList = async function (req, res) {
 
 
 const FullTextSearch = async function (req, res) {
-    const searchText = req.query.text ? req.query.text : ''
-    const yearRange = req.query.yearRange ? req.query.yearRange : [1500, 1800]
-    const artists = req.query.artists ? req.query.artists : []
-    const classification = req.query.classification
-    const medium = req.query.medium
-    const repositories = req.query.repositories ? req.query.repositories : []
-    const owners = req.query.owners ? req.query.owners : []
-    const locations = req.query.locations ? req.query.locations : []
-    const body = {
-        query: {
-            bool: {
-                should: [
-                    {
-                        "multi_match": {
-                            "query": searchText,
-                            "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
-                            "fuzziness": "AUTO"
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "titles",
-                            "query": {
-                                "common": {
-                                    "titles.title": {
-                                        "query": searchText,
-                                        "cutoff_frequency": 0.001,
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "nested": {
-                            "path": "locations",
-                            "query": {
-                                "multi_match": {
-                                    "query": searchText,
-                                    "fields": ["locations.term", "locations.type"],
-                                    "fuzziness": "AUTO"
-                                }
-                            }
-                        }
-                    }
-                ],
-                minimum_should_match:"1",
-                filter: [
-                    {
-                        "range": {
-                            "dating.dated": {
-                                "gte": yearRange[0],
-                                "lte": yearRange[1]
-                            }
-                        },
-                    }
-                ]
+    const {
+        getMultiMatchQuery,
+        getTitleMatchQuery,
+        getLocationsMatchQuery,
+        getClassificationFilterQuery,
+        getMediumFilterQuery,
+        getRangeFilterQuery,
+        getLocationFilterQuery,
+        getArtistsFilterQuery,
+        getOwnersFilterQuery,
+        getRepositoriesFilterQuery } = queries
+    const {
+        text: searchText = '',
+        classification = '',
+        yearRange = [],
+        artists = [],
+        medium = [],
+        repositories = [],
+        owners = [],
+        locations = [] } = req.query
 
-            }
-        },
-        "sort": ["_score"],
-        size: 100,
+    const body = esClient.createBoolQuery(2300)
+    if (searchText !== '') {
+        esClient.addShouldBooleanQuery(body)
+        esClient.addShouldClause(body, getTitleMatchQuery(searchText))
+        esClient.addShouldClause(body, getMultiMatchQuery(searchText))
+        esClient.addShouldClause(body, getLocationsMatchQuery(searchText))
     }
-    //@todo optimise adding filters to query
-    if (classification){
-        const filterItem = {
-            "term": {
-                "classification.classification": classification
-            }
-        }
-        body.query.bool.filter.push(filterItem)
+    if (classification !== ''){
+        esClient.addFilter(body, getClassificationFilterQuery(classification))
     }
-    if (medium){
-        const filterItem = {
-            "wildcard": {
-                "medium": medium + "*"
-            }
-        }
-        body.query.bool.filter.push(filterItem)
+    if (yearRange.length > 0){
+        esClient.addFilter(body, getRangeFilterQuery(yearRange))
+    }
+    if (medium.length > 0){
+        esClient.addFilter(body, getMediumFilterQuery(medium))
     }
     if (artists.length > 0){
-        const filterItem = {
-            "nested": {
-                "path": "involvedPersons",
-                "query": {
-                    "terms": {"involvedPersons.name.raw": artists}
-                }
-            }
-        }
-        body.query.bool.filter.push(filterItem)
+        esClient.addFilter(body, getArtistsFilterQuery(artists))
     }
     if (locations.length > 0){
-        const filterItem = {
-            "nested": {
-                "path": "locations",
-                "query": {
-                    "terms": {"locations.term": locations}
-                }
-            }
-        }
-        body.query.bool.filter.push(filterItem)
+        esClient.addFilter(body, getLocationFilterQuery(locations))
     }
     if (repositories.length > 0){
-        const filterItem = {
-            "terms": {"repository.raw": repositories}
-        }
-        body.query.bool.filter.push(filterItem)
+        esClient.addFilter(body, getRepositoriesFilterQuery(repositories))
     }
     if (owners.length > 0){
-        const filterItem = {
-            "terms": {"owner.raw": owners}
-        }
-        body.query.bool.filter.push(filterItem)
+        esClient.addFilter(body, getOwnersFilterQuery(owners))
     }
+
     await client.search({
         index: 'cranach_painting',
         body: body

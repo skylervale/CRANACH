@@ -1,6 +1,23 @@
 const graphic_mapping = {
     index: "cranach_graphic",
     body: {
+        settings: {
+            analysis: {
+                analyzer: {
+                    custom_analyzer: {
+                        type: "custom",
+                        tokenizer: "standard",
+                        filter: ["german_stop"]
+                    }
+                },
+                filter: {
+                    german_stop: {
+                        type: "stop",
+                        stopwords: "_german_"
+                    }
+                }
+            }
+        },
         mappings: {
             properties: {
                 langCode: {type: "keyword"},
@@ -50,7 +67,10 @@ const graphic_mapping = {
                     type: "nested",
                     properties: {
                         type: {type: "keyword"},
-                        title: {type: "text"},
+                        title: {
+                            type: "text",
+                            analyzer: "custom_analyzer",
+                        },
                         remarks: {type: "text"}
                     }
                 },
