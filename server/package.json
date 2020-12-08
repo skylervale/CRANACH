@@ -1,0 +1,21 @@
+{
+  "name": "cranach-timeline",
+  "version": "1.0.0",
+  "description": "cranach server side",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Cranach Team B",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "elasticsearch": "^16.7.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.19"
+  },
+  "devDependencies": {
+    "array.prototype.flatmap": "^1.2.3",
+    "nodemon": "^2.0.4"
+  }
+}

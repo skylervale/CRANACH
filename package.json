@@ -1,21 +1,53 @@
 {
-  "name": "cranach-timeline",
-  "version": "1.0.0",
-  "description": "cranach server side",
-  "main": "server/index.js",
-  "scripts": {
-    "start": "node server/index.js"
-  },
-  "author": "Cranach Team B",
-  "license": "ISC",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "cors": "^2.8.5",
-    "elasticsearch": "^16.7.1",
-    "express": "^4.17.1",
-    "mongoose": "^5.9.19"
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
+    "@react-native-async-storage/async-storage": "^1.13.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "classnames": "^2.2.6",
+    "fontsource-roboto": "^2.1.4",
+    "lodash": "^4.17.19",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-horizontal-timeline": "^1.5.3",
+    "react-image-gallery": "^1.0.8",
+    "react-image-lightbox": "^5.1.1",
+    "react-image-scroller": "^0.3.0",
+    "react-lazy-load-image-component": "^1.5.0",
+    "react-player": "^2.3.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-scroll": "^1.8.0"
   },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:9000",
   "devDependencies": {
-    "array.prototype.flatmap": "^1.2.3",
-    "nodemon": "^2.0.4"
+    "@material-ui/styles": "^4.10.0"
   }
 }
