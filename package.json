@@ -2,9 +2,9 @@
   "name": "cranach-timeline",
   "version": "1.0.0",
   "description": "cranach server side",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "start": "nodemon -L index.js"
+    "start": "nodemon -L server/index.js"
   },
   "author": "Cranach Team B",
   "license": "ISC",
