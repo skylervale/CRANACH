@@ -4,7 +4,7 @@
   "description": "cranach server side",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon -L server/index.js"
+    "start": "node server/index.js"
   },
   "author": "Cranach Team B",
   "license": "ISC",
