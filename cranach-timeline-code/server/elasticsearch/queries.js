@@ -72,11 +72,121 @@ const mediums_aggs_body = {
         "includes": ["titles", "medium"]
     }
 }
+
+const getMultiMatchQuery = (searchText) => {
+    return {
+        "multi_match": {
+            "query": searchText,
+            "fields": ["provenance", "medium", "exhibitionHistory", "owner", "objectName", "repository", "description", "signature", "inscription", "markings"],
+            "operator": "AND"
+        }
+    }
+}
+const getTitleMatchQuery = (searchText) => {
+    return {
+        "nested": {
+            "path": "titles",
+            "query": {
+                "match": {
+                    "titles.title": {
+                        "query": searchText,
+                        "operator": "AND"
+                    },
+                }
+            }
+        }
+    }
+}
+const getLocationsMatchQuery = (searchText) => {
+    return {
+        "nested": {
+            "path": "locations",
+            "query": {
+                "multi_match": {
+                    "query": searchText,
+                    "fields": ["locations.term", "locations.type"],
+                    "operator": "AND"
+                }
+            }
+        }
+    }
+}
+
+const getRangeFilterQuery = (yearRange) => {
+    return {
+        "range": {
+            "dating.dated": {
+                "gte": yearRange[0],
+                "lte": yearRange[1]
+            }
+        },
+    }
+}
+
+const getClassificationFilterQuery = (classification) => {
+    return {
+        "term": {
+            "classification.classification": classification
+        }
+    }
+}
+
+const getMediumFilterQuery = (medium) => {
+    return {
+        "wildcard": {
+            "medium": medium + "*"
+        }
+    }
+}
+
+const getArtistsFilterQuery = (artists) => {
+    return {
+        "nested": {
+            "path": "involvedPersons",
+            "query": {
+                "terms": {"involvedPersons.name.raw": artists}
+            }
+        }
+    }
+}
+
+const getLocationFilterQuery = (locations) => {
+    return {
+        "nested": {
+            "path": "locations",
+            "query": {
+                "terms": {"locations.term": locations}
+            }
+        }
+    }
+}
+
+const getRepositoriesFilterQuery = (repositories) => {
+    return {
+        "terms": {"repository.raw": repositories}
+    }
+}
+
+const getOwnersFilterQuery = (owners) => {
+    return {
+        "terms": {"owner.raw": owners}
+    }
+}
 module.exports = {
     classifications_aggs_body,
     owners_aggs_body,
     repositories_aggs_body,
     locations_aggs_body,
     artists_aggs_body,
-    mediums_aggs_body
+    mediums_aggs_body,
+    getMultiMatchQuery,
+    getTitleMatchQuery,
+    getLocationsMatchQuery,
+    getRangeFilterQuery,
+    getClassificationFilterQuery,
+    getMediumFilterQuery,
+    getArtistsFilterQuery,
+    getRepositoriesFilterQuery,
+    getOwnersFilterQuery,
+    getLocationFilterQuery
 }

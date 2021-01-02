@@ -15,8 +15,11 @@ const getMediumValues = async () => {
         if(!bucket.key){
             return
         }
-        // remove unclean data (ex: \n[cda 2018]) and push to value array
-        mediumValues.push(bucket.key.split("\n")[0])
+        // remove unclean data (ex: \n[cda 2018])
+        const value = bucket.key.split("\n")[0]
+        if (mediumValues.indexOf(value) === -1){
+            mediumValues.push(value)
+        }
     })
     return mediumValues
 }

@@ -1,6 +1,23 @@
 const painting_mapping = {
     index: "cranach_painting",
     body: {
+        settings: {
+            analysis: {
+                analyzer: {
+                    custom_analyzer: {
+                        type: "custom",
+                        tokenizer: "standard",
+                        filter: ["german_stop"]
+                    }
+                },
+                filter: {
+                    german_stop: {
+                        type: "stop",
+                        stopwords: "_german_"
+                    }
+                }
+            }
+        },
         mappings: {
             properties: {
                 langCode: {type: "keyword"},
@@ -50,7 +67,10 @@ const painting_mapping = {
                     type: "nested",
                     properties: {
                         type: {type: "keyword"},
-                        title: {type: "text"},
+                        title: {
+                            type: "text",
+                            analyzer: "custom_analyzer",
+                        },
                         remarks: {type: "text"}
                     }
                 },
@@ -161,7 +181,15 @@ const painting_mapping = {
                         referenceId: {type: "keyword"},
                     }
                 },
-                keywords: {type: "keyword"},
+                keywords:  {
+                    type: "nested",
+                    properties: {
+                        type: {type: "keyword"},
+                        term: {type: "keyword"},
+                        path: {type: "keyword"},
+                        url: {type: "text"}
+                    }
+                },
                 locations: {
                     type: "nested",
                     properties: {
@@ -170,8 +198,22 @@ const painting_mapping = {
                         path: {type: "keyword"},
                     }
                 },
-                repository: {type: "text"},
-                owner: {type: "text"},
+                repository: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
+                owner: {
+                    type: "text",
+                    fields: {
+                        raw: {
+                            type: "keyword"
+                        }
+                    }
+                },
                 sortingNumber: {type: "keyword"},
                 catalogWorkReferences: {
                     type: "nested",
@@ -187,6 +229,40 @@ const painting_mapping = {
                         element: {type: "keyword"},
                         width: {type: "keyword"},
                         height: {type: "keyword"},
+                    }
+                },
+                restorationSurveys: {
+                    type: "nested",
+                    properties: {
+                        type: {type: "keyword"},
+                        project: {type: "keyword"},
+                        overallAnalysis: {type: "keyword"},
+                        remarks: {type: "keyword"},
+                        tests: {
+                            type: "nested",
+                            properties: {
+                                kind: {type: "keyword"},
+                                text: {type: "keyword"},
+                                purpose: {type: "keyword"},
+                                remarks: {type: "keyword"}
+                            }
+                        },
+                        processingDates: {
+                            type: "object",
+                            properties: {
+                                beginDate: {type: "keyword"},
+                                beginYear: {type: "keyword"},
+                                endDate: {type: "keyword"},
+                                endYear: {type: "keyword"}
+                            }
+                        },
+                        signature: {
+                            type: "object",
+                            properties: {
+                                date: {type: "text"},
+                                name: {type: "text"}
+                            }
+                        }
                     }
                 },
                 images: {
