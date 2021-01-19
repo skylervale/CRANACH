@@ -3,7 +3,9 @@ services:
   client:
     container_name: cranach_client
     build:
-      context: ./client
+      context: ./
+      dockerfile: Dockerfile
+      target: client
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -18,7 +20,9 @@ services:
   server:
     container_name: cranach_server
     build:
-      context: ./server
+      context: ./
+      dockerfile: Dockerfile
+      target: server
     restart: unless-stopped
     ports:
       - "9000:9000"
@@ -32,6 +36,8 @@ services:
     container_name: cranach_elasticsearch
     build:
       context: ./
+      dockerfile: Dockerfile
+      target: elasticsearch
     ports:
       - '9300:9300'
       - '9200:9200'
