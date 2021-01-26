@@ -1,8 +1,0 @@
-cluster.name: "docker-cluster"
-network.host: 0.0.0.0
-discovery.seed_hosts: [localhost]
-discovery.type: single-node
-network.publish_host: cranach_elasticsearch
-
-
-
