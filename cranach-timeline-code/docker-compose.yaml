@@ -8,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/client
+      - ./client:/client:cached
       - /client/node_modules
     links:
       - server
@@ -23,7 +23,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./server:/server
+      - ./server:/server:cached
       - /server/node_modules
     depends_on:
       - elasticsearch
@@ -37,3 +37,22 @@ services:
       - '9200:9200'
     restart: unless-stopped
 
+  nginx:
+    container_name: cranach_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ./srv/var/log:/var/log/nginx:cached
+      - ./srv:/srv:cached
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - app
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    expose:
+      - "80"
+      - "443"
+    init: true
+    tty: true

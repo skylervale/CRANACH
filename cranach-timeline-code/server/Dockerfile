@@ -9,4 +9,4 @@ RUN npm install --silent \
 # Expose the port 3000
 EXPOSE 9000
 # Set the default command to run when a container starts
-CMD ["npm", "start"]
+RUN npm run build
