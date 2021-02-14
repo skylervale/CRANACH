@@ -36,8 +36,6 @@ services:
     ports:
       - '9300:9300'
       - '9200:9200'
-    volumes:
-    - ./.data/elasticsearch/cranach:/usr/share/elasticsearch/data:cached
     restart: unless-stopped
 
   nginx:
