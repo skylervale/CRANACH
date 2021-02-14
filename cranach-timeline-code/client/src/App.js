@@ -74,7 +74,8 @@ function MainApp() {
   // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1800],
-    classification: ""
+    classification: "",
+    artists: []
   })
   const handleChange = (searchText) => {
     setSearchText(searchText)
