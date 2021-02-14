@@ -137,4 +137,17 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2
+  },
+  left: {
+    float: 'left'
+  },
+  right: {
+    float: 'right'
+  }
 }));

@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
 //import List from "@material-ui/core/List";
 //import ListItem from "@material-ui/core/ListItem";
 //import _ from 'lodash'
@@ -21,20 +22,31 @@ import Input from "@material-ui/core/Input";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useHistory} from "react-router-dom";
+import Chip from "@material-ui/core/Chip";
+import Box from "@material-ui/core/Box";
 
 
 const FilterDrawer = (props) => {
     const { isOpen, classes, toggle, filter, onFilterChange} = props
     const [filterData, setFilterData] = useState([]);
+    const [artists, setArtists] = useState([]);
+    const [repositories, setRepositories] = useState([]);
+    const [owners, setOwners] = useState([]);
+    const [mediums, setMediums] = useState([]);
+    const [classifications, setClassifications] = useState([]);
+    const [locations, setLocations] = useState([]);
+
     const history =  useHistory();
     const {pathname} = history.location;
-    const [checked, setChecked] = useState(false);
+
     useEffect(() => {
-        axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
-            .then(res => {
-                console.log("res", res)
-                setFilterData(res.data)
-            })
+        if (["/graphics", "/paintings"].indexOf(pathname) > -1) {
+            axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
+                .then(res => {
+                    console.log("res", res)
+                    setFilterData(res.data)
+                })
+        }
     },[pathname])
     const handleYearChange = (event, newValue) => {
         const newFilter = {
@@ -55,11 +67,7 @@ const FilterDrawer = (props) => {
         console.log("newFilter", newFilter)
 
     }
-    const handleChange = (event) => {
-        const {name} = event.target
-        setChecked({checked: name});
-    };
-    console.log("filter", filter)
+    console.log("ilter.artists", filter.artists)
     return (
     <Drawer
         className={classes.drawer}
@@ -79,7 +87,9 @@ const FilterDrawer = (props) => {
         <Divider/>
         <Container aligncontent={"center"}>
             <Typography id="range-slider" align="center">
-                Year Range <br/> {filter.yearRange}
+                Year Range <br/>
+                <span className={classes.left}>{filter.yearRange[0]}</span>
+                <span className={classes.right}>{filter.yearRange[1]}</span>
             </Typography>
                 <Slider
                     value={filter.yearRange}
@@ -96,13 +106,21 @@ const FilterDrawer = (props) => {
             <InputLabel id="demo-mutiple-checkbox-label">Classification</InputLabel>
             <Select
                 name="classification"
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
+                labelId="demo-mutiple-checkbox-label"
+                id="demo-mutiple-checkbox"
                 onChange={handleFilterSelectChange}
-                defaultValue="none"
+                value={filter.classifications ? filter.classifications : []}
+                multiple
             >
                 {filterData && filterData.classifications && filterData.classifications.map((classification, index) =>
-                    filterData.classifications && <MenuItem key={index} value={classification}>{classification}</MenuItem>)
+                    filterData.classifications && <MenuItem key={index} value={classification}>
+                        <Checkbox checked={classifications.indexOf(index) > -1} onChange={() => {
+                            let selectedClassifications = classifications
+                            selectedClassifications.push(index)
+                            setClassifications(selectedClassifications)
+                        }}  />
+                        <ListItemText primary={classification} />
+                    </MenuItem>)
                 }
             </Select>
         </FormControl>
@@ -110,18 +128,28 @@ const FilterDrawer = (props) => {
             <InputLabel id="demo-mutiple-checkbox-label">Künstler</InputLabel>
             <Select
                 name="artists"
-                labelId="demo-mutiple-checkbox-label"
-                id="demo-mutiple-checkbox"
+                labelId="demo-mutiple-chip-label"
+                id="demo-mutiple-chip"
                 multiple
                 value={filter.artists ? filter.artists : []}
                 onChange={handleFilterSelectChange}
                 input={<Input />}
-                renderValue={(selected) => selected.join(', ')}
+                renderValue={(selected) => (
+                    <div className={classes.chips}>
+                        {selected.map((value) => (
+                            <Chip key={value} label={value} className={classes.chip} />
+                        ))}
+                    </div>
+                )}
                 // MenuProps={MenuProps}
             >
                 {filterData.artists && filterData.artists.map((artist, index) =>
                     <MenuItem key={index} value={artist}>
-                        <Checkbox checked={(filter.artists && filter.artists.indexOf(artist) > -1) || checked} onChange={handleChange}  />
+                        <Checkbox checked={artists.indexOf(index) > -1} onChange={() => {
+                            let selectedArtists = artists
+                            selectedArtists.push(index)
+                            setArtists(selectedArtists)
+                        }}  />
                         <ListItemText primary={artist} />
                     </MenuItem>
                 )}
@@ -142,7 +170,11 @@ const FilterDrawer = (props) => {
             >
                 {filterData.mediumValues && filterData.mediumValues.map((v, index) =>
                     <MenuItem key={index} value={v}>
-                        <Checkbox checked={(filter.mediumValues && filter.mediumValues.indexOf(v) > -1) || checked}/>
+                        <Checkbox checked={mediums.indexOf(index) > -1} onChange={() => {
+                            let selectedMediums = mediums
+                            selectedMediums.push(index)
+                            setMediums(selectedMediums)
+                        }}  />
                         <ListItemText primary={v} />
                     </MenuItem>
                 )}
@@ -163,7 +195,11 @@ const FilterDrawer = (props) => {
             >
                 {filterData.owners && filterData.owners.map((owner, index) =>
                     <MenuItem key={index} value={owner}>
-                        <Checkbox checked={(filter.owners && filter.owners.indexOf(owner) > -1) || checked} />
+                        <Checkbox checked={owners.indexOf(index) > -1} onChange={() => {
+                            let selectedOwners = owners
+                            selectedOwners.push(index)
+                            setOwners(selectedOwners)
+                        }}  />
                         <ListItemText primary={owner} />
                     </MenuItem>
                 )}
@@ -184,7 +220,11 @@ const FilterDrawer = (props) => {
             >
                 {filterData.locations && filterData.locations.map((location, index) =>
                     <MenuItem key={index} value={location}>
-                        <Checkbox checked={(filter.locations && filter.locations.indexOf(location) > -1) || checked} />
+                        <Checkbox checked={locations.indexOf(index) > -1} onChange={() => {
+                            let selectedLocations = locations
+                            selectedLocations.push(index)
+                            setLocations(selectedLocations)
+                        }}  />
                         <ListItemText primary={location} />
                     </MenuItem>
                 )}
@@ -205,7 +245,11 @@ const FilterDrawer = (props) => {
             >
                 {filterData.repositories && filterData.repositories.map((repository, index) =>
                     <MenuItem key={index} value={repository}>
-                        <Checkbox checked={(filter.artists && filter.artists.indexOf(repository) > -1) || checked} />
+                        <Checkbox checked={repositories.indexOf(index) > -1} onChange={() => {
+                            let selectedRepositories = repositories
+                            selectedRepositories.push(index)
+                            setRepositories(selectedRepositories)
+                        }}  />
                         <ListItemText primary={repository} />
                     </MenuItem>
                 )}
