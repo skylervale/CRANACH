@@ -4,6 +4,7 @@ services:
     container_name: cranach_client
     build:
       context: ./client
+      target: build
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -40,10 +41,10 @@ services:
   nginx:
     container_name: cranach_nginx
     build:
-      context: ./nginx
+      context: ./client
+      target: nginx
     volumes:
-      - ./srv/var/log:/var/log/nginx:cached
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./var/log:/var/log/nginx:cached
     links:
       - server
     restart: unless-stopped
