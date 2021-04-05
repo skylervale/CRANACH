@@ -1,23 +1,6 @@
 const painting_mapping = {
     index: "cranach_painting",
     body: {
-        settings: {
-            analysis: {
-                analyzer: {
-                    custom_analyzer: {
-                        type: "custom",
-                        tokenizer: "standard",
-                        filter: ["german_stop"]
-                    }
-                },
-                filter: {
-                    german_stop: {
-                        type: "stop",
-                        stopwords: "_german_"
-                    }
-                }
-            }
-        },
         mappings: {
             properties: {
                 langCode: {type: "keyword"},
@@ -67,10 +50,7 @@ const painting_mapping = {
                     type: "nested",
                     properties: {
                         type: {type: "keyword"},
-                        title: {
-                            type: "text",
-                            analyzer: "custom_analyzer",
-                        },
+                        title: {type: "text"},
                         remarks: {type: "text"}
                     }
                 },

@@ -90,6 +90,8 @@ const getTitleMatchQuery = (searchText) => {
                 "match": {
                     "titles.title": {
                         "query": searchText,
+                        "fuzziness": 6,
+                        "boost": 3,
                         "operator": "AND"
                     },
                 }
