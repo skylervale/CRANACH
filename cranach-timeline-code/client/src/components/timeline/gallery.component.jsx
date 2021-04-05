@@ -11,6 +11,9 @@ import {useHistory} from "react-router-dom";
 //let Element  = Scroll.Element;
 //let scroller = Scroll.scroller;
 
+//images
+import defaultimg from '../../images/gemalde.jpg';
+
 let images = [];
 
 export function Gallery(props) {
@@ -49,7 +52,7 @@ export function Gallery(props) {
     } 
     return (
             
-        <ImageGallery onClick={() => imageClick(images[0].id)} showThumbnails="true" showPlayButton="false" thumbnailPosition="left" showIndex="true" items={images} />
+        <ImageGallery onClick={() => imageClick(images[0].id)} showThumbnails="true" showPlayButton="false" thumbnailPosition="left" onErrorImageURL={defaultimg} showIndex="true" items={images} />
     );
 
 }
