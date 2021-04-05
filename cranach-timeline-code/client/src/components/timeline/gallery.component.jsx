@@ -32,7 +32,7 @@ export function Gallery(props) {
             {
                 original: graphic.images.sizes.xs.src,
                 thumbnail: graphic.images.sizes.xs.src,
-                sizes: "200px",
+                sizes: "100px",
                 description: data[index].titles[0].title,
                 id: graphic.id
             }

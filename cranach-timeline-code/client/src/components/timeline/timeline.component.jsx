@@ -37,7 +37,7 @@ export default class Timeline extends React.Component {
         previous: 0,
         dates: [],
         result: [],
-        checked: 'paintings',
+        checked: 'graphics',
     };
 
 
@@ -53,7 +53,7 @@ export default class Timeline extends React.Component {
     }
 
     componentDidMount() {
-        this.getData("paintings");
+        this.getData("graphics");
     }
 
     handleChange = (event) => {
@@ -89,11 +89,13 @@ export default class Timeline extends React.Component {
 
                         }}
                         values={this.state.dates}
-                        minEventPadding={50}
-                        maxEventPadding={50}
+                        minEventPadding={20}
+                        maxEventPadding={20}
                         linePadding={160}
+                        isKeyboardEnabled={true}
+                        isTouchEnabled={true}
                         getLabel={(date, index) => (new Date(date)).toDateString().substring(10)}
-                        styles={{background: '#f8f8f8', foreground: 'orange', outline: 'orange'}}
+                        styles={{background: '#f8f8f8', foreground: 'red', outline: 'red'}}
                     />
                 </div>
                 

@@ -21,12 +21,13 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Switch from "@material-ui/core/Switch";
 
 
 export const HeaderBar = (props) => {
     const history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
-    const { classes, filter, onChange, onFilterChange } = props;
+    const { classes, filter, onChange, onFilterChange, colorSwitch, darkState, displayAlt} = props;
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     const handleSearchChange = (event) => {
@@ -100,7 +101,7 @@ export const HeaderBar = (props) => {
                     </Link>
                 </Typography>
                 {/*** Search Box ***/}
-                {window.location.pathname !== '/' &&
+                {/**window.location.pathname !== '/' &&**/
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon/>
@@ -149,6 +150,7 @@ export const HeaderBar = (props) => {
                         </Grow>
                     )}
                     </Popper>
+                    <Switch checked={darkState} onChange={colorSwitch} title={displayAlt} />
                 </div>
 
                 {/*** Filter ***/}

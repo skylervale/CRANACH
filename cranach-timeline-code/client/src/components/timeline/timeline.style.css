@@ -198,7 +198,7 @@ img:hover {
   overflow-y: inherit;
 }
 .image-gallery-content .image-gallery-slide .image-gallery-image {
-    max-height: calc(72vh - 80px);
+    max-height: calc(72vh - 80px) !important;
 }
 .image-gallery-slide .image-gallery-description {
   bottom: 0px;

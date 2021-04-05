@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, setState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {ThemeProvider} from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,8 +14,16 @@ import {
 import './style/main.style.css';
 
 //Cofig Components
-import {theme} from './config/theme.config';
+//import {theme} from './config/theme.config';
 import {useStyles} from './config/usestyles.config';
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  red,
+  lightBlue,
+  deepPurple,
+  blueGrey
+} from "@material-ui/core/colors";
+
 
 //Html components
 import Timeline from './components/timeline/timeline.component';
@@ -71,6 +78,25 @@ const cards = [
 function MainApp() {
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
+  const [darkState, setDarkState] = useState(false);
+
+  const palletType = darkState ? "dark" : "light";
+  const mainPrimaryColor = darkState ? red[500] : lightBlue[500];
+  const mainSecondaryColor = darkState ? blueGrey[900] : deepPurple[500];
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: palletType,
+      primary: {
+        main: mainPrimaryColor
+      },
+      secondary: {
+        main: mainSecondaryColor
+      }
+    }
+  });
+
+  const displayAlt = darkState ? "Switch to Light Mode" : "Switch to Dark Mode";
+
   // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1800],
@@ -80,18 +106,25 @@ function MainApp() {
   const handleChange = (searchText) => {
     setSearchText(searchText)
     console.log("searchText", searchText)
+    if(window.location.pathname == '/'){
+      window.location.href = '/graphics';
+    }
   }
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
   
+  const handleThemeChange = () => {
+    setDarkState(!darkState);
+  };
+
   return (
      <Router>
     <React.Fragment>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <div className={classes.root}>
-          <HeaderBar classes={classes} onChange={handleChange} onFilterChange={handleFilterChange} filter={filter}/>
+          <HeaderBar classes={classes} onChange={handleChange} onFilterChange={handleFilterChange} filter={filter} colorSwitch={handleThemeChange} darkState={darkState} displayAlt={displayAlt}/>
         </div>
         <main>
           <Switch>
