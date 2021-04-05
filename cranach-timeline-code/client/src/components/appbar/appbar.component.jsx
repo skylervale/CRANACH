@@ -27,11 +27,20 @@ import Switch from "@material-ui/core/Switch";
 export const HeaderBar = (props) => {
     const history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
-    const { classes, filter, onChange, onFilterChange, colorSwitch, darkState, displayAlt} = props;
+    const { classes, filter, setSearchText, onFilterChange, colorSwitch, darkState, displayAlt} = props;
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
-    const handleSearchChange = (event) => {
+    /*const handleSearchChange = (event) => {
         onChange(event.target.value)
+    }*/
+
+    const handleSearchChange = (event) => {
+        setSearchText(event.target.value)
+        console.log("searchText", event.target.value)
+        if(history.location.pathname == '/'){
+          //Check also selected timeline option and redirect to the corespondant path
+          history.push("/graphics");
+        }
     }
     const toggle = () => {
         setIsOpen(!isOpen)

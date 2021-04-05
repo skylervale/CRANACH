@@ -1,4 +1,4 @@
-import React, {useState, setState} from 'react';
+import React, {useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import {
   BrowserRouter as Router,
   Switch,
+  useHistory,
   Route
 } from "react-router-dom";
 
@@ -77,6 +78,7 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
+  const history = useHistory();
   const [searchText, setSearchText] = useState('');
   const [darkState, setDarkState] = useState(false);
 
@@ -103,13 +105,14 @@ function MainApp() {
     classification: "",
     artists: []
   })
-  const handleChange = (searchText) => {
+  /*const handleChange = (searchText) => {
     setSearchText(searchText)
     console.log("searchText", searchText)
+    console.log(history)
     if(window.location.pathname == '/'){
-      window.location.href = '/graphics';
+      history.push("/graphics");
     }
-  }
+  }*/
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
@@ -124,7 +127,7 @@ function MainApp() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <div className={classes.root}>
-          <HeaderBar classes={classes} onChange={handleChange} onFilterChange={handleFilterChange} filter={filter} colorSwitch={handleThemeChange} darkState={darkState} displayAlt={displayAlt}/>
+          <HeaderBar classes={classes} setSearchText={setSearchText} onFilterChange={handleFilterChange} filter={filter} colorSwitch={handleThemeChange} darkState={darkState} displayAlt={displayAlt}/>
         </div>
         <main>
           <Switch>

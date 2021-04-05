@@ -24,6 +24,7 @@ export const Graphiclist = (props) => {
             }
           }
         }
+        console.log(searchText)
         axios.get(`http://localhost:9000/graphics/search`, {
               params: {
                 text: searchText,
@@ -32,7 +33,6 @@ export const Graphiclist = (props) => {
             })
             .then((res) => {
               let graphicsList = []
-              console.log(typeof res.data)
               Object.values(res.data).map((graphic) => {
                 if (graphic.images) graphicsList.push(graphic)
               })
