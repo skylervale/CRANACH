@@ -206,3 +206,6 @@ img:hover {
 .image-gallery-fullscreen-button, .image-gallery-play-button {
   bottom: 15px;
 }
+.timeline > div > div > ul{
+  display: none;
+}

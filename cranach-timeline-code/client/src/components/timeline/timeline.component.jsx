@@ -81,7 +81,7 @@ export default class Timeline extends React.Component {
                         />
                     </FormGroup>
                 </div>
-                <div style={{width: '100%', height: '100px', margin: '0 auto'}}>
+                <div className="timeline" style={{width: '100%', height: '100px', margin: '0 auto'}}>
                     <HorizontalTimeline
                         index={this.state.value}
                         indexClick={(index) => {
