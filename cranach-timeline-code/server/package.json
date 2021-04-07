@@ -4,11 +4,14 @@
   "description": "cranach server side",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L index.js"
+    "start": "nodemon -L index.js",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "author": "Cranach Team B",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "elasticsearch": "^16.7.1",
     "express": "^4.17.1",
@@ -16,6 +19,8 @@
   },
   "devDependencies": {
     "array.prototype.flatmap": "^1.2.3",
-    "nodemon": "^2.0.4"
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "supertest": "^6.1.3"
   }
 }
