@@ -2,6 +2,7 @@ start:
 	@echo "${BLUE}Starting containers.${NC}"
 	@docker-compose up -d --build
 stop:
+	@echo "${YELLOW}Stopping containers.${NC}"
 	@docker-compose stop
 restart:
 	@echo "${BLUE}Stopping all containers.${NC}"

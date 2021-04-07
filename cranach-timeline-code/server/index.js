@@ -68,5 +68,6 @@ indices.forEach(index => {
 
 app.use(cors());
 app.get('/', (req, res) => res.send('Hello World!'))
-app.use(routes);
+app.use('/', routes);
 app.listen(9000, () => console.log(`server app listening at http://localhost:9000`));
+module.exports = app

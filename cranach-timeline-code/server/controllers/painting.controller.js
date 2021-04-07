@@ -59,7 +59,6 @@ const getTimelineList = async function (req, res) {
         if (err) {
             res.send(err)
         } else {
-            console.log("resp", resp)
             let paintings = [];
             paintings = resp.hits.hits.map(hit => {
                 return {
@@ -168,9 +167,16 @@ const getFilterData = async function(req,res){
 }
 
 const getSinglePainting = async function(req,res){
-    const { id } = req.query
-    const resp = await paintingService.findSinglePainting(id)
-    res.send(resp)
+    try {
+        const { id } = req.query
+        const resp = await paintingService.findSinglePainting(id)
+        res.send(resp)
+    } catch (error) {
+        return res.status(404).send({
+            message: 'Painting not found with a given Id'
+        });
+    }
+
 }
 module.exports = {
     getAll,

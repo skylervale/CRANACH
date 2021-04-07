@@ -171,9 +171,15 @@ const getFilterData = async function(req,res){
 }
 
 const getSingleGraphic = async function(req,res){
-    const { id } = req.query
-    const resp = await graphicService.findSingleGraphic(id)
-    res.send(resp)
+    try {
+        const { id } = req.query
+        const resp = await graphicService.findSingleGraphic(id)
+        res.send(resp)
+    } catch (error) {
+        return res.status(404).send({
+            message: 'Graphic not found with a given Id'
+        });
+    }
 }
 
 
