@@ -39,7 +39,8 @@ export const HeaderBar = (props) => {
         console.log("searchText", event.target.value)
         if(history.location.pathname == '/'){
           //Check also selected timeline option and redirect to the corespondant path
-          history.push("/graphics");
+          var newPath = localStorage.getItem('timelineContent') || "graphics"
+          history.push("/"+newPath);
         }
     }
     const toggle = () => {

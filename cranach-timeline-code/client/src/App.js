@@ -78,9 +78,11 @@ const cards = [
 
 function MainApp() {
   const classes = useStyles();
-  const history = useHistory();
+  //const history = useHistory();
   const [searchText, setSearchText] = useState('');
-  const [darkState, setDarkState] = useState(false);
+  const [darkState, setDarkState] = useState(
+    localStorage.getItem('darkState') || false
+  );
 
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? red[500] : lightBlue[500];
@@ -118,6 +120,7 @@ function MainApp() {
   };
   
   const handleThemeChange = () => {
+    localStorage.setItem('darkState', !darkState);
     setDarkState(!darkState);
   };
 

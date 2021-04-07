@@ -37,7 +37,7 @@ export default class Timeline extends React.Component {
         previous: 0,
         dates: [],
         result: [],
-        checked: 'graphics',
+        checked: localStorage.getItem('timelineContent') || 'graphics'
     };
 
 
@@ -53,14 +53,14 @@ export default class Timeline extends React.Component {
     }
 
     componentDidMount() {
-        this.getData("graphics");
+        this.getData(this.state.checked);
     }
 
     handleChange = (event) => {
         const {name} = event.target
         this.setState({checked: name});
         this.getData(name);
-
+        localStorage.setItem('timelineContent', name);
     };
 
     render() {
