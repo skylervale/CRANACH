@@ -4,7 +4,8 @@
   "description": "cranach server side",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L index.js"
+    "start": "nodemon -L index.js",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "author": "Cranach Team B",
   "license": "ISC",
