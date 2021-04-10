@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import {useHistory} from "react-router-dom";
+import {path} from '../../config/env.config';
 import axios from "axios";
 
 export const GraphicDetails = (props) => {
@@ -16,7 +17,7 @@ export const GraphicDetails = (props) => {
    
     const getData = () => {
         axios
-            .get(`http://localhost:9000/graphics/getGraphic`, {
+            .get(`${path}/graphics/getGraphic`, {
             params: {
                 id: selectedID
             },

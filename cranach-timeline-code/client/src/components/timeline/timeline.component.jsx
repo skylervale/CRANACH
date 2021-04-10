@@ -8,6 +8,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import {path} from '../../config/env.config';
 
 const axios = require('axios').default;
 const GreenCheckbox = withStyles({
@@ -42,7 +43,7 @@ export default class Timeline extends React.Component {
 
 
     getData = (categoryName) => {
-        axios.get(`http://localhost:9000/${categoryName}/timeline`)
+        axios.get(`${path}/${categoryName}/timeline`)
             .then(res => {
                 let dates = Object.keys(res.data).map(date => date);
                 this.setState({

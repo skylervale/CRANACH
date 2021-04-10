@@ -4,6 +4,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import {useHistory} from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
+import {path} from '../../config/env.config';
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 export const Graphiclist = (props) => {
@@ -25,7 +26,7 @@ export const Graphiclist = (props) => {
           }
         }
         console.log(searchText)
-        axios.get(`http://localhost:9000/graphics/search`, {
+        axios.get(`${path}/graphics/search`, {
               params: {
                 text: searchText,
                 ...filter

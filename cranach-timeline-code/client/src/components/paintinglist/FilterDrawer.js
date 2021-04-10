@@ -22,8 +22,9 @@ import Input from "@material-ui/core/Input";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useHistory} from "react-router-dom";
+import {path} from '../../config/env.config';
 import Chip from "@material-ui/core/Chip";
-import Box from "@material-ui/core/Box";
+//import Box from "@material-ui/core/Box";
 
 
 const FilterDrawer = (props) => {
@@ -41,7 +42,7 @@ const FilterDrawer = (props) => {
 
     useEffect(() => {
         if (["/graphics", "/paintings"].indexOf(pathname) > -1) {
-            axios.get(`http://localhost:9000${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
+            axios.get(`${path}${pathname}/getFilters`)     // pathname already contains slash (ex "/paintings", "/graphics")
                 .then(res => {
                     console.log("res", res)
                     setFilterData(res.data)

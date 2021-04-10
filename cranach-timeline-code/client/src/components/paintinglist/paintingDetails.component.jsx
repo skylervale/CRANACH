@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import {useHistory} from "react-router-dom";
+import {path} from '../../config/env.config';
 import axios from "axios";
 
 export const PaintingDetails = (props) => {
@@ -16,7 +17,7 @@ export const PaintingDetails = (props) => {
    
     const getData = () => {
         axios
-            .get(`http://localhost:9000/paintings/getPainting`, {
+            .get(`${path}/paintings/getPainting`, {
             params: {
                 id: selectedID
             },

@@ -7,6 +7,7 @@ import {useHistory} from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {path} from '../../config/env.config';
 
 
 export const Paintinglist = (props) => {
@@ -26,7 +27,7 @@ export const Paintinglist = (props) => {
                 }
             }
         }
-        axios.get(`http://localhost:9000/paintings/search`, {
+        axios.get(`${path}/paintings/search`, {
             params: {
                 text: searchText,
                 ...filter
