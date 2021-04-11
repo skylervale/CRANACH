@@ -150,4 +150,4 @@ export const useStyles = makeStyles((theme) => ({
   right: {
     float: 'right'
   }
-}));
+}), {index: 1});
