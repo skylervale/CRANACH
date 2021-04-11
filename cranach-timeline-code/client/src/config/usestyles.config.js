@@ -130,7 +130,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
   },
   formControl: {
-    margin: '10px'
+    margin: theme.spacing(2),
   },
   paper: {
     padding: theme.spacing(2),
@@ -150,4 +150,4 @@ export const useStyles = makeStyles((theme) => ({
   right: {
     float: 'right'
   }
-}));
+}), {index: 1});
