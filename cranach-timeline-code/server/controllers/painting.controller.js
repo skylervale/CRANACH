@@ -97,7 +97,7 @@ const FullTextSearch = async function (req, res) {
         getRepositoriesFilterQuery } = queries
     const {
         text: searchText = '',
-        classification = '',
+        classification = [],
         yearRange = [],
         artists = [],
         medium = [],
@@ -112,7 +112,7 @@ const FullTextSearch = async function (req, res) {
         esClient.addShouldClause(body, getMultiMatchQuery(searchText))
         esClient.addShouldClause(body, getLocationsMatchQuery(searchText))
     }
-    if (classification !== ''){
+    if (classification.length > 0){
         esClient.addFilter(body, getClassificationFilterQuery(classification))
     }
     if (yearRange.length > 0){

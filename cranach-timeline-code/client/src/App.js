@@ -104,7 +104,9 @@ function MainApp() {
   // const [context, setContext] = useState('');
   const [filter, setFilter] = useState({
     yearRange: [1500,1800],
-    classification: "",
+    classification: [],
+    locations: [],
+    owners: [],
     artists: []
   })
   /*const handleChange = (searchText) => {
@@ -118,7 +120,7 @@ function MainApp() {
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
-  
+
   const handleThemeChange = () => {
     localStorage.setItem('darkState', !darkState);
     setDarkState(!darkState);
@@ -234,7 +236,7 @@ function MainApp() {
               </Typography>
             </Route>
             {/*** END LANDING PAGE ***/}
-            
+
           </Switch>
         </main>
         {/* Categories Nav */}

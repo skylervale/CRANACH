@@ -37,7 +37,7 @@ export const HeaderBar = (props) => {
     const handleSearchChange = (event) => {
         setSearchText(event.target.value)
         console.log("searchText", event.target.value)
-        if(history.location.pathname == '/'){
+        if (history.location.pathname === '/'){
           //Check also selected timeline option and redirect to the corespondant path
           var newPath = localStorage.getItem('timelineContent') || "graphics"
           history.push("/"+newPath);
