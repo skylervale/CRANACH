@@ -127,7 +127,7 @@ const getRangeFilterQuery = (yearRange) => {
 
 const getClassificationFilterQuery = (classification) => {
     return {
-        "term": {
+        "terms": {
             "classification.classification": classification
         }
     }
