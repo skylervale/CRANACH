@@ -20,7 +20,7 @@
   "devDependencies": {
     "array.prototype.flatmap": "^1.2.3",
     "chai": "^4.3.4",
-    "mocha": "^8.3.2",
+    "mocha": "^10.1.0",
     "supertest": "^6.1.3"
   }
 }
